@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { FileDown } from "lucide-react";
@@ -134,6 +135,7 @@ export default function ReportDetailsPage() {
           <DialogHeader>
             <DialogTitle>Motivo da Reprovação</DialogTitle>
           </DialogHeader>
+          <DialogDescription>Descreva o motivo da reprovação do relatório</DialogDescription>
 
           <Textarea
             placeholder="Explique o motivo da reprovação..."
