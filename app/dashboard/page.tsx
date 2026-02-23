@@ -7,7 +7,7 @@ import { FileSpreadsheet, GraduationCap, Users } from 'lucide-react';
 export default function DashboardPage() {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 lg:md:grid-cols-4 gap-4'>
-      {/* Grupos */}
+
       <DashboardCard icon={Users}>
         <StatsCard
           title='Número de grupos'
@@ -27,17 +27,14 @@ export default function DashboardPage() {
         />
       </DashboardCard>
 
-      {/* Estudantes */}
       <DashboardCard icon={Users}>
         <StatsCard title='Número de estudantes' value={5} />
       </DashboardCard>
 
-      {/* Mentores */}
       <DashboardCard icon={GraduationCap}>
         <StatsCard title='Número de mentores' value={9} />
       </DashboardCard>
 
-      {/* Relatórios */}
       <DashboardCard icon={FileSpreadsheet}>
         <StatsCard
           title='Relatórios'
