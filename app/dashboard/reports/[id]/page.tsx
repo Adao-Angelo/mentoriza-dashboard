@@ -79,9 +79,9 @@ export default function ReportDetailsPage() {
           </Button>
 
           <Button
-            variant="destructive"
+            variant="outline"
             onClick={() => setOpenModal(true)}
-            className="h-11"
+            className="h-11 border-destructive text-destructive"
           >
             Reprovar
           </Button>
