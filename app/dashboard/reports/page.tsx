@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,65 +39,31 @@ interface Report {
   fileName: string;
 }
 
-interface TopButtonsProps {
-  isDetailPage?: boolean;
-  onApprove?: () => void;
-  onReject?: () => void;
-  openDialog?: () => void;
-}
-
-function TopButtons({ isDetailPage, onApprove, onReject, openDialog }: TopButtonsProps) {
-  if (isDetailPage) {
-    return (
-      <div className="flex justify-end gap-2 mb-4">
-        <Button variant="outline" className="w-28 h-11" onClick={onApprove}>
-          Aprovar
-        </Button>
-        <Button variant="destructive" className="w-28 h-11" onClick={onReject}>
-          Reprovar
-        </Button>
-        <Button variant="outline" className="w-28 h-11">
-          Exportar
-          <FileDown />
-        </Button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex justify-end gap-2 mb-4">
-      <DialogTrigger asChild>
-        <Button className="w-38.25 h-11" onClick={openDialog}>
-          Enviar Relatório
-          <Plus />
-        </Button>
-      </DialogTrigger>
-      <Button variant="outline" className="w-28 h-11">
-        Exportar
-        <FileDown />
-      </Button>
-    </div>
-  );
-}
-
-function EmptyReportsView() {
-  return (
-    <div className="flex flex-col justify-center items-center mt-[8rem]">
-      <FileSearch strokeWidth={1} className="w-12 h-12" />
-      <div className="mt-5 text-center">
-        <p className="text-sm font-medium">Nenhum registro encontrado</p>
-        <p className="text-sm font-normal text-[#999999]">
-          Não há registros de reportes disponíveis no momento.
-        </p>
-      </div>
-    </div>
-  );
-}
-
 export default function ReportsPage() {
   const [reports, setReports] = useState<Report[]>([]);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+useEffect(() => {
+  const loadReports = () => {
+    const stored = localStorage.getItem("reports");
+    if (stored) {
+      setReports(JSON.parse(stored));
+    }
+  };
+
+  loadReports();
+
+  window.addEventListener("focus", loadReports);
+
+  return () => {
+    window.removeEventListener("focus", loadReports);
+  };
+}, []);
+
+  useEffect(() => {
+    localStorage.setItem("reports", JSON.stringify(reports));
+  }, [reports]);
 
   const handleSubmit = () => {
     if (!selectedFile) return;
@@ -120,17 +86,22 @@ export default function ReportsPage() {
     setReports((prev) => prev.filter((report) => report.id !== id));
   };
 
-  const updateStatus = (id: string, newStatus: string) => {
-    setReports((prev) =>
-      prev.map((report) => (report.id === id ? { ...report, status: newStatus } : report))
-    );
-  };
-
   return (
     <div className="w-full flex flex-col px-3 mt-2">
-
       <Dialog open={open} onOpenChange={setOpen}>
-        <TopButtons isDetailPage={false} openDialog={() => setOpen(true)} />
+        <div className="flex justify-end gap-2 mb-4">
+          <DialogTrigger asChild>
+            <Button className="w-38.25 h-11">
+              Enviar Relatório
+              <Plus />
+            </Button>
+          </DialogTrigger>
+
+          <Button variant="outline" className="w-28 h-11">
+            Exportar
+            <FileDown />
+          </Button>
+        </div>
 
         <DialogContent>
           <DialogHeader>
@@ -147,16 +118,20 @@ export default function ReportsPage() {
             }}
             onClick={() => document.getElementById("fileUpload")?.click()}
           >
-            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-[#F3E8FF] mb-3">
-              <CloudUpload color="#9810FA" />
-            </div>
+            <CloudUpload className="w-10 h-10 mb-3 text-primary" />
 
             {selectedFile ? (
-              <p className="text-sm font-medium text-primary">{selectedFile.name}</p>
+              <p className="text-sm font-medium text-primary">
+                {selectedFile.name}
+              </p>
             ) : (
               <>
-                <p className="text-sm text-primary">Arraste e solte o ficheiro aqui</p>
-                <p className="text-xs text-gray-400 mt-2">ou clique para selecionar</p>
+                <p className="text-sm text-primary">
+                  Arraste e solte o ficheiro aqui
+                </p>
+                <p className="text-xs text-gray-400 mt-2">
+                  ou clique para selecionar
+                </p>
               </>
             )}
 
@@ -186,7 +161,12 @@ export default function ReportsPage() {
       </Dialog>
 
       {reports.length === 0 ? (
-        <EmptyReportsView />
+        <div className="flex flex-col items-center mt-20">
+          <FileSearch className="w-12 h-12" />
+          <p className="mt-4 text-sm text-muted-foreground">
+            Nenhum registro encontrado
+          </p>
+        </div>
       ) : (
         <div className="mt-6 border rounded-2xl overflow-hidden">
           <table className="w-full text-sm">
@@ -194,7 +174,7 @@ export default function ReportsPage() {
               <tr>
                 <th className="p-3">Grupo</th>
                 <th className="p-3">Tema</th>
-                <th className="p-3">Data de Envio</th>
+                <th className="p-3">Data</th>
                 <th className="p-3">Status</th>
                 <th className="p-3 text-right">Ações</th>
               </tr>
@@ -222,36 +202,26 @@ export default function ReportsPage() {
                   <td className="p-3 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="secondary"
-                          size="icon"
-                          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                        >
-                          <span className="sr-only">Abrir menu</span>
+                        <Button size="icon" variant="secondary">
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
 
-                      <DropdownMenuContent align="end" className="w-36 p-1">
-                        <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-sm">
-                          <Link href={`/dashboard/reports/${report.id}`} className="flex w-full items-center gap-2">
-                            <Eye className="h-4 w-4" />
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem asChild>
+                          <Link href={`/dashboard/reports/${report.id}`}>
+                            <Eye className="h-4 w-4 mr-2" />
                             Detalhes
                           </Link>
-                        </DropdownMenuItem>
-
-                        <DropdownMenuItem className="flex items-center gap-2 cursor-pointer text-sm">
-                          <FileText className="h-4 w-4" />
-                          Referência
                         </DropdownMenuItem>
 
                         <DropdownMenuSeparator />
 
                         <DropdownMenuItem
-                          className="flex items-center gap-2 text-destructive focus:text-destructive cursor-pointer text-sm"
                           onClick={() => handleDelete(report.id)}
+                          className="text-destructive"
                         >
-                          <Trash2 className="h-4 w-4 text-destructive" />
+                          <Trash2 className="h-4 w-4 mr-2" />
                           Deletar
                         </DropdownMenuItem>
                       </DropdownMenuContent>
