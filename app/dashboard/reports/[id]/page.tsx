@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
+  DialogClose,
   DialogHeader,
   DialogTitle,
   DialogFooter,
@@ -131,7 +132,7 @@ export default function ReportDetailsPage() {
       </Card>
 
       <Dialog open={openModal} onOpenChange={setOpenModal}>
-        <DialogContent>
+        <DialogContent showCloseButton={false}>
           <DialogHeader>
             <DialogTitle>Motivo da Reprovação</DialogTitle>
           </DialogHeader>
@@ -144,6 +145,11 @@ export default function ReportDetailsPage() {
           />
 
           <DialogFooter>
+
+            <DialogClose asChild>
+                <Button variant="outline" type="button" className="border-black text-black">Cancelar</Button>
+            </DialogClose>
+
             <Button
               variant="destructive"
               onClick={() => updateStatus("Reprovado", reason)}
