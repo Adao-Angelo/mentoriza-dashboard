@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "groupId": 1,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-1/9dd5e1d6-2964-4f44-ac9d-a8e9e5411a1e-Edgar_Paulo_Machado_CV.pdf",
+    "publicId": "9dd5e1d6-2964-4f44-ac9d-a8e9e5411a1e-Edgar_Paulo_Machado_CV.pdf",
+    "title": "Edgar Paulo Machado CV",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-24T14:04:12.464Z",
+    "updatedAt": "2026-02-24T14:04:12.471Z"
+  },
+  {
+    "id": 2,
+    "groupId": 1,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-1/d3cb3574-2e79-4f3e-9ff6-c67071cc02b4-Mentoriza__Sistema_Integrado_de_Apoio___PAP.pdf",
+    "publicId": "d3cb3574-2e79-4f3e-9ff6-c67071cc02b4-Mentoriza__Sistema_Integrado_de_Apoio___PAP.pdf",
+    "title": "Mentoriza_ Sistema Integrado de Apoio à PAP",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-24T14:04:26.693Z",
+    "updatedAt": "2026-02-24T14:04:26.693Z"
+  }
+]

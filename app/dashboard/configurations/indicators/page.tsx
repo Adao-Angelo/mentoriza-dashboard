@@ -13,7 +13,7 @@ export default function IndicatorsPage() {
   const { data: indicators = [], isLoading } = useIndicators();
 
   return (
-    <div className='container bg-white p-4 rounded-[12px]'>
+    <div className='container bg-white p-4 rounded-2xl'>
       <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8'>
         <div>
           <h1 className='text-[18px]  tracking-tight'>Seus Indicadores</h1>
