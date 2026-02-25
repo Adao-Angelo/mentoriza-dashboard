@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 export interface ReportKeyResults {
   aiContent: number
   abntCompliance: number
@@ -5,6 +7,7 @@ export interface ReportKeyResults {
 }
 
 export interface Report {
+  theme: ReactNode
   title: string
   id: number
   groupId: number

@@ -18,7 +18,7 @@ export const reportsService = {
     formData.append("groupId", groupId.toString());
 
     const { data } = await axios.post(
-      "/api/uploads/reports-pdf",
+      "/api/uploads/reports-pdf", 
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
@@ -32,15 +32,12 @@ export const reportsService = {
     await axios.delete(`/api/reports/${id}`);
   },
 
-  updateStatus: async (
-    id: number,
-    status: "approved" | "rejected",
-    observations?: string
-  ): Promise<Report> => {
-    const { data } = await axios.put(`/api/reports/${id}`, {
+  updateStatus: async (id: number, status: string, observations?: string) => {
+    const response = await axios.put(`/api/reports/${id}`, {
       status,
       observations,
     });
-    return data;
+
+    return response.data;
   },
 };
