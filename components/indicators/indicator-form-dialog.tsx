@@ -30,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Loader2 } from 'lucide-react';
 
 import { useCreateIndicator } from '@/hooks/indicators/use-create-indicator';
 import { useUpdateIndicator } from '@/hooks/indicators/use-update-indicator';
@@ -39,6 +38,7 @@ import {
   Indicator,
   UpdateIndicatorDto,
 } from '@/services/indicator/Interfaces';
+import GlobalLoader from '../loader';
 
 const indicatorSchema = z.object({
   title: z
@@ -48,7 +48,7 @@ const indicatorSchema = z.object({
     .number()
     .min(0)
     .max(100, { message: 'O valor deve estar entre 0 e 100' }),
-  type: z.enum(['min', 'max'], { message: 'Selecione min ou max' }),
+  type: z.enum(['MIN', 'MAX'], { message: 'Selecione min ou max' }),
 });
 
 type IndicatorFormValues = z.infer<typeof indicatorSchema>;
@@ -56,7 +56,7 @@ type IndicatorFormValues = z.infer<typeof indicatorSchema>;
 interface IndicatorFormDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  indicator?: Indicator | null; // se existir → modo edição
+  indicator?: Indicator | null;
 }
 
 export function IndicatorFormDialog({
@@ -73,7 +73,7 @@ export function IndicatorFormDialog({
     defaultValues: {
       title: indicator?.title || '',
       value: indicator?.value || 0,
-      type: indicator?.type || 'max',
+      type: indicator?.type || 'MAX',
     },
   });
 
@@ -168,8 +168,8 @@ export function IndicatorFormDialog({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value='max'>Máximo</SelectItem>
-                      <SelectItem value='min'>Mínimo</SelectItem>
+                      <SelectItem value='MAX'>Máximo</SelectItem>
+                      <SelectItem value='MIN'>Mínimo</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -186,7 +186,7 @@ export function IndicatorFormDialog({
                 Cancelar
               </Button>
               <Button type='submit' disabled={isPending}>
-                {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+                {isPending && <GlobalLoader variant='white-mini' />}
                 {isEdit ? 'Guardar Alterações' : 'Criar Indicador'}
               </Button>
             </DialogFooter>

@@ -1,46 +1,67 @@
-import axios from "axios";
-import { Report } from "./Interfaces";
+import { API } from '@/services/api';
+import type {
+  CreateReportDto,
+  UpdateAIResultsPayload,
+  UpdateReportDto,
+  UpdateStatusPayload,
+} from './Interfaces';
 
-export const reportsService = {
-  getAll: async (): Promise<Report[]> => {
-    const { data } = await axios.get("/api/reports");
-    return data;
-  },
+async function createReport(data: CreateReportDto) {
+  const res = await API.post('/reports', data);
+  return res.data;
+}
 
-  getById: async (id: number): Promise<Report> => {
-    const { data } = await axios.get(`/api/reports/${id}`);
-    return data;
-  },
+async function getAllReports() {
+  const res = await API.get('/reports');
+  return res.data;
+}
 
-  create: async (file: File, groupId: number): Promise<Report> => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("groupId", groupId.toString());
+async function getReportById(id: number) {
+  const res = await API.get(`/reports/${id}`);
+  return res.data;
+}
 
-    const { data } = await axios.post(
-      "/api/uploads/reports-pdf",
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
+async function getReportsBySubmission(submissionId: number) {
+  const res = await API.get(`/reports/submission/${submissionId}`);
+  return res.data;
+}
 
-    return data;
-  },
+async function getReportsByGroup(groupId: number) {
+  const res = await API.get(`/reports/group/${groupId}`);
+  return res.data;
+}
 
-  remove: async (id: number): Promise<void> => {
-    await axios.delete(`/api/reports/${id}`);
-  },
+async function updateReport(id: number, data: UpdateReportDto) {
+  const res = await API.patch(`/reports/${id}`, data);
+  return res.data;
+}
 
-  updateStatus: async (
-    id: number,
-    status: "approved" | "rejected",
-    observations?: string
-  ): Promise<Report> => {
-    const { data } = await axios.put(`/api/reports/${id}`, {
-      status,
-      observations,
-    });
-    return data;
-  },
+async function updateReportStatus(id: number, payload: UpdateStatusPayload) {
+  const res = await API.patch(`/reports/${id}/status`, payload);
+  return res.data;
+}
+
+async function updateReportWithAIResults(
+  id: number,
+  payload: UpdateAIResultsPayload
+) {
+  const res = await API.patch(`/reports/${id}/ai-results`, payload);
+  return res.data;
+}
+
+async function deleteReport(id: number) {
+  const res = await API.delete(`/reports/${id}`);
+  return res.data;
+}
+
+export const ReportsService = {
+  createReport,
+  getAllReports,
+  getReportById,
+  getReportsBySubmission,
+  getReportsByGroup,
+  updateReport,
+  updateReportStatus,
+  updateReportWithAIResults,
+  deleteReport,
 };

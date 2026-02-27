@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
+import GlobalLoader from '@/components/loader';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useLogin } from '@/hooks/auth/use-login';
@@ -92,7 +93,7 @@ export function LoginForm() {
         </div>
 
         <Button type='submit' className='w-full'>
-          {isPending ? 'Carregando...' : 'Entrar'}
+          {isPending ? <GlobalLoader variant='white-mini' /> : 'Entrar'}
         </Button>
       </form>
     </Form>

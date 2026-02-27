@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { MessageResponse } from '@/services/students/Interfaces';
+import { MessageResponse } from '@/services/service.types';
 import { StudentsService } from '@/services/students/students.service';
+import { IErrorResponse } from '@/shared/Interface/IErrorResponse';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
 
 export function useUnlinkUser() {
   const queryClient = useQueryClient();
 
-  return useMutation<MessageResponse, Error, number>({
+  return useMutation<MessageResponse, AxiosError<IErrorResponse>, number>({
     mutationFn: (studentId) => StudentsService.unlinkUser(studentId),
 
     onSuccess: (_, studentId) => {
@@ -18,7 +18,7 @@ export function useUnlinkUser() {
       });
     },
 
-    onError: (error: any) => {
+    onError: (error: AxiosError<IErrorResponse>) => {
       const msg =
         error?.response?.data?.message || 'Erro ao desvincular usuário';
       toast.error(Array.isArray(msg) ? msg[0] : msg);

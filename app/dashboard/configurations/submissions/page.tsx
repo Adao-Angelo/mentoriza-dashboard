@@ -27,8 +27,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
 
+import GlobalLoader from '@/components/loader';
 import { SubmissionFormDialog } from '@/components/submissions/submission-form-dialog';
 import { useDeleteSubmission } from '@/hooks/submissions/use-delete-submission';
 import { useSubmissions } from '@/hooks/submissions/use-submissions';
@@ -72,9 +72,9 @@ export default function SubmissionsPage() {
   };
 
   return (
-    <div className='container bg-white p-4 rounded-[12px]'>
+    <div className='container  p-4 rounded-[12px]'>
       <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8'>
-        <h1 className='text-1xl font-bold tracking-tight'>Tabela</h1>
+        <h1 className='text-1xl font-bold tracking-tight'></h1>
         <Button onClick={() => setOpenCreateDialog(true)}>
           <Plus /> Nova Submissão
         </Button>
@@ -82,7 +82,7 @@ export default function SubmissionsPage() {
 
       {isLoading ? (
         <div className='flex justify-center py-12'>
-          <Loader2 className='h-5 w-5 animate-spin text-Gray' />
+          <GlobalLoader variant='mini' />
         </div>
       ) : submissions.length === 0 ? (
         <div className='text-center py-16 border rounded-lg bg-muted/30'>

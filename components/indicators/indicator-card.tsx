@@ -77,7 +77,7 @@ export function IndicatorCard({ indicator }: IndicatorCardProps) {
           <p className='text-xl font-bold text-primary '>{indicator.value}%</p>
           <div className='flex'>
             <p className='text-[12px] text-primary text-right bg-purple-100 rounded-full w-fit h-fit p-1 px-2'>
-              <strong>{indicator.type === 'max' ? 'Máximo' : 'Mínimo'}</strong>
+              <strong>{indicator.type === 'MAX' ? 'Máximo' : 'Mínimo'}</strong>
             </p>
           </div>
         </div>

@@ -22,20 +22,10 @@ export interface Student {
   };
 }
 
-export interface ApiErrorResponse {
-  statusCode: number;
-  message: string | string[];
-  error?: string;
-}
-
 export type StudentListResponse = Student[];
 
 export interface StudentSingleResponse {
   data: Student;
-}
-
-export interface MessageResponse {
-  message: string;
 }
 
 export interface CreateStudentDto {
@@ -64,14 +54,4 @@ export interface LinkGroupDto {
 
 export interface LinkUserDto {
   email: string;
-}
-
-export interface ApiErrorResponse {
-  statusCode: number;
-  message: string | string[];
-  error?: string;
-}
-
-export interface MessageResponse {
-  message: string;
 }

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LinkUserDto, MessageResponse } from '@/services/students/Interfaces';
+import { MessageResponse } from '@/services/service.types';
+import { LinkUserDto } from '@/services/students/Interfaces';
 import { StudentsService } from '@/services/students/students.service';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';

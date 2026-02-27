@@ -7,6 +7,7 @@ import { toast } from 'react-hot-toast';
 import * as z from 'zod';
 
 import Dropzone from '@/components/dashboard/dropzone';
+import GlobalLoader from '@/components/loader';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -66,7 +67,7 @@ export default function StudentsPage() {
   return (
     <div className='container'>
       <div className='space-y-8'>
-        <div className='border rounded-[10px] p-[20] bg-card'>
+        <div className=''>
           {showDropzone && (
             <Form {...form}>
               <form
@@ -133,7 +134,7 @@ export default function StudentsPage() {
           {!showDropzone && (
             <div className='space-y-4'>
               <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
-                <h1 className='text-[18px] font-bold tracking-tight'>Tabela</h1>
+                <h1 className='text-[18px] font-bold tracking-tight'></h1>
 
                 <div className='flex items-center gap-3'>
                   <Button
@@ -161,7 +162,7 @@ export default function StudentsPage() {
               </div>
               {isLoading ? (
                 <div className='text-center py-12 text-muted-foreground flex justify-center'>
-                  <Loader2 className='animate-spin w-5 h-5 text-Gray' />
+                  <GlobalLoader variant='mini' />
                 </div>
               ) : students.length === 0 ? (
                 <div className=''>

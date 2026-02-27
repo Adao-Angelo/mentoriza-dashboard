@@ -49,6 +49,7 @@ export async function POST(req: Request) {
       keyResults: { aiContent: 0, abntCompliance: 0, plagiarism: 0 },
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      theme: undefined
     };
 
     reports.push(newReport);

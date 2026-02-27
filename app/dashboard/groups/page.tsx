@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { FileSearch, Users } from 'lucide-react';
+import { FileSearch2, Users } from 'lucide-react';
 import { useState } from 'react';
 
 const TOTAL_STUDENTS = 60;
@@ -19,7 +19,7 @@ const GROUP_SIZES = [3, 4, 5, 6];
 function EmptyGroupsView() {
   return (
     <div className=' flex flex-col justify-center items-center mt-[8rem]'>
-      <FileSearch strokeWidth={1} className='w-12 h-12' />
+      <FileSearch2 strokeWidth={1.5} size={50} />
       <div className='mt-5 text-center'>
         <p className='text-sm font-medium'>Nenhum registro encontrado</p>
         <p className='text-sm font-normal text-[#999999]'>
@@ -77,7 +77,7 @@ function GenerateGroupsDialogContent({
         <DialogTitle className='text-base font-bold'>
           {totalStudents}
         </DialogTitle>
-        <DialogDescription className='text-xs font-normal text-[#999999]'>
+        <DialogDescription className='text-xs font-normal'>
           Selecione como deseja separar os grupos por número de alunos.
         </DialogDescription>
       </DialogHeader>
@@ -86,7 +86,7 @@ function GenerateGroupsDialogContent({
         onSelectSize={onSelectSize}
       />
       <DialogFooter className='w-full flex justify-end'>
-        <Button className='bg-black text-white mt-5'>
+        <Button className='bg-black text-white mt-5' size={'lg'}>
           <Users /> Gerar grupos
         </Button>
       </DialogFooter>

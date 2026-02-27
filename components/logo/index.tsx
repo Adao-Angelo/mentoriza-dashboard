@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type LogoProps = {
   isPrimary?: boolean;
@@ -17,7 +18,8 @@ export function Logo({ isPrimary = false, size = 'md', className }: LogoProps) {
   };
 
   return (
-    <div
+    <Link
+      href={'/'}
       className={cn(
         'flex items-center gap-2',
         isPrimary && 'font-semibold',
@@ -37,6 +39,6 @@ export function Logo({ isPrimary = false, size = 'md', className }: LogoProps) {
           Mentoriza
         </span>
       )}
-    </div>
+    </Link>
   );
 }
