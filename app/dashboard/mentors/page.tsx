@@ -2,13 +2,14 @@
 
 'use client';
 
-import { FileDown, FileSearch2, Loader2, Plus } from 'lucide-react';
+import { FileDown, FileSearch2, Plus } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
 import { AdvisorCard } from '@/components/advisor/advisor-card-a';
 import { AdvisorFormDialog } from '@/components/advisor/advisor-form-dialog';
+import GlobalLoader from '@/components/loader';
 import { useAdvisors } from '@/hooks/advisors/use-advisors';
 import { Advisor } from '@/services/advisor/interfaces';
 
@@ -36,7 +37,7 @@ export default function AdvisorsPage() {
 
       {isLoading ? (
         <div className='flex justify-center py-12'>
-          <Loader2 className='h-5 w-5 animate-spin text-Gray' />
+          <GlobalLoader variant='mini' />
         </div>
       ) : advisors.length === 0 ? (
         <div className='text-center py-16 border rounded-lg bg-muted/30'>

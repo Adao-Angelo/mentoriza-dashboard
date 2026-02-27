@@ -7,22 +7,22 @@ import { IndicatorFormDialog } from '@/components/indicators/indicator-form-dial
 import GlobalLoader from '@/components/loader';
 import { Button } from '@/components/ui/button';
 import { useIndicators } from '@/hooks/indicators/use-indicators';
-import { FileSearch2, Plus, PlusIcon } from 'lucide-react';
+import { FileSearch2, PlusIcon } from 'lucide-react';
 
 export default function IndicatorsPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const { data: indicators = [], isLoading } = useIndicators();
 
   return (
-    <div className='container p-4 rounded-2xl'>
-      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8'>
+    <div className='container '>
+      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 '>
         <div></div>
 
-        <div>
+        {/* <div>
           <Button onClick={() => setOpenCreateDialog(true)}>
             <Plus /> Novo Indicador
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {isLoading ? (

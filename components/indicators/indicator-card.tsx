@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { useDeleteIndicator } from '@/hooks/indicators/use-delete-indicator';
-import { useConfirm } from '@/hooks/use-confirm'; // novo hook
+import { useConfirm } from '@/hooks/use-confirm';
 import type { Indicator } from '@/services/indicator/Interfaces';
 import { IndicatorFormDialog } from './indicator-form-dialog';
 

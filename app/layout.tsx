@@ -14,7 +14,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'MENTORIZA DASHBOARD',
+  title: 'Mentoriza',
   description: 'Back-office da Mentoriza.',
   icons: {
     icon: '/favicon.png',

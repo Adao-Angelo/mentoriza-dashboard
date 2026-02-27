@@ -59,7 +59,7 @@ export function DashboardSidebar() {
                       <SidebarMenuButton
                         onClick={() => setOpenMenu(isOpen ? null : item.title)}
                         className={cn(
-                          'h-12.5 rounded-md gap-3 font-medium justify-between border-l-2 border-transparent transition-all duration-200',
+                          'h-10.5 rounded-lg gap-3 font-medium justify-between border-l-2 border-transparent transition-all duration-200',
                           isParentActive
                             ? 'bg-sidebar-primary text-sidebar-primary-foreground border-sidebar-primary'
                             : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
@@ -88,7 +88,7 @@ export function DashboardSidebar() {
                                 key={child.title}
                                 asChild
                                 className={cn(
-                                  'h-10 gap-3 rounded-sm border-l-2 border-transparent transition-all duration-200',
+                                  'h-9 gap-3 rounded-lg border-l-2 border-transparent transition-all duration-200',
                                   isActive
                                     ? 'bg-sidebar-accent text-sidebar-accent-foreground border-sidebar-primary'
                                     : 'text-sidebar-foreground hover:bg-sidebar-accent'
@@ -114,7 +114,7 @@ export function DashboardSidebar() {
                     <SidebarMenuButton
                       asChild
                       className={cn(
-                        'h-12.5 rounded-xl gap-3 transition-all duration-200 font-medium border-l-2 border-transparent',
+                        'h-10.5 rounded-lg gap-3 transition-all duration-200 font-medium border-l-2 border-transparent',
                         isParentActive
                           ? 'bg-sidebar-primary text-sidebar-primary-foreground border-sidebar-primary'
                           : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
@@ -139,7 +139,7 @@ export function DashboardSidebar() {
             <SidebarMenuButton
               asChild
               className={cn(
-                'h-12.5 rounded-2xl gap-3 transition-all duration-200 font-medium border-l-2 border-transparent',
+                'h-10.5 rounded-lg gap-3 transition-all duration-200 font-medium border-l-2 border-transparent',
                 isProfileActive
                   ? 'bg-sidebar-primary text-sidebar-primary-foreground border-sidebar-primary'
                   : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'

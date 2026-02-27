@@ -10,6 +10,7 @@ export interface SaveTokenData {
 export interface User {
   username: string;
   email: string;
+  phone: string;
 }
 
 interface AuthState {
@@ -29,6 +30,7 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       expiresIn: null,
+
       isAuthenticated: false,
 
       setAuth: (data) =>

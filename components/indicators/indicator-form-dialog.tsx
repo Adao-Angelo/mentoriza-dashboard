@@ -121,6 +121,7 @@ export function IndicatorFormDialog({
           >
             <FormField
               control={form.control}
+              disabled
               name='title'
               render={({ field }) => (
                 <FormItem>
