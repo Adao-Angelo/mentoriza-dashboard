@@ -54,6 +54,16 @@ async function deleteReport(id: number) {
   return res.data;
 }
 
+async function uploadReportPdf(formData: FormData) {
+  const res = await API.post('/uploads/reports-pdf', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return res;
+}
+
 export const ReportsService = {
   createReport,
   getAllReports,
@@ -64,4 +74,5 @@ export const ReportsService = {
   updateReportStatus,
   updateReportWithAIResults,
   deleteReport,
+  uploadReportPdf,
 };

@@ -16,5 +16,221 @@
     },
     "createdAt": "2026-02-26T16:45:07.161Z",
     "updatedAt": "2026-02-26T16:45:07.161Z"
+  },
+  {
+    "id": 2,
+    "groupId": 2,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-2/303f54ee-f8e5-4fcb-ad2d-f216f4f846a7-garcia-sebastiao-cv-en.pdf",
+    "publicId": "303f54ee-f8e5-4fcb-ad2d-f216f4f846a7-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T17:06:41.063Z",
+    "updatedAt": "2026-02-28T17:06:41.063Z"
+  },
+  {
+    "id": 3,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/7078d338-f75d-4620-ac2d-52b484df0315-test-docs.pdf",
+    "publicId": "7078d338-f75d-4620-ac2d-52b484df0315-test-docs.pdf",
+    "title": "test-docs",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T17:21:23.071Z",
+    "updatedAt": "2026-02-28T17:21:23.071Z"
+  },
+  {
+    "id": 4,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/b784a3e5-8e2c-45fc-b47c-86cd301ee1a0-test-docs.pdf",
+    "publicId": "b784a3e5-8e2c-45fc-b47c-86cd301ee1a0-test-docs.pdf",
+    "title": "test-docs",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T17:21:42.508Z",
+    "updatedAt": "2026-02-28T17:21:42.508Z"
+  },
+  {
+    "id": 5,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/ea0b7ce0-5a2e-4d53-8a3e-db1ec94fb704-garcia-sebastiao-cv-en.pdf",
+    "publicId": "ea0b7ce0-5a2e-4d53-8a3e-db1ec94fb704-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T17:37:50.070Z",
+    "updatedAt": "2026-02-28T17:37:50.070Z"
+  },
+  {
+    "id": 6,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/b61be5d1-94bb-4b8e-923e-9c7a268c5738-garcia-sebastiao-cv-en.pdf",
+    "publicId": "b61be5d1-94bb-4b8e-923e-9c7a268c5738-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T17:38:06.210Z",
+    "updatedAt": "2026-02-28T17:38:06.210Z"
+  },
+  {
+    "id": 7,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/d4b13648-5968-467d-a7dd-0a8f602114d3-garcia-sebastiao-cv-en.pdf",
+    "publicId": "d4b13648-5968-467d-a7dd-0a8f602114d3-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T17:40:30.149Z",
+    "updatedAt": "2026-02-28T17:40:30.149Z"
+  },
+  {
+    "id": 8,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/3a698087-8d06-4bd4-a67d-53c0be5760b3-garcia-sebastiao-cv-en.pdf",
+    "publicId": "3a698087-8d06-4bd4-a67d-53c0be5760b3-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T17:43:37.657Z",
+    "updatedAt": "2026-02-28T17:43:37.657Z"
+  },
+  {
+    "id": 9,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/3037db79-38b6-434d-acf6-f428bc3c1718-Credenciais_De_Administrador__2_.pdf",
+    "publicId": "3037db79-38b6-434d-acf6-f428bc3c1718-Credenciais_De_Administrador__2_.pdf",
+    "title": "Credenciais De Administrador (2)",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T17:43:54.000Z",
+    "updatedAt": "2026-02-28T17:43:54.000Z"
+  },
+  {
+    "id": 10,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/2fac7583-3e2a-41e2-b806-cf6624d59d20-garcia-sebastiao-cv-en.pdf",
+    "publicId": "2fac7583-3e2a-41e2-b806-cf6624d59d20-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T18:06:33.571Z",
+    "updatedAt": "2026-02-28T18:06:33.571Z"
+  },
+  {
+    "id": 11,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/76282432-7c7d-4aa9-bf24-c1e9f600155c-garcia-sebastiao-cv-en.pdf",
+    "publicId": "76282432-7c7d-4aa9-bf24-c1e9f600155c-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T18:09:18.687Z",
+    "updatedAt": "2026-02-28T18:09:18.687Z"
+  },
+  {
+    "id": 12,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/70cfe6e8-71cc-4ca2-b287-ec49fe44e276-garcia-sebastiao-cv-en.pdf",
+    "publicId": "70cfe6e8-71cc-4ca2-b287-ec49fe44e276-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T18:13:01.853Z",
+    "updatedAt": "2026-02-28T18:13:01.853Z"
+  },
+  {
+    "id": 13,
+    "groupId": 3,
+    "submissionId": 0,
+    "fileUrl": "/uploads/group-3/e38f4594-e978-4a22-8c7a-aaae48399eac-garcia-sebastiao-cv-en.pdf",
+    "publicId": "e38f4594-e978-4a22-8c7a-aaae48399eac-garcia-sebastiao-cv-en.pdf",
+    "title": "garcia-sebastiao-cv-en",
+    "status": "under_review",
+    "score": 0,
+    "observations": "",
+    "keyResults": {
+      "aiContent": 0,
+      "abntCompliance": 0,
+      "plagiarism": 0
+    },
+    "createdAt": "2026-02-28T18:15:04.259Z",
+    "updatedAt": "2026-02-28T18:15:04.259Z"
   }
 ]

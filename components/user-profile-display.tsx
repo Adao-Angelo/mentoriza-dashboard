@@ -35,7 +35,7 @@ export default function UserProfileDisplay({
 
       <div className='hidden md:flex md:flex-col md:items-start'>
         {username && (
-          <p className='text-base font-bold leading-tight text-black'>
+          <p className='text-[14px] font-semibold leading-tight text-gray-600'>
             {username}
           </p>
         )}

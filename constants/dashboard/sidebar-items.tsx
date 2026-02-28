@@ -40,7 +40,7 @@ export const itemsSidebar: SidebarItem[] = [
     icon: GraduationCap,
   },
   {
-    title: 'Reportes',
+    title: 'Relatórios',
     url: '/dashboard/reports',
     icon: FileSpreadsheet,
   },

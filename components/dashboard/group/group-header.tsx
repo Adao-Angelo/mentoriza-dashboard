@@ -5,17 +5,22 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useDeleteGroup } from '@/hooks/groups/useDeleteGroup';
+import { Group } from '@/services/groups/Interfaces';
 import { ClipboardList, MoreVertical, Trash2 } from 'lucide-react';
 
 interface GroupHeaderProps {
   groupName: string;
   description: string;
+  group: Group;
 }
 
 export default function GroupHeader({
   groupName,
   description,
+  group,
 }: GroupHeaderProps) {
+  const { mutate: deleteGroupMutation } = useDeleteGroup();
   return (
     <div className='w-full flex justify-between p-3 border-b'>
       <div className='flex flex-col'>
@@ -42,7 +47,11 @@ export default function GroupHeader({
             Ver Detalhes
           </DropdownMenuItem>
 
-          <DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => {
+              deleteGroupMutation(group.id);
+            }}
+          >
             <Trash2 className='mr-2 h-4 w-4' />
             Deletar
           </DropdownMenuItem>
