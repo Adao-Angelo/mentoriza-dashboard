@@ -1,3 +1,6 @@
+import { Group } from '../groups/Interfaces';
+import { Submission } from '../submission/Interfaces';
+
 type ReportStatus = 'under_review' | 'approved' | 'rejected';
 
 export interface CreateReportDto {
@@ -26,10 +29,13 @@ export interface Report {
   publicId?: string;
   status: ReportStatus;
   score?: number;
-  observations?: string;
+  observations?: string[];
   keyResults?: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
+  group?: Group;
+  submission?: Submission;
+  analyzedAt?: Date;
 }
 
 export type ReportListResponse = Report[];

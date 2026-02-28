@@ -65,7 +65,7 @@ export default function ReportDetailsPage() {
 
           <div>
             <p className='text-sm text-muted-foreground'>Course</p>
-            <p>{report.group?.course}</p>
+            <p>{report?.group?.course ?? }</p>
           </div>
 
           <div>
@@ -110,12 +110,12 @@ export default function ReportDetailsPage() {
         </div>
       </div>
 
-      {report.observations?.length > 0 && (
+      {report?.observations?.length  > 0 && (
         <div className='border rounded-xl p-6 bg-card'>
           <h2 className='text-lg font-semibold mb-4'>Observations</h2>
 
           <div className='grid grid-cols-3 gap-6'>
-            {report.observations.map((obs: string[], index: number) => (
+            {report.observations?.map((obs: string, index: number) => (
               <div key={index}>
                 <p className='font-medium'>{index + 1}</p>
                 <p className='text-muted-foreground text-sm'>{obs}</p>
