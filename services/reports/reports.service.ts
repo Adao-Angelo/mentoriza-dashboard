@@ -64,6 +64,16 @@ async function uploadReportPdf(formData: FormData) {
   return res;
 }
 
+async function uploadReportDocx(formData: FormData) {
+  const res = await API.post('/uploads/reports-docx', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return res;
+}
+
 export const ReportsService = {
   createReport,
   getAllReports,
@@ -75,4 +85,5 @@ export const ReportsService = {
   updateReportWithAIResults,
   deleteReport,
   uploadReportPdf,
+  uploadReportDocx,
 };

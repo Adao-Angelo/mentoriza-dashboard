@@ -10,10 +10,11 @@ import { useParams } from 'next/navigation';
 
 export default function ReportDetailsPage() {
   const params = useParams();
-
   const reportId = Number(params.id);
 
   const { data: report, isLoading } = useReport(reportId);
+
+  const observations = report?.observations ?? [];
 
   if (isLoading) {
     return (
@@ -30,57 +31,61 @@ export default function ReportDetailsPage() {
   return (
     <div className='space-y-4'>
       <div className='flex justify-between items-center'>
-        <h1 className='text-xl font-semibold'>Relatório {report.id}</h1>
+        <h1 className='text-xl font-semibold'>Relatório #{report.id}</h1>
 
         <div className='flex gap-3'>
           <Button>Aprovar Relatório</Button>
-          <Button variant='outline'>Reprovar</Button>
+          <Button variant='outline'>Reprovar Relatório</Button>
           <Button
             onClick={() => window.open(report.fileUrl, '_blank')}
             variant='outline'
           >
-            Export
+            Exportar PDF
           </Button>
         </div>
       </div>
 
       <div className='border rounded-xl p-6 space-y-6 bg-card'>
         <div className='flex justify-between'>
-          <h2 className='text-lg font-semibold'>Report Information</h2>
+          <h2 className='text-md font-semibold'>Informações do Relatório</h2>
 
           <Badge variant='secondary'>
             {report.status === 'approved'
-              ? 'Approved'
+              ? 'Aprovado'
               : report.status === 'rejected'
-                ? 'Rejected'
-                : 'Under Review'}
+                ? 'Reprovado'
+                : 'Em Análise'}
           </Badge>
         </div>
 
         <div className='grid grid-cols-3 gap-6'>
           <div>
-            <p className='text-sm text-muted-foreground'>Group</p>
-            <p className='font-medium'>{report.group?.name}</p>
+            <p className='text-sm text-muted-foreground'>Grupo</p>
+            <p className='font-medium text-sm'>{report.group?.name}</p>
           </div>
 
           <div>
-            <p className='text-sm text-muted-foreground'>Course</p>
-            <p>{report?.group?.course ?? }</p>
+            <p className='text-sm text-muted-foreground'>Curso</p>
+            <p className='text-sm'>
+              {report?.group?.course ?? 'Nao informado'}
+            </p>
           </div>
 
           <div>
-            <p className='text-sm text-muted-foreground'>Stage</p>
-            <p>{report.submission?.stage}</p>
+            <p className='text-sm text-muted-foreground'>Etapa</p>
+            <p className='text-sm'>
+              {report.submission?.stage ?? 'Nao informado'}
+            </p>
           </div>
 
           <div>
-            <p className='text-sm text-muted-foreground'>Submission</p>
-            <p>#{report.submissionId}</p>
+            <p className='text-sm text-muted-foreground'>Submissão</p>
+            <p className='text-sm'>{report.submissionId}</p>
           </div>
 
           <div>
-            <p className='text-sm text-muted-foreground'>Created At</p>
-            <p>
+            <p className='text-sm text-muted-foreground'>Data de Criação</p>
+            <p className='text-sm'>
               {format(new Date(report.createdAt), 'dd/MM/yyyy', {
                 locale: ptBR,
               })}
@@ -88,8 +93,8 @@ export default function ReportDetailsPage() {
           </div>
 
           <div>
-            <p className='text-sm text-muted-foreground'>Analyzed At</p>
-            <p>
+            <p className='text-sm text-muted-foreground'>Data da Análise</p>
+            <p className='text-sm'>
               {report.analyzedAt
                 ? format(new Date(report.analyzedAt), 'dd/MM/yyyy', {
                     locale: ptBR,
@@ -99,20 +104,22 @@ export default function ReportDetailsPage() {
           </div>
 
           <div>
-            <p className='text-sm text-muted-foreground'>Score</p>
-            <p>{report.score ?? '-'}</p>
+            <p className='text-sm text-muted-foreground'>Pontuação</p>
+            <p>{report.score ?? '0%'}</p>
           </div>
 
           <div>
-            <p className='text-sm text-muted-foreground'>Public ID</p>
-            <p className='truncate'>{report.publicId}</p>
+            <p className='text-sm text-muted-foreground'>
+              Identificador Público
+            </p>
+            <p className='truncate text-sm'>{report.publicId}</p>
           </div>
         </div>
       </div>
 
-      {report?.observations?.length  > 0 && (
+      {observations?.length > 0 && (
         <div className='border rounded-xl p-6 bg-card'>
-          <h2 className='text-lg font-semibold mb-4'>Observations</h2>
+          <h2 className='text-md font-semibold mb-4'>Observações</h2>
 
           <div className='grid grid-cols-3 gap-6'>
             {report.observations?.map((obs: string, index: number) => (

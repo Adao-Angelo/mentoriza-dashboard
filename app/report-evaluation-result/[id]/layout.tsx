@@ -1,4 +1,3 @@
-import ABNTResultHeader from '@/components/report/abnt-results/header';
 import { ReactNode } from 'react';
 
 interface LayoutABNTResultProps {
@@ -6,10 +5,5 @@ interface LayoutABNTResultProps {
 }
 
 export default function LayoutABNTResult({ children }: LayoutABNTResultProps) {
-  return (
-    <>
-      <ABNTResultHeader />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

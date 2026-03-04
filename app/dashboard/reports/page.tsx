@@ -1,7 +1,6 @@
 'use client';
 
 import { useReports } from '@/hooks/reports/use-reports';
-import { useUploadReportPdf } from '@/hooks/reports/use-upload-report-pdf';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -28,6 +27,7 @@ import {
 import { FileDown, Plus, Send } from 'lucide-react';
 
 import { EmptyReportsState } from '@/components/dashboard/empty-reports-state';
+import { useUploadReportDocx } from '@/hooks/reports/use-upload-report-docx';
 import toast from 'react-hot-toast';
 import { ReportsTable } from './reports-table';
 
@@ -40,7 +40,8 @@ const formSchema = z.object({
 
 export default function ReportsPage() {
   const { data: reports = [], isLoading } = useReports();
-  const { mutate: uploadReport, isPending: isUploading } = useUploadReportPdf();
+  const { mutate: uploadReport, isPending: isUploading } =
+    useUploadReportDocx();
   const [files, setFiles] = useState<File[]>([]);
 
   const [open, setOpen] = useState(false);
@@ -116,9 +117,12 @@ export default function ReportsPage() {
                             setFiles(newFiles);
                           }}
                           maxFiles={1}
-                          accept={{ 'application/pdf': ['.pdf'] }}
-                          title='Selecione ou arraste o PDF'
-                          description='Apenas ficheiros PDF são permitidos'
+                          accept={{
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                              ['.docx'],
+                          }}
+                          title='Selecione ou arraste o Docx'
+                          description='Apenas ficheiros Docx são permitidos'
                         />
                       </FormControl>
                       <FormMessage />

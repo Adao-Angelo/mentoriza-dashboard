@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Group } from '../groups/Interfaces';
 import { Submission } from '../submission/Interfaces';
 
@@ -33,6 +34,7 @@ export interface Report {
   keyResults?: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
+  errors: any[];
   group?: Group;
   submission?: Submission;
   analyzedAt?: Date;

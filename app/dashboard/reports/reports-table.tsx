@@ -152,7 +152,7 @@ export function ReportsTable({ reports }: ReportsTableProps) {
                     <DropdownMenuItem
                       className='cursor-pointer'
                       onClick={() =>
-                        router.push(`/report/abnt-results/${report.id}`)
+                        router.push(`/report-evaluation-result/${report.id}`)
                       }
                     >
                       <BarChart3 className='mr-2 h-4 w-4' />
