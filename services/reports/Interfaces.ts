@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Group } from '../groups/Interfaces';
-import { Submission } from '../submission/Interfaces';
+import { Group } from "../groups/Interfaces";
+import { Submission } from "../submission/Interfaces";
 
-type ReportStatus = 'under_review' | 'approved' | 'rejected';
+type ReportStatus = "under_review" | "approved" | "rejected";
 
 export interface CreateReportDto {
   groupId: number;

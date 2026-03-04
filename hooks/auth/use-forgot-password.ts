@@ -1,9 +1,9 @@
-import { ForgotPasswordFormData } from '@/schemas/auth/forgot-password-schema';
-import { AuthService } from '@/services/auth/index.service';
-import { IErrorResponse } from '@/shared/Interface/IErrorResponse';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import toast from 'react-hot-toast';
+import { ForgotPasswordFormData } from "@/schemas/auth/forgot-password-schema";
+import { AuthService } from "@/services/auth/index.service";
+import { IErrorResponse } from "@/shared/Interface/IErrorResponse";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import toast from "react-hot-toast";
 
 export function useForgotPassword() {
   return useMutation({
@@ -12,7 +12,7 @@ export function useForgotPassword() {
     },
     onSuccess: () => {
       toast.success(
-        'Enviamos um e-mail para você. Verifique sua caixa de entrada.'
+        "Enviamos um e-mail para você. Verifique sua caixa de entrada.",
       );
     },
     onError: (error: AxiosError<IErrorResponse>) => {
@@ -20,7 +20,7 @@ export function useForgotPassword() {
 
       const formattedMessage = Array.isArray(message)
         ? message[0]
-        : message || 'Erro inesperado';
+        : message || "Erro inesperado";
 
       toast.error(formattedMessage);
     },

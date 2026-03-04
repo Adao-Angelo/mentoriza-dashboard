@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -20,23 +20,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
 
-import { useCreateSubmission } from '@/hooks/submissions/use-create-submission';
-import { useUpdateSubmission } from '@/hooks/submissions/use-update-submission';
+import { useCreateSubmission } from "@/hooks/submissions/use-create-submission";
+import { useUpdateSubmission } from "@/hooks/submissions/use-update-submission";
 import {
   CreateSubmissionDto,
   Submission,
   UpdateSubmissionDto,
-} from '@/services/submission/Interfaces';
+} from "@/services/submission/Interfaces";
 
 const submissionSchema = z.object({
   endDate: z
     .string()
-    .refine((val) => !isNaN(Date.parse(val)), { message: 'Data inválida' }),
-  stage: z.number().min(1, { message: 'Etapa deve ser pelo menos 1' }),
+    .refine((val) => !isNaN(Date.parse(val)), { message: "Data inválida" }),
+  stage: z.number().min(1, { message: "Etapa deve ser pelo menos 1" }),
 });
 
 type SubmissionFormValues = z.infer<typeof submissionSchema>;
@@ -80,25 +80,25 @@ export function SubmissionFormDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? 'Editar Submissão' : 'Nova Submissão'}
+            {isEdit ? "Editar Submissão" : "Nova Submissão"}
           </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Atualize os detalhes da submissão.'
-              : 'Crie uma nova submissão.'}
+              ? "Atualize os detalhes da submissão."
+              : "Crie uma nova submissão."}
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name='endDate'
+              name="endDate"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Data de Término (ISO)</FormLabel>
                   <FormControl>
-                    <Input type='datetime-local' {...field} />
+                    <Input type="datetime-local" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -107,13 +107,13 @@ export function SubmissionFormDialog({
 
             <FormField
               control={form.control}
-              name='stage'
+              name="stage"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Fase</FormLabel>
                   <FormControl>
                     <Input
-                      type='number'
+                      type="number"
                       min={1}
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
@@ -125,9 +125,9 @@ export function SubmissionFormDialog({
             />
 
             <DialogFooter>
-              <Button type='submit' disabled={isPending}>
-                {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEdit ? 'Atualizar' : 'Criar Nova submissão'}
+              <Button type="submit" disabled={isPending}>
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isEdit ? "Atualizar" : "Criar Nova submissão"}
               </Button>
             </DialogFooter>
           </form>

@@ -1,4 +1,4 @@
-type SpinnerVariant = 'default' | 'mini' | 'white-mini';
+type SpinnerVariant = "default" | "mini" | "white-mini";
 
 interface GlobalLoaderProps {
   variant?: SpinnerVariant;
@@ -6,20 +6,20 @@ interface GlobalLoaderProps {
 }
 
 export default function GlobalLoader({
-  variant = 'default',
-  className = '',
+  variant = "default",
+  className = "",
 }: GlobalLoaderProps) {
   const spinnerClass =
-    variant === 'mini'
-      ? 'mini-spinner'
-      : variant === 'white-mini'
-        ? 'white-mini-spinner'
-        : 'spinner';
+    variant === "mini"
+      ? "mini-spinner"
+      : variant === "white-mini"
+        ? "white-mini-spinner"
+        : "spinner";
   return (
     <div
       className={`${spinnerClass} ${className}`}
-      aria-label='Carregando...'
-      role='status'
+      aria-label="Carregando..."
+      role="status"
     />
   );
 }

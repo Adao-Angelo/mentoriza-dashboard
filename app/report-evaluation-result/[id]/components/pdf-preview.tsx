@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useEffect, useRef, useState } from 'react';
-import { Document, DocumentProps, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import 'react-pdf/dist/Page/TextLayer.css';
+import { useEffect, useRef, useState } from "react";
+import { Document, DocumentProps, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
 
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.mjs";
 
 interface Props {
   pdfUrl: string;
@@ -27,7 +27,7 @@ export default function PDFPreview({
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const onDocumentLoadSuccess: DocumentProps['onLoadSuccess'] = async (pdf) => {
+  const onDocumentLoadSuccess: DocumentProps["onLoadSuccess"] = async (pdf) => {
     const num = pdf.numPages;
     setNumPages(num);
 
@@ -54,21 +54,21 @@ export default function PDFPreview({
       return;
 
     const existingHighlights =
-      containerRef.current.querySelectorAll('.highlight');
+      containerRef.current.querySelectorAll(".highlight");
     existingHighlights.forEach((h) => h.remove());
 
     const getHighlightColor = (indicator: string) => {
       switch (indicator) {
-        case 'Conformidade com Normas ABNT':
-          return 'bg-red-500';
-        case 'Fundamentação Teórica':
-          return 'bg-blue-500';
-        case 'Validação da Problemática':
-          return 'bg-green-500';
-        case 'Percentagem de Conteúdo Gerado por IA':
-          return 'bg-yellow-500';
+        case "Conformidade com Normas ABNT":
+          return "bg-red-500";
+        case "Fundamentação Teórica":
+          return "bg-blue-500";
+        case "Validação da Problemática":
+          return "bg-green-500";
+        case "Percentagem de Conteúdo Gerado por IA":
+          return "bg-yellow-500";
         default:
-          return 'bg-purple-500';
+          return "bg-purple-500";
       }
     };
 
@@ -76,7 +76,7 @@ export default function PDFPreview({
       .filter((err) => err.indicator === highlightedIndicator)
       .forEach((err) => {
         const pageElem = containerRef.current?.querySelector(
-          `[data-page-number="${err.page}"]`
+          `[data-page-number="${err.page}"]`,
         ) as HTMLElement | null;
         if (!pageElem) return;
 
@@ -100,8 +100,8 @@ export default function PDFPreview({
 
         if (width <= 0 || height <= 0) return;
 
-        const highlight = document.createElement('div');
-        const colorClass = getHighlightColor(err.indicator || '');
+        const highlight = document.createElement("div");
+        const colorClass = getHighlightColor(err.indicator || "");
         highlight.className = `highlight absolute ${colorClass} opacity-30 pointer-events-auto`;
         highlight.style.top = `${top}px`;
         highlight.style.left = `${left}px`;
@@ -110,17 +110,17 @@ export default function PDFPreview({
 
         let tooltip: HTMLDivElement | null = null;
 
-        highlight.addEventListener('mouseover', (e) => {
-          tooltip = document.createElement('div');
+        highlight.addEventListener("mouseover", (e) => {
+          tooltip = document.createElement("div");
           tooltip.textContent = err.message;
           tooltip.className =
-            'absolute bg-black text-white p-2 rounded shadow-lg z-50';
+            "absolute bg-black text-white p-2 rounded shadow-lg z-50";
           tooltip.style.top = `${e.clientY + 10}px`;
           tooltip.style.left = `${e.clientX + 10}px`;
           document.body.appendChild(tooltip);
         });
 
-        highlight.addEventListener('mouseout', () => {
+        highlight.addEventListener("mouseout", () => {
           if (tooltip) {
             tooltip.remove();
             tooltip = null;
@@ -134,18 +134,18 @@ export default function PDFPreview({
   return (
     <div
       ref={containerRef}
-      className='bg-sidebar h-dvh overflow-y-scroll border-l relative'
+      className="bg-sidebar h-dvh overflow-y-scroll border-l relative"
     >
       <Document
         file={pdfUrl}
         onLoadSuccess={onDocumentLoadSuccess}
-        onLoadError={(err) => console.error('PDF load error:', err)}
+        onLoadError={(err) => console.error("PDF load error:", err)}
       >
         {Array.from(new Array(numPages), (_, index) => (
           <Page
             key={`page_${index + 1}`}
             pageNumber={index + 1}
-            className='relative mb-4'
+            className="relative mb-4"
             renderAnnotationLayer={true}
             renderTextLayer={true}
           />

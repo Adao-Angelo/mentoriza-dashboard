@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { usePathname } from 'next/navigation';
-import { itemsSidebar } from '@/constants/dashboard/sidebar-items';
+import { usePathname } from "next/navigation";
+import { itemsSidebar } from "@/constants/dashboard/sidebar-items";
 
 export function useGetSidebarTitle() {
   const pathname = usePathname();
 
-  let dashboardTitle = '';
+  let dashboardTitle = "";
 
   for (const item of itemsSidebar) {
     if (item.url && pathname.startsWith(item.url)) {
@@ -15,7 +15,7 @@ export function useGetSidebarTitle() {
 
     if (item.children) {
       const child = item.children.find((child) =>
-        pathname.startsWith(child.url)
+        pathname.startsWith(child.url),
       );
 
       if (child) {
@@ -24,8 +24,8 @@ export function useGetSidebarTitle() {
     }
   }
 
-  if (pathname.startsWith('/dashboard/my-profile')) {
-    dashboardTitle = 'Meu Perfil';
+  if (pathname.startsWith("/dashboard/my-profile")) {
+    dashboardTitle = "Meu Perfil";
   }
 
   return { dashboardTitle };

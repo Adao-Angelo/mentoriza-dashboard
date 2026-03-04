@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LoginFormData } from '@/schemas/auth/login-schema';
-import { AuthService } from '@/services/auth/index.service';
-import { IErrorResponse } from '@/shared/Interface/IErrorResponse';
-import { useAuthStore } from '@/store/use-auth.store';
-import { saveToken } from '@/utils/save-token';
-import { useMutation } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+import { LoginFormData } from "@/schemas/auth/login-schema";
+import { AuthService } from "@/services/auth/index.service";
+import { IErrorResponse } from "@/shared/Interface/IErrorResponse";
+import { useAuthStore } from "@/store/use-auth.store";
+import { saveToken } from "@/utils/save-token";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export function useLogin() {
   const router = useRouter();
@@ -19,8 +19,8 @@ export function useLogin() {
     onSuccess: (data) => {
       setAuth(data);
 
-      toast.success('Login efetuado com sucesso');
-      router.replace('/dashboard');
+      toast.success("Login efetuado com sucesso");
+      router.replace("/dashboard");
 
       saveToken({ token: data.token });
     },
@@ -30,7 +30,7 @@ export function useLogin() {
 
       const formattedMessage = Array.isArray(message)
         ? message[0]
-        : message || 'Erro inesperado';
+        : message || "Erro inesperado";
 
       toast.error(formattedMessage);
     },

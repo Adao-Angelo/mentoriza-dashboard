@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 interface ExtraItem {
   label: string;
@@ -14,18 +14,18 @@ interface StatsCardProps {
 
 export default function StatsCard({ title, value, extras }: StatsCardProps) {
   return (
-    <div className='flex justify-between w-full items-start'>
+    <div className="flex justify-between w-full items-start">
       <div>
-        <p className='text-[14px] text-Gray'>{title}</p>
-        <h1 className='font-bold mt-2 text-lg'>{value}</h1>
+        <p className="text-[14px] text-Gray">{title}</p>
+        <h1 className="font-bold mt-2 text-lg">{value}</h1>
       </div>
 
       {extras?.map((item, index) => (
         <div key={index}>
-          <p className={`text-[14px] ${item.color ?? 'text-Gray'}`}>
+          <p className={`text-[14px] ${item.color ?? "text-Gray"}`}>
             {item.label}
           </p>
-          <h1 className='font-bold mt-2 text-lg'>{item.value}</h1>
+          <h1 className="font-bold mt-2 text-lg">{item.value}</h1>
         </div>
       ))}
     </div>

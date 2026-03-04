@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import GlobalLoader from '@/components/loader';
-import ABNTResultHeader from '@/components/report/abnt-results/header';
-import { useReport } from '@/hooks/reports/useReport';
-import { useParams } from 'next/navigation';
-import { useState } from 'react';
+import GlobalLoader from "@/components/loader";
+import ABNTResultHeader from "@/components/report/abnt-results/header";
+import { useReport } from "@/hooks/reports/useReport";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 
-import dynamic from 'next/dynamic';
-import DocxPreview from './components/DocxPreview';
-import SidebarEvaluation from './components/sidebar-result';
-const PDFPreview = dynamic(() => import('./components/pdf-preview'), {
+import dynamic from "next/dynamic";
+import DocxPreview from "./components/DocxPreview";
+import SidebarEvaluation from "./components/sidebar-result";
+const PDFPreview = dynamic(() => import("./components/pdf-preview"), {
   ssr: false,
 });
 
@@ -23,8 +23,8 @@ export default function ReportEvaluationResultPage() {
 
   if (isLoading) {
     return (
-      <div className='flex items-center justify-center h-100'>
-        <GlobalLoader variant='mini' />
+      <div className="flex items-center justify-center h-100">
+        <GlobalLoader variant="mini" />
       </div>
     );
   }
@@ -36,11 +36,11 @@ export default function ReportEvaluationResultPage() {
   return (
     <>
       <ABNTResultHeader />
-      <div className='flex justify-between'>
+      <div className="flex justify-between">
         <SidebarEvaluation
           report={report}
           onIndicatorClick={(key) => {
-            console.log('Clicou em:', key);
+            console.log("Clicou em:", key);
             setHighlightedIndicator(key);
           }}
         />

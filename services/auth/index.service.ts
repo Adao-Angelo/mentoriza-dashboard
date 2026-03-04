@@ -1,10 +1,10 @@
-import { ForgotPasswordFormData } from '@/schemas/auth/forgot-password-schema';
-import { LoginFormData } from '@/schemas/auth/login-schema';
-import { API } from '@/services/api';
-import { ResetPasswordPayload } from './types';
+import { ForgotPasswordFormData } from "@/schemas/auth/forgot-password-schema";
+import { LoginFormData } from "@/schemas/auth/login-schema";
+import { API } from "@/services/api";
+import { ResetPasswordPayload } from "./types";
 
 async function ForgotPassword({ email }: ForgotPasswordFormData) {
-  const response = await API.post('/auth/forgot-password', {
+  const response = await API.post("/auth/forgot-password", {
     email,
   });
 
@@ -12,7 +12,7 @@ async function ForgotPassword({ email }: ForgotPasswordFormData) {
 }
 
 async function login({ email, password }: LoginFormData) {
-  const response = await API.post('/auth/login', {
+  const response = await API.post("/auth/login", {
     email,
     password,
   });
@@ -22,7 +22,7 @@ async function login({ email, password }: LoginFormData) {
 
 async function ResetPassword({ token, newPassword }: ResetPasswordPayload) {
   console.log(newPassword);
-  const response = await API.post('/auth/reset-password', {
+  const response = await API.post("/auth/reset-password", {
     token,
     newPassword,
   });

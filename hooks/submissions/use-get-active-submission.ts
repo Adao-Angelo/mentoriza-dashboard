@@ -1,4 +1,4 @@
-import { ApiErrorResponse } from '@/services/students/Interfaces';
+import { ApiErrorResponse } from '@/services/service.types';
 import { Submission } from '@/services/submission/Interfaces';
 import { SubmissionsService } from '@/services/submission/submissions.service';
 import { useQuery } from '@tanstack/react-query';

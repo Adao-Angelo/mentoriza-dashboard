@@ -1,18 +1,18 @@
-import { API } from '@/services/api';
+import { API } from "@/services/api";
 import type {
   CreateStudentDto,
   LinkGroupDto,
   LinkUserDto,
   UpdateStudentDto,
-} from './Interfaces';
+} from "./Interfaces";
 
 async function createStudent(data: CreateStudentDto) {
-  const response = await API.post('/students', data);
+  const response = await API.post("/students", data);
   return response.data;
 }
 
 async function getAllStudents() {
-  const response = await API.get('/students');
+  const response = await API.get("/students");
   return response.data;
 }
 
@@ -73,11 +73,11 @@ async function deleteStudentCascade(id: number) {
 
 async function uploadStudentsCsv(file: File) {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append("file", file);
 
-  const response = await API.post('/uploads/students-csv', formData, {
+  const response = await API.post("/uploads/students-csv", formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
   });
 

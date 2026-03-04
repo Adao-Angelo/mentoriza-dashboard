@@ -1,13 +1,13 @@
-import { API } from '@/services/api';
-import { CreateIndicatorDto, UpdateIndicatorDto } from './Interfaces';
+import { API } from "@/services/api";
+import { CreateIndicatorDto, UpdateIndicatorDto } from "./Interfaces";
 
 async function createIndicator(data: CreateIndicatorDto) {
-  const response = await API.post('/indicators', data);
+  const response = await API.post("/indicators", data);
   return response.data;
 }
 
 async function getAllIndicators() {
-  const response = await API.get('/indicators');
+  const response = await API.get("/indicators");
   return response.data;
 }
 

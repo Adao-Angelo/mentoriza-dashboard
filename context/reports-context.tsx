@@ -32,11 +32,7 @@ export function ReportsProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateStatus = (id: string, status: string) => {
-    setReports((prev) =>
-      prev.map((r) =>
-        r.id === id ? { ...r, status } : r
-      )
-    );
+    setReports((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
   };
 
   return (

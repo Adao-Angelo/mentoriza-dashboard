@@ -1,11 +1,11 @@
 // src/components/indicators/IndicatorFormDialog.tsx
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -21,34 +21,34 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-import { useCreateIndicator } from '@/hooks/indicators/use-create-indicator';
-import { useUpdateIndicator } from '@/hooks/indicators/use-update-indicator';
+import { useCreateIndicator } from "@/hooks/indicators/use-create-indicator";
+import { useUpdateIndicator } from "@/hooks/indicators/use-update-indicator";
 import {
   CreateIndicatorDto,
   Indicator,
   UpdateIndicatorDto,
-} from '@/services/indicator/Interfaces';
-import GlobalLoader from '../loader';
+} from "@/services/indicator/Interfaces";
+import GlobalLoader from "../loader";
 
 const indicatorSchema = z.object({
   title: z
     .string()
-    .min(3, { message: 'O título deve ter pelo menos 3 caracteres' }),
+    .min(3, { message: "O título deve ter pelo menos 3 caracteres" }),
   value: z
     .number()
     .min(0)
-    .max(100, { message: 'O valor deve estar entre 0 e 100' }),
-  type: z.enum(['MIN', 'MAX'], { message: 'Selecione min ou max' }),
+    .max(100, { message: "O valor deve estar entre 0 e 100" }),
+  type: z.enum(["MIN", "MAX"], { message: "Selecione min ou max" }),
 });
 
 type IndicatorFormValues = z.infer<typeof indicatorSchema>;
@@ -71,9 +71,9 @@ export function IndicatorFormDialog({
   const form = useForm<IndicatorFormValues>({
     resolver: zodResolver(indicatorSchema),
     defaultValues: {
-      title: indicator?.title || '',
+      title: indicator?.title || "",
       value: indicator?.value || 0,
-      type: indicator?.type || 'MAX',
+      type: indicator?.type || "MAX",
     },
   });
 
@@ -86,7 +86,7 @@ export function IndicatorFormDialog({
             onOpenChange(false);
             form.reset();
           },
-        }
+        },
       );
     } else {
       create(values as CreateIndicatorDto, {
@@ -102,32 +102,32 @@ export function IndicatorFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? 'Editar Indicador' : 'Novo Indicador'}
+            {isEdit ? "Editar Indicador" : "Novo Indicador"}
           </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Altere os dados do indicador abaixo.'
-              : 'Preencha os dados para criar um novo indicador.'}
+              ? "Altere os dados do indicador abaixo."
+              : "Preencha os dados para criar um novo indicador."}
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='space-y-6 py-4'
+            className="space-y-6 py-4"
           >
             <FormField
               control={form.control}
               disabled
-              name='title'
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Título</FormLabel>
                   <FormControl>
-                    <Input placeholder='Ex: Nível máximo de IA' {...field} />
+                    <Input placeholder="Ex: Nível máximo de IA" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -136,14 +136,14 @@ export function IndicatorFormDialog({
 
             <FormField
               control={form.control}
-              name='value'
+              name="value"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Valor (%)</FormLabel>
                   <FormControl>
                     <Input
-                      type='number'
-                      placeholder='75'
+                      type="number"
+                      placeholder="75"
                       {...field}
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
@@ -155,7 +155,7 @@ export function IndicatorFormDialog({
 
             <FormField
               control={form.control}
-              name='type'
+              name="type"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tipo</FormLabel>
@@ -165,12 +165,12 @@ export function IndicatorFormDialog({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Selecione o tipo' />
+                        <SelectValue placeholder="Selecione o tipo" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value='MAX'>Máximo</SelectItem>
-                      <SelectItem value='MIN'>Mínimo</SelectItem>
+                      <SelectItem value="MAX">Máximo</SelectItem>
+                      <SelectItem value="MIN">Mínimo</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -180,15 +180,15 @@ export function IndicatorFormDialog({
 
             <DialogFooter>
               <Button
-                type='button'
-                variant='outline'
+                type="button"
+                variant="outline"
                 onClick={() => onOpenChange(false)}
               >
                 Cancelar
               </Button>
-              <Button type='submit' disabled={isPending}>
-                {isPending && <GlobalLoader variant='white-mini' />}
-                {isEdit ? 'Guardar Alterações' : 'Criar Indicador'}
+              <Button type="submit" disabled={isPending}>
+                {isPending && <GlobalLoader variant="white-mini" />}
+                {isEdit ? "Guardar Alterações" : "Criar Indicador"}
               </Button>
             </DialogFooter>
           </form>

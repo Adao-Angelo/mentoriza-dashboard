@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   AlertDialog,
@@ -9,8 +9,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { useConfirmStore } from '@/store/confirm-store';
+} from "@/components/ui/alert-dialog";
+import { useConfirmStore } from "@/store/confirm-store";
 
 export function ConfirmDialog() {
   const {
@@ -42,10 +42,10 @@ export function ConfirmDialog() {
           <AlertDialogDescription>{message}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel size={'lg'} onClick={handleCancel}>
+          <AlertDialogCancel size={"lg"} onClick={handleCancel}>
             {cancelText}
           </AlertDialogCancel>
-          <AlertDialogAction size={'lg'} onClick={handleConfirm}>
+          <AlertDialogAction size={"lg"} onClick={handleConfirm}>
             {confirmText}
           </AlertDialogAction>
         </AlertDialogFooter>

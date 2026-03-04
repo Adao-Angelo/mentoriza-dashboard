@@ -1,8 +1,8 @@
-import { API } from '../api';
-import type { CreateSubmissionDto, UpdateSubmissionDto } from './Interfaces';
+import { API } from "../api";
+import type { CreateSubmissionDto, UpdateSubmissionDto } from "./Interfaces";
 
 async function createSubmission(data: CreateSubmissionDto) {
-  const response = await API.post('/submissions', data);
+  const response = await API.post("/submissions", data);
   return response.data;
 }
 
@@ -12,12 +12,12 @@ async function updateSubmission(id: number, data: UpdateSubmissionDto) {
 }
 
 async function getActiveSubmission() {
-  const response = await API.get('/submissions/active');
+  const response = await API.get("/submissions/active");
   return response.data;
 }
 
 async function getAllSubmissions() {
-  const response = await API.get('/submissions');
+  const response = await API.get("/submissions");
   return response.data;
 }
 

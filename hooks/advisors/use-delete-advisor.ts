@@ -1,5 +1,5 @@
 import { AdvisorsService } from '@/services/advisor/advisors.service';
-import { ApiErrorResponse } from '@/services/students/Interfaces';
+import { ApiErrorResponse } from '@/services/service.types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';

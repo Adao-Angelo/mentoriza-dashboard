@@ -1,18 +1,18 @@
-import { API } from '@/services/api';
+import { API } from "@/services/api";
 import type {
   CreateReportDto,
   UpdateAIResultsPayload,
   UpdateReportDto,
   UpdateStatusPayload,
-} from './Interfaces';
+} from "./Interfaces";
 
 async function createReport(data: CreateReportDto) {
-  const res = await API.post('/reports', data);
+  const res = await API.post("/reports", data);
   return res.data;
 }
 
 async function getAllReports() {
-  const res = await API.get('/reports');
+  const res = await API.get("/reports");
   return res.data;
 }
 
@@ -43,7 +43,7 @@ async function updateReportStatus(id: number, payload: UpdateStatusPayload) {
 
 async function updateReportWithAIResults(
   id: number,
-  payload: UpdateAIResultsPayload
+  payload: UpdateAIResultsPayload,
 ) {
   const res = await API.patch(`/reports/${id}/ai-results`, payload);
   return res.data;
@@ -55,9 +55,9 @@ async function deleteReport(id: number) {
 }
 
 async function uploadReportPdf(formData: FormData) {
-  const res = await API.post('/uploads/reports-pdf', formData, {
+  const res = await API.post("/uploads/reports-pdf", formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
   });
 
@@ -65,9 +65,9 @@ async function uploadReportPdf(formData: FormData) {
 }
 
 async function uploadReportDocx(formData: FormData) {
-  const res = await API.post('/uploads/reports-docx', formData, {
+  const res = await API.post("/uploads/reports-docx", formData, {
     headers: {
-      'Content-Type': 'multipart/form-data',
+      "Content-Type": "multipart/form-data",
     },
   });
 

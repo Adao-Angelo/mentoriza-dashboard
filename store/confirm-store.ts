@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface ConfirmState {
   isOpen: boolean;
@@ -22,10 +22,10 @@ interface ConfirmState {
 
 export const useConfirmStore = create<ConfirmState>((set) => ({
   isOpen: false,
-  title: 'Confirmação',
-  message: '',
-  confirmText: 'Confirmar',
-  cancelText: 'Cancelar',
+  title: "Confirmação",
+  message: "",
+  confirmText: "Confirmar",
+  cancelText: "Cancelar",
   onConfirm: () => {},
   onCancel: () => {},
   resolve: null,
@@ -40,10 +40,10 @@ export const useConfirmStore = create<ConfirmState>((set) => ({
   }) =>
     set({
       isOpen: true,
-      title: title || 'Confirmação',
+      title: title || "Confirmação",
       message,
-      confirmText: confirmText || 'Confirmar',
-      cancelText: cancelText || 'Cancelar',
+      confirmText: confirmText || "Confirmar",
+      cancelText: cancelText || "Cancelar",
       onConfirm,
       onCancel: onCancel || (() => {}),
     }),
