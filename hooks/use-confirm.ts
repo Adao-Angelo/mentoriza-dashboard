@@ -1,4 +1,4 @@
-import { useConfirmStore } from '@/store/confirm-store';
+import { useConfirmStore } from "@/store/confirm-store";
 
 export function useConfirm() {
   const { openConfirm } = useConfirmStore();
