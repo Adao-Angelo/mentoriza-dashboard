@@ -22,7 +22,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Loader2 } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarDays, Loader2 } from "lucide-react";
 
 import { useCreateSubmission } from "@/hooks/submissions/use-create-submission";
 import { useUpdateSubmission } from "@/hooks/submissions/use-update-submission";
@@ -40,6 +41,13 @@ const submissionSchema = z.object({
 });
 
 type SubmissionFormValues = z.infer<typeof submissionSchema>;
+
+const toDateTimeLocal = (value?: string) => {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+  return format(date, "yyyy-MM-dd'T'HH:mm");
+};
 
 interface SubmissionFormDialogProps {
   open: boolean;
@@ -59,7 +67,9 @@ export function SubmissionFormDialog({
   const form = useForm<SubmissionFormValues>({
     resolver: zodResolver(submissionSchema),
     defaultValues: {
-      endDate: submission?.endDate || new Date().toISOString(),
+      endDate:
+        toDateTimeLocal(submission?.endDate) ||
+        toDateTimeLocal(new Date().toISOString()),
       stage: submission?.stage || 1,
     },
   });
@@ -96,9 +106,17 @@ export function SubmissionFormDialog({
               name="endDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Data de Término (ISO)</FormLabel>
+                  <FormLabel>Data e hora de término</FormLabel>
                   <FormControl>
-                    <Input type="datetime-local" {...field} />
+                    <Input
+                      type="datetime-local"
+                      leftIcon={
+                        <CalendarDays className="h-4 w-4 text-muted-foreground" />
+                      }
+                      {...field}
+                      value={field.value ? toDateTimeLocal(field.value) : ""}
+                      onChange={(event) => field.onChange(event.target.value)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

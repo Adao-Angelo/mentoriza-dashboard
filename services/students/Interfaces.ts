@@ -22,7 +22,19 @@ export interface Student {
   };
 }
 
-export type StudentListResponse = Student[];
+export interface StudentListResponse {
+  data: Student[];
+  meta: {
+    total: number;
+    page: number;
+    perPage: number;
+    totalPages: number;
+  };
+}
+
+export interface StudentArrayResponse {
+  data: Student[];
+}
 
 export interface StudentSingleResponse {
   data: Student;

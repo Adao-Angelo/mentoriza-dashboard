@@ -162,6 +162,7 @@ export function IndicatorFormDialog({
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={true}
                   >
                     <FormControl>
                       <SelectTrigger>

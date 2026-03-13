@@ -17,14 +17,24 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useStudents } from "@/hooks/students/use-students";
 import { useUploadStudentsCsv } from "@/hooks/students/use-upload-students-csv";
 import {
+  ArrowLeftIcon,
   ArrowRight,
   CloudUpload,
   FileSearch2,
   Loader2,
   Plus,
+  SearchIcon,
   Upload,
   X,
 } from "lucide-react";
@@ -40,9 +50,28 @@ const formSchema = z.object({
 export default function StudentsPage() {
   const [showDropzone, setShowDropzone] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
+  const [searchText, setSearchText] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "active" | "inactive"
+  >("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+
   const { mutate: uploadCsv, isPending: isUploading } = useUploadStudentsCsv();
 
-  const { data: students = [], isLoading } = useStudents();
+  const {
+    data: students = [],
+    isLoading,
+    meta,
+  } = useStudents({
+    page: currentPage,
+    perPage: pageSize,
+    q: searchText,
+    status: statusFilter === "all" ? undefined : statusFilter,
+  });
+
+  const totalPages = meta?.totalPages ?? 1;
+  const totalCount = meta?.total ?? 0;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,6 +89,8 @@ export default function StudentsPage() {
     uploadCsv(files[0], {
       onSuccess: () => {
         setFiles([]);
+        setShowDropzone(false);
+        form.reset();
       },
     });
   }
@@ -134,8 +165,7 @@ export default function StudentsPage() {
           {!showDropzone && (
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <h1 className="text-[18px] font-bold tracking-tight"></h1>
-
+                <div></div>
                 <div className="flex items-center gap-3">
                   <Button
                     variant="default"
@@ -160,6 +190,45 @@ export default function StudentsPage() {
                   </Button>
                 </div>
               </div>
+
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between bg-white p-5 rounded-xl">
+                <div className="flex flex-1 items-center gap-2">
+                  <Input
+                    value={searchText}
+                    onChange={(event) => {
+                      setSearchText(event.target.value);
+                      setCurrentPage(1);
+                    }}
+                    rightIcon={<SearchIcon size={20} />}
+                    placeholder="Buscar por nome, email, RA, curso ou turma"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Select
+                    value={statusFilter}
+                    onValueChange={(value) => {
+                      setStatusFilter(value as "all" | "active" | "inactive");
+                      setCurrentPage(1);
+                    }}
+                  >
+                    <SelectTrigger className="w-50" size="default">
+                      <SelectValue>
+                        {statusFilter === "all"
+                          ? "Todos"
+                          : statusFilter === "active"
+                            ? "Ativos"
+                            : "Inativos"}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Todos</SelectItem>
+                      <SelectItem value="active">Ativos</SelectItem>
+                      <SelectItem value="inactive">Inativos</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
               {isLoading ? (
                 <div className="text-center py-12 text-muted-foreground flex justify-center">
                   <GlobalLoader variant="mini" />
@@ -169,7 +238,43 @@ export default function StudentsPage() {
                   <EmptyUploadState onReopen={() => setShowDropzone(true)} />
                 </div>
               ) : (
-                <StudentsTable students={students} />
+                <>
+                  <p className="mb-2 text-sm text-muted-foreground">
+                    Exibindo {students.length} de {totalCount} estudante(s)
+                  </p>
+                  <StudentsTable students={students} />
+
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="text-sm text-muted-foreground">
+                      Página {currentPage} de {totalPages}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={currentPage <= 1}
+                        onClick={() =>
+                          setCurrentPage((prev) => Math.max(1, prev - 1))
+                        }
+                      >
+                        <ArrowLeftIcon /> Anterior
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={currentPage >= totalPages}
+                        onClick={() =>
+                          setCurrentPage((prev) =>
+                            Math.min(totalPages, prev + 1),
+                          )
+                        }
+                      >
+                        Próxima
+                        <ArrowRight />
+                      </Button>
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           )}

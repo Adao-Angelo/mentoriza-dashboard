@@ -13,9 +13,8 @@ export function useLinkStudentToGroup() {
 
     onSuccess: () => {
       toast.success("Estudante vinculado ao grupo");
-      queryClient.invalidateQueries({
-        queryKey: ["groups", "detail"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["groups", "detail"] });
+      queryClient.invalidateQueries({ queryKey: ["groups", "list"] });
       queryClient.invalidateQueries({ queryKey: ["students", "list"] });
     },
 

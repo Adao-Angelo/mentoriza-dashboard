@@ -72,7 +72,7 @@ export default function SubmissionsPage() {
   };
 
   return (
-    <div className="container  p-4 rounded-[12px]">
+    <div className="container rounded-[12px]">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <h1 className="text-1xl font-bold tracking-tight"></h1>
         <Button onClick={() => setOpenCreateDialog(true)}>
@@ -108,8 +108,7 @@ export default function SubmissionsPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Etapa</TableHead>
+                <TableHead>Fase</TableHead>
                 <TableHead>Início</TableHead>
                 <TableHead>Fim</TableHead>
                 <TableHead>Status</TableHead>
@@ -119,7 +118,6 @@ export default function SubmissionsPage() {
             <TableBody>
               {submissions.map((submission) => (
                 <TableRow key={submission.id}>
-                  <TableCell>#{submission.id}</TableCell>
                   <TableCell>{submission.stage}</TableCell>
                   <TableCell>
                     {new Date(submission.startDate).toLocaleDateString("pt-BR")}

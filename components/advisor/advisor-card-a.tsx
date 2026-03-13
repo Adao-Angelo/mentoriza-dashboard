@@ -97,17 +97,25 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
       <p className="text-sm mb-4 mt-4 bg-purple-100 text-primary p-1 px-2 w-fit rounded-full">
         {advisor.specialty || "Especialidade não definida"}
       </p>
-      <p className="text-sm text-muted-foreground">
-        {advisor.phone || "Não fornecido"}
+      <p className="text-sm text-muted-foreground font-bold">
+        {advisor.user?.phone || "Não fornecido"}
       </p>
 
       <div className="w-full border-b mt-4"></div>
       <div className="mt-2">
         <h1 className="font-bold text-[12px] text-Gray">GRUPOS ASSOCIADOS</h1>
         <div className="flex flex-wrap gap-2 mt-3">
-          {advisor.groups?.map((group, index) => (
+          {advisor.advisedGroups?.map((group, index) => (
             <span
-              key={`${group.id} + ${index}`}
+              key={`${group.name} + ${index}`}
+              className="text-[14px] bg-gray-200 text-gray-800 p-1 px-2 rounded-[8px] font-semibold"
+            >
+              {group.name}
+            </span>
+          ))}
+          {advisor.coAdvisedGroups?.map((group, index) => (
+            <span
+              key={`${group.name} + ${index}`}
               className="text-[14px] bg-gray-200 text-gray-800 p-1 px-2 rounded-[8px] font-semibold"
             >
               {group.name}

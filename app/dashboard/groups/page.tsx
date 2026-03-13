@@ -14,10 +14,13 @@ import {
 } from "@/components/ui/dialog";
 import { useGroups } from "@/hooks/groups/use-groups";
 import { Group } from "@/services/groups/Interfaces";
+import { Student } from "@/services/students/Interfaces";
 import {
-  closestCenter,
+  closestCorners,
   DndContext,
   DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -136,6 +139,7 @@ export default function GroupsPage() {
   const { selectedCourse } = useCourseStore();
 
   const [groups, setGroups] = useState<Group[]>([]);
+  const [activeStudent, setActiveStudent] = useState<Student | null>(null);
 
   const linkMutation = useLinkStudentToGroup();
   const generateMutation = useGenerateGroups();
@@ -156,6 +160,19 @@ export default function GroupsPage() {
     );
   };
 
+  const handleDragStart = (event: DragStartEvent) => {
+    const activeId = String(event.active.id);
+    const student = groups
+      .flatMap((group) => group.students)
+      .find((s) => String(s.id) === activeId);
+
+    setActiveStudent(student ?? null);
+  };
+
+  const handleDragCancel = () => {
+    setActiveStudent(null);
+  };
+
   useEffect(() => {
     if (groupsFromApi) {
       setGroups(groupsFromApi);
@@ -164,6 +181,8 @@ export default function GroupsPage() {
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
+
+    setActiveStudent(null);
 
     if (!over) {
       console.log("No over → dropped nowhere");
@@ -285,8 +304,10 @@ export default function GroupsPage() {
 
         <DndContext
           sensors={sensors}
-          collisionDetection={closestCenter}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
+          onDragCancel={handleDragCancel}
           modifiers={[]}
         >
           {hasGroups ? (
@@ -314,6 +335,21 @@ export default function GroupsPage() {
           ) : (
             <EmptyGroupsView />
           )}
+
+          <DragOverlay>
+            {activeStudent ? (
+              <div className="w-72">
+                <div className="rounded-lg border border-dashed border-purple-500 bg-white p-2 shadow-lg">
+                  <p className="font-semibold text-sm">
+                    {activeStudent.user?.name ?? "Estudante"}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {activeStudent.user?.email ?? ""}
+                  </p>
+                </div>
+              </div>
+            ) : null}
+          </DragOverlay>
         </DndContext>
 
         <GenerateGroupsDialogContent

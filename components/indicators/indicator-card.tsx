@@ -1,6 +1,6 @@
 "use client";
 
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ export function IndicatorCard({ indicator }: IndicatorCardProps) {
   const { mutate: remove } = useDeleteIndicator();
   const confirm = useConfirm();
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDelete = async () => {
     const confirmed = await confirm({
       title: "Remover Indicador",
@@ -59,25 +60,31 @@ export function IndicatorCard({ indicator }: IndicatorCardProps) {
                 <Pencil className="mr-2 h-4 w-4" />
                 Editar
               </DropdownMenuItem>
-              <DropdownMenuItem
-                className="text-destructive focus:text-destructive"
+              {/* <DropdownMenuItem
+                className='text-destructive focus:text-destructive'
                 onClick={handleDelete}
               >
-                <Trash2 className="mr-2 h-4 w-4 text-destructive" />
+                <Trash2 className='mr-2 h-4 w-4 text-destructive' />
                 Remover
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
-        <h3 className="text-[12px] h-10 overflow-hidden text-clip">
+        <h3 className="text-[12px] h-10 overflow-hidden text-clip font-semibold">
           {indicator.title}
         </h3>
+        <p className="text-Gray text-xs">{indicator.description}</p>
         <div className="flex item-end justify-between mt-6">
           <p className="text-xl font-bold text-primary ">{indicator.value}%</p>
           <div className="flex">
-            <p className="text-[12px] text-primary text-right bg-purple-100 rounded-full w-fit h-fit p-1 px-2">
+            <p className="text-[12px] text-primary text-right bg-purple-100 rounded-full w-fit h-fit p-1 px-2 flex gap-2">
               <strong>{indicator.type === "MAX" ? "Máximo" : "Mínimo"}</strong>
+              {/* {indicator.type === 'MAX' ? (
+                <ArrowUp size={18} />
+              ) : (
+                <ArrowDown size={18} />
+              )} */}
             </p>
           </div>
         </div>

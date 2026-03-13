@@ -15,6 +15,7 @@ export interface Indicator {
   title: string;
   value: number;
   type?: "MIN" | "MAX";
+  description?: string;
   createdAt: string;
   updatedAt: string;
 }

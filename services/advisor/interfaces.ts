@@ -20,7 +20,7 @@ export interface Advisor {
   email: string;
   specialty?: string;
   lattes?: string;
-  phone?: string;
+
   active: boolean;
   createdAt: string;
   updatedAt: string;
@@ -29,6 +29,9 @@ export interface Advisor {
     email: string;
     name?: string;
     status: string;
+    phone?: string;
   };
   groups?: Array<{ id: number; name: string }>;
+  advisedGroups: Array<{ name: string }>;
+  coAdvisedGroups: Array<{ name: string }>;
 }

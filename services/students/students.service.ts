@@ -11,8 +11,16 @@ async function createStudent(data: CreateStudentDto) {
   return response.data;
 }
 
-async function getAllStudents() {
-  const response = await API.get("/students");
+interface GetStudentsParams {
+  page?: number;
+  perPage?: number;
+  q?: string;
+  status?: string;
+  groupId?: number;
+}
+
+async function getAllStudents(params: GetStudentsParams = {}) {
+  const response = await API.get("/students", { params });
   return response.data;
 }
 
