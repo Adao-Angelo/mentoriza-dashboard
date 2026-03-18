@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import * as z from "zod";
 
-import CreateStudentDialog from '@/app/dashboard/students/components/create-student-dialog';
-import Dropzone from '@/components/dashboard/dropzone';
-import GlobalLoader from '@/components/loader';
-import { Button } from '@/components/ui/button';
+import CreateStudentDialog from "@/app/dashboard/students/components/create-student-dialog";
+import Dropzone from "@/components/dashboard/dropzone";
+import GlobalLoader from "@/components/loader";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,17 +17,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useStudents } from '@/hooks/students/use-students';
-import { useUploadStudentsCsv } from '@/hooks/students/use-upload-students-csv';
+} from "@/components/ui/select";
+import { useStudents } from "@/hooks/students/use-students";
+import { useUploadStudentsCsv } from "@/hooks/students/use-upload-students-csv";
 
 import {
   ArrowLeftIcon,
@@ -38,23 +38,23 @@ import {
   SearchIcon,
   Upload,
   X,
-} from 'lucide-react';
-import StudentsTable from './students-table';
+} from "lucide-react";
+import StudentsTable from "./students-table";
 
 const formSchema = z.object({
   files: z
     .array(z.instanceof(File))
-    .min(1, { message: 'Selecione pelo menos um ficheiro' })
-    .max(1, { message: 'Apenas um ficheiro por vez' }),
+    .min(1, { message: "Selecione pelo menos um ficheiro" })
+    .max(1, { message: "Apenas um ficheiro por vez" }),
 });
 
 export default function StudentsPage() {
   const [showDropzone, setShowDropzone] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState<
-    'all' | 'active' | 'inactive'
-  >('all');
+    "all" | "active" | "inactive"
+  >("all");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
@@ -68,7 +68,7 @@ export default function StudentsPage() {
     page: currentPage,
     perPage: pageSize,
     q: searchText,
-    status: statusFilter === 'all' ? undefined : statusFilter,
+    status: statusFilter === "all" ? undefined : statusFilter,
   });
 
   const totalPages = meta?.totalPages ?? 1;
@@ -83,7 +83,7 @@ export default function StudentsPage() {
 
   async function onSubmit() {
     if (files.length === 0) {
-      toast.error('Selecione pelo menos um ficheiro CSV');
+      toast.error("Selecione pelo menos um ficheiro CSV");
       return;
     }
 
@@ -97,30 +97,30 @@ export default function StudentsPage() {
   }
 
   return (
-    <div className='container'>
-      <div className='space-y-8'>
-        <div className=''>
+    <div className="container">
+      <div className="space-y-8">
+        <div className="">
           {showDropzone && (
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className='space-y-6'
+                className="space-y-6"
               >
                 <FormField
                   control={form.control}
-                  name='files'
+                  name="files"
                   render={({ field }) => (
                     <FormItem>
-                      <div className='flex items-start justify-between mb-4'>
-                        <FormLabel className='mt-0 font-semibold text-[16px]'>
+                      <div className="flex items-start justify-between mb-4">
+                        <FormLabel className="mt-0 font-semibold text-[16px]">
                           Carregar Estudantes
                         </FormLabel>
                         <button
                           onClick={() => setShowDropzone(false)}
-                          className='rounded-full p-1.5 hover:bg-muted transition-colors'
-                          aria-label='Fechar upload'
+                          className="rounded-full p-1.5 hover:bg-muted transition-colors"
+                          aria-label="Fechar upload"
                         >
-                          <X className='h-4 w-4 text-muted-foreground hover:text-foreground' />
+                          <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
                         </button>
                       </div>
 
@@ -132,8 +132,8 @@ export default function StudentsPage() {
                             setFiles(newFiles);
                           }}
                           maxFiles={1}
-                          title='Selecione o ficheiro CSV'
-                          description='O arquivo deve conter: nome, email, curso, turma, telefone, RA, data de nascimento'
+                          title="Selecione o ficheiro CSV"
+                          description="O arquivo deve conter: nome, email, curso, turma, telefone, RA, data de nascimento"
                         />
                       </FormControl>
                       <FormMessage />
@@ -141,21 +141,21 @@ export default function StudentsPage() {
                   )}
                 />
 
-                <div className='flex justify-end'>
+                <div className="flex justify-end">
                   <Button
-                    type='submit'
-                    size='sm'
+                    type="submit"
+                    size="sm"
                     disabled={isUploading || files.length === 0}
                   >
                     {isUploading ? (
                       <>
-                        <Loader2 className='mr-2 h-4 w-4 animate-spin' />A
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />A
                         processar...
                       </>
                     ) : (
                       <>
                         Enviar ficheiro
-                        <ArrowRight className='ml-2 h-4 w-4' />
+                        <ArrowRight className="ml-2 h-4 w-4" />
                       </>
                     )}
                   </Button>
@@ -164,13 +164,13 @@ export default function StudentsPage() {
             </Form>
           )}
           {!showDropzone && (
-            <div className='space-y-4'>
-              <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div></div>
-                <div className='flex items-center gap-3'>
+                <div className="flex items-center gap-3">
                   <Button
-                    variant='default'
-                    size={'lg'}
+                    variant="default"
+                    size={"lg"}
                     onClick={() => setShowDropzone(true)}
                   >
                     <Upload />
@@ -181,8 +181,8 @@ export default function StudentsPage() {
                 </div>
               </div>
 
-              <div className='mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between bg-white p-5 rounded-xl'>
-                <div className='flex flex-1 items-center gap-2'>
+              <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between bg-white p-5 rounded-xl">
+                <div className="flex flex-1 items-center gap-2">
                   <Input
                     value={searchText}
                     onChange={(event) => {
@@ -190,58 +190,58 @@ export default function StudentsPage() {
                       setCurrentPage(1);
                     }}
                     rightIcon={<SearchIcon size={20} />}
-                    placeholder='Buscar por nome, email, RA, curso ou turma'
+                    placeholder="Buscar por nome, email, RA, curso ou turma"
                   />
                 </div>
 
-                <div className='flex items-center gap-2'>
+                <div className="flex items-center gap-2">
                   <Select
                     value={statusFilter}
                     onValueChange={(value) => {
-                      setStatusFilter(value as 'all' | 'active' | 'inactive');
+                      setStatusFilter(value as "all" | "active" | "inactive");
                       setCurrentPage(1);
                     }}
                   >
-                    <SelectTrigger className='w-50' size='default'>
+                    <SelectTrigger className="w-50" size="default">
                       <SelectValue>
-                        {statusFilter === 'all'
-                          ? 'Todos'
-                          : statusFilter === 'active'
-                            ? 'Ativos'
-                            : 'Inativos'}
+                        {statusFilter === "all"
+                          ? "Todos"
+                          : statusFilter === "active"
+                            ? "Ativos"
+                            : "Inativos"}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value='all'>Todos</SelectItem>
-                      <SelectItem value='active'>Ativos</SelectItem>
-                      <SelectItem value='inactive'>Inativos</SelectItem>
+                      <SelectItem value="all">Todos</SelectItem>
+                      <SelectItem value="active">Ativos</SelectItem>
+                      <SelectItem value="inactive">Inativos</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               {isLoading ? (
-                <div className='text-center py-12 text-muted-foreground flex justify-center'>
-                  <GlobalLoader variant='mini' />
+                <div className="text-center py-12 text-muted-foreground flex justify-center">
+                  <GlobalLoader variant="mini" />
                 </div>
               ) : students.length === 0 ? (
-                <div className=''>
+                <div className="">
                   <EmptyUploadState onReopen={() => setShowDropzone(true)} />
                 </div>
               ) : (
                 <>
-                  <p className='mb-2 text-sm text-muted-foreground'>
+                  <p className="mb-2 text-sm text-muted-foreground">
                     Exibindo {students.length} de {totalCount} estudante(s)
                   </p>
                   <StudentsTable students={students} />
 
-                  <div className='flex items-center justify-between mt-4'>
-                    <div className='text-sm text-muted-foreground'>
+                  <div className="flex items-center justify-between mt-4">
+                    <div className="text-sm text-muted-foreground">
                       Página {currentPage} de {totalPages}
                     </div>
-                    <div className='flex items-center gap-2'>
+                    <div className="flex items-center gap-2">
                       <Button
-                        size='sm'
-                        variant='outline'
+                        size="sm"
+                        variant="outline"
                         disabled={currentPage <= 1}
                         onClick={() =>
                           setCurrentPage((prev) => Math.max(1, prev - 1))
@@ -250,12 +250,12 @@ export default function StudentsPage() {
                         <ArrowLeftIcon /> Anterior
                       </Button>
                       <Button
-                        size='sm'
-                        variant='outline'
+                        size="sm"
+                        variant="outline"
                         disabled={currentPage >= totalPages}
                         onClick={() =>
                           setCurrentPage((prev) =>
-                            Math.min(totalPages, prev + 1)
+                            Math.min(totalPages, prev + 1),
                           )
                         }
                       >
@@ -276,17 +276,17 @@ export default function StudentsPage() {
 
 function EmptyUploadState({ onReopen }: { onReopen: () => void }) {
   return (
-    <div className='flex flex-col items-center justify-center py-10 text-center'>
+    <div className="flex flex-col items-center justify-center py-10 text-center">
       <FileSearch2
         strokeWidth={1.5}
-        className='h-12 w-12 text-muted-foreground mb-4'
+        className="h-12 w-12 text-muted-foreground mb-4"
       />
-      <h3 className='text-[14px] font-medium'>Nenhum upload ativo</h3>
-      <p className='text-[12px] text-muted-foreground mt-1 max-w-md'>
+      <h3 className="text-[14px] font-medium">Nenhum upload ativo</h3>
+      <p className="text-[12px] text-muted-foreground mt-1 max-w-md">
         Clique no botão abaixo para abrir o carregador de arquivos CSV.
       </p>
-      <Button className='mt-6 gap-2 w-50' onClick={onReopen}>
-        <CloudUpload className='h-4 w-4' />
+      <Button className="mt-6 gap-2 w-50" onClick={onReopen}>
+        <CloudUpload className="h-4 w-4" />
         Carregar ficheiro
       </Button>
     </div>

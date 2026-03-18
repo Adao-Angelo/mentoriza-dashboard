@@ -1,17 +1,17 @@
-import { API } from '@/services/api';
+import { API } from "@/services/api";
 import type {
   CreateFeedbackDto,
   Feedback,
   UpdateFeedbackDto,
-} from './interfaces';
+} from "./interfaces";
 
 async function getFeedbacks(params?: { groupId?: number; reportId?: number }) {
-  const res = await API.get<Feedback[]>('/feedbacks', { params });
+  const res = await API.get<Feedback[]>("/feedbacks", { params });
   return res.data;
 }
 
 async function createFeedback(data: CreateFeedbackDto) {
-  const res = await API.post<Feedback>('/feedbacks', data);
+  const res = await API.post<Feedback>("/feedbacks", data);
   return res.data;
 }
 

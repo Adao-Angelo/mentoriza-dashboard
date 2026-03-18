@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Student } from '@/services/students/Interfaces';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import MemberCard from './member-card';
+import { Student } from "@/services/students/Interfaces";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import MemberCard from "./member-card";
 
 type SortableMemberProps = {
   id: string;
@@ -30,8 +30,8 @@ export default function SortableMember({ id, student }: SortableMemberProps) {
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <MemberCard
         studentId={student?.id}
-        name={student?.user?.name ?? ''}
-        email={student?.user?.email ?? ''}
+        name={student?.user?.name ?? ""}
+        email={student?.user?.email ?? ""}
       />
     </div>
   );

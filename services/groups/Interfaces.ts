@@ -1,4 +1,4 @@
-import { Student } from '../students/Interfaces';
+import { Student } from "../students/Interfaces";
 
 export interface AdvisorUser {
   name: string;

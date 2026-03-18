@@ -1,16 +1,16 @@
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { useCreateStudent } from '@/hooks/students/use-create-student';
-import { CreateStudentDto } from '@/services/students/Interfaces';
+import { useCreateStudent } from "@/hooks/students/use-create-student";
+import { CreateStudentDto } from "@/services/students/Interfaces";
 
 export const createStudentSchema = z.object({
-  email: z.string().email({ message: 'Email inválido' }),
-  name: z.string().min(2, { message: 'Nome deve ter pelo menos 2 caracteres' }),
-  ra: z.string().min(1, { message: 'RA é obrigatório' }),
-  course: z.string().min(1, { message: 'Curso é obrigatório' }),
+  email: z.string().email({ message: "Email inválido" }),
+  name: z.string().min(2, { message: "Nome deve ter pelo menos 2 caracteres" }),
+  ra: z.string().min(1, { message: "RA é obrigatório" }),
+  course: z.string().min(1, { message: "Curso é obrigatório" }),
   class: z.string().optional(),
   phone: z.string().optional(),
   birthDate: z.string().optional(),
@@ -25,13 +25,13 @@ export function useCreateStudentDialog() {
   const form = useForm<CreateStudentInput>({
     resolver: zodResolver(createStudentSchema),
     defaultValues: {
-      email: '',
-      name: '',
-      ra: 'none',
-      course: 'none',
-      class: '',
-      phone: '',
-      birthDate: '',
+      email: "",
+      name: "",
+      ra: "none",
+      course: "none",
+      class: "",
+      phone: "",
+      birthDate: "",
     },
   });
 
@@ -39,8 +39,8 @@ export function useCreateStudentDialog() {
     const payload: CreateStudentDto = {
       email: values.email,
       name: values.name,
-      ra: values.ra === 'none' ? undefined : values.ra,
-      course: values.course === 'none' ? undefined : values.course,
+      ra: values.ra === "none" ? undefined : values.ra,
+      course: values.course === "none" ? undefined : values.course,
       class: values.class || undefined,
       phone: values.phone || undefined,
       birthDate: values.birthDate || undefined,
@@ -50,13 +50,13 @@ export function useCreateStudentDialog() {
       onSuccess: () => {
         setIsOpen(false);
         form.reset({
-          email: '',
-          name: '',
-          ra: '',
-          course: '',
-          class: '',
-          phone: '',
-          birthDate: '',
+          email: "",
+          name: "",
+          ra: "",
+          course: "",
+          class: "",
+          phone: "",
+          birthDate: "",
         });
       },
     });
