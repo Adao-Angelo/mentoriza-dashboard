@@ -1,4 +1,4 @@
-import { Student } from "../students/Interfaces";
+import { Student } from '../students/Interfaces';
 
 export interface AdvisorUser {
   name: string;
@@ -9,6 +9,9 @@ export interface Group {
   id: number;
   name: string;
   course: string;
+  title?: string;
+  description?: string;
+  information?: string;
   advisor?: {
     id: number;
     specialty: string;
@@ -40,6 +43,9 @@ export interface CreateGroupDto {
 export interface UpdateGroupDto {
   name?: string;
   course?: string;
+  title?: string;
+  description?: string;
+  information?: string;
   advisorId?: number;
   coAdvisorId?: number;
 }

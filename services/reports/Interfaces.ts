@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Group } from "../groups/Interfaces";
-import { Submission } from "../submission/Interfaces";
+import { Group } from '../groups/Interfaces';
+import { Submission } from '../submission/Interfaces';
 
-type ReportStatus = "under_review" | "approved" | "rejected";
+type ReportStatus = 'under_review' | 'approved' | 'rejected';
 
 export interface CreateReportDto {
   groupId: number;
@@ -29,6 +29,7 @@ export interface Report {
   fileUrl: string;
   publicId?: string;
   status: ReportStatus;
+  rejectionReason?: string;
   score?: number;
   observations?: string[];
   keyResults?: Record<string, unknown>;
@@ -48,6 +49,7 @@ export interface ReportSingleResponse {
 
 export interface UpdateStatusPayload {
   status: ReportStatus;
+  rejectionReason?: string;
 }
 
 export interface UpdateAIResultsPayload {
