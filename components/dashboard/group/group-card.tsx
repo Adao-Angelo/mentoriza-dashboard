@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import AdvisorCard from '@/components/advisor/advisor-card';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Group } from '@/services/groups/Interfaces';
-import { Plus } from 'lucide-react';
-import { ReactNode, useState } from 'react';
-import { AddAdvisorToGroupModal } from './add-advisor-to-group-modal';
-import { AddStudentToGroupModal } from './add-student-to-group-modal';
-import AdvisorList from './advisor-list';
-import GroupHeader from './group-header';
+import AdvisorCard from "@/components/advisor/advisor-card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Group } from "@/services/groups/Interfaces";
+import { Plus } from "lucide-react";
+import { ReactNode, useState } from "react";
+import { AddAdvisorToGroupModal } from "./add-advisor-to-group-modal";
+import { AddStudentToGroupModal } from "./add-student-to-group-modal";
+import AdvisorList from "./advisor-list";
+import GroupHeader from "./group-header";
 
 interface GroupCardProps {
   children: ReactNode;
@@ -26,15 +26,15 @@ export default function GroupCard({ children, group }: GroupCardProps) {
     <div
       onMouseEnter={() => setShowAddButton(true)}
       onMouseLeave={() => setShowAddButton(false)}
-      className='min-w-70.75 rounded-lg  bg-white border border-[#DEDEE6] h-fix! '
+      className="min-w-70.75 rounded-lg  bg-white border border-[#DEDEE6] h-fix! "
     >
       <GroupHeader
         group={group}
         groupName={group?.name}
-        description={group?.title || group?.description || 'Grupo sem Tema '}
+        description={group?.title || group?.description || "Grupo sem Tema "}
       />
 
-      <div className='relative'>
+      <div className="relative">
         {children}
 
         <div
@@ -43,37 +43,37 @@ export default function GroupCard({ children, group }: GroupCardProps) {
             transition-all duration-300 ease-in-out
             ${
               showAddButton
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-2 pointer-events-none'
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-2 pointer-events-none"
             }
           `}
         >
           <Button
-            className='w-full'
+            className="w-full"
             onClick={() => setAddStudentOpen(true)}
-            variant='outline'
-            size='sm'
+            variant="outline"
+            size="sm"
           >
             Adicionar Estudante
-            <Plus size={20} className='ml-2' />
+            <Plus size={20} className="ml-2" />
           </Button>
         </div>
       </div>
-      <Separator className='mt-8' />
+      <Separator className="mt-8" />
       <AdvisorList>
         {group.advisor && (
           <AdvisorCard
             advisorId={group.advisor?.id}
-            name={group.advisor?.user?.name ?? ''}
-            role='Orientador'
+            name={group.advisor?.user?.name ?? ""}
+            role="Orientador"
             group={group}
           />
         )}
         {group.coAdvisor && (
           <AdvisorCard
             advisorId={group.coAdvisor?.id}
-            name={group.coAdvisor?.user?.name ?? ''}
-            role='Co-orientador'
+            name={group.coAdvisor?.user?.name ?? ""}
+            role="Co-orientador"
             group={group}
             isCoAdvisor
           />
@@ -81,8 +81,8 @@ export default function GroupCard({ children, group }: GroupCardProps) {
         {!group.advisor && (
           <Button
             onClick={() => setAddAdvisorOpen(true)}
-            variant={'outline'}
-            size={'sm'}
+            variant={"outline"}
+            size={"sm"}
           >
             <Plus size={14} /> Adicionar orientador
           </Button>
@@ -90,8 +90,8 @@ export default function GroupCard({ children, group }: GroupCardProps) {
         {!group.coAdvisor && (
           <Button
             onClick={() => setAddCoAdvisorOpen(true)}
-            variant={'outline'}
-            size={'sm'}
+            variant={"outline"}
+            size={"sm"}
           >
             <Plus size={14} /> Adicionar co-orientador
           </Button>
