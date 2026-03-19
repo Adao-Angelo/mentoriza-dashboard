@@ -1,19 +1,24 @@
-import { API } from "../api";
-import { LinkUserDto } from "../students/Interfaces";
-import { CreateAdvisorDto, UpdateAdvisorDto } from "./interfaces";
+import { API } from '../api';
+import { LinkUserDto } from '../students/Interfaces';
+import { CreateAdvisorDto, UpdateAdvisorDto } from './interfaces';
 
 async function createAdvisor(data: CreateAdvisorDto) {
-  const response = await API.post("/advisors", data);
+  const response = await API.post('/advisors', data);
   return response.data;
 }
 
 async function getAllAdvisors() {
-  const response = await API.get("/advisors");
+  const response = await API.get('/advisors');
   return response.data;
 }
 
 async function getAdvisor(id: number) {
   const response = await API.get(`/advisors/${id}`);
+  return response.data;
+}
+
+async function deleteAdvisor(id: number) {
+  const response = await API.delete(`/advisors/${id}`);
   return response.data;
 }
 
@@ -63,4 +68,5 @@ export const AdvisorsService = {
   unlinkAdvisorFromUser,
   getAdvisorUser,
   getAdvisedGroups,
+  deleteAdvisor,
 };

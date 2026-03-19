@@ -10,6 +10,7 @@ export default function GroupsBoard({ children }: GroupBoardProps) {
       <div
         className='
          w-full h-full
+         absolute inset-0
           overflow-x-auto overflow-y-hidden 
           scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent
           px-4 pb-6 pt-4

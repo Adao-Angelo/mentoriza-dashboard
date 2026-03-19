@@ -1,19 +1,21 @@
 import { GroupsService } from '@/services/groups/groups.service';
-import { LinkAdvisorDto } from '@/services/groups/Interfaces';
 import { IErrorResponse } from '@/shared/Interface/IErrorResponse';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { toast } from 'react-hot-toast';
 
-export function useLinkAdvisor(groupId: number) {
+interface UseUnlinkCoAdvisorProps {
+  groupId: number;
+}
+
+export function useUnlinkCoAdvisor({ groupId }: UseUnlinkCoAdvisorProps) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: LinkAdvisorDto) =>
-      await GroupsService.linkAdvisor(groupId, data),
+    mutationFn: () => GroupsService.unlinkCoAdvisor(groupId),
 
     onSuccess: () => {
-      toast.success('Orientador vinculado com sucesso');
+      toast.success('Co-orientador removido do grupo');
       queryClient.invalidateQueries({
         queryKey: ['groups', 'detail', groupId],
       });
@@ -22,7 +24,7 @@ export function useLinkAdvisor(groupId: number) {
 
     onError: (error: AxiosError<IErrorResponse>) => {
       const msg =
-        error?.response?.data?.message || 'Erro ao vincular orientador';
+        error?.response?.data?.message || 'Erro ao remover orientador';
       toast.error(Array.isArray(msg) ? msg[0] : msg);
     },
   });

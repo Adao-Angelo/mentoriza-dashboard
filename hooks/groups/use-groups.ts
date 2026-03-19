@@ -1,13 +1,13 @@
-import { GroupsService } from "@/services/groups/groups.service";
-import { Group } from "@/services/groups/Interfaces";
-import { IErrorResponse } from "@/shared/Interface/IErrorResponse";
-import { useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { GroupsService } from '@/services/groups/groups.service';
+import { Group } from '@/services/groups/Interfaces';
+import { IErrorResponse } from '@/shared/Interface/IErrorResponse';
+import { useQuery } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
-export function useGroups() {
+export function useGroups({ course }: { course: string }) {
   return useQuery<Group[], AxiosError<IErrorResponse>>({
-    queryKey: ["groups", "list"],
-    queryFn: GroupsService.getAllGroups,
+    queryKey: ['groups', 'list', course],
+    queryFn: () => GroupsService.getAllGroups(course),
     staleTime: 1000 * 60 * 5,
   });
 }
