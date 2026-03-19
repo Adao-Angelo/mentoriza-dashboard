@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { API } from '@/services/api';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { API } from "@/services/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export function useLinkAdvisorToGroup(isCoAdvisor: boolean = false) {
   const queryClient = useQueryClient();
@@ -22,18 +22,18 @@ export function useLinkAdvisorToGroup(isCoAdvisor: boolean = false) {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['groups'] });
-      queryClient.invalidateQueries({ queryKey: ['groups', 'list'] });
-      queryClient.invalidateQueries({ queryKey: ['advisors'] });
-      queryClient.invalidateQueries({ queryKey: ['advisors', 'list'] });
+      queryClient.invalidateQueries({ queryKey: ["groups"] });
+      queryClient.invalidateQueries({ queryKey: ["groups", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["advisors"] });
+      queryClient.invalidateQueries({ queryKey: ["advisors", "list"] });
 
       toast.success(
-        `Orientador ${isCoAdvisor ? 'co-' : ''}vinculado com sucesso!`
+        `Orientador ${isCoAdvisor ? "co-" : ""}vinculado com sucesso!`,
       );
     },
     onError: (error: any) => {
       const message =
-        error.response?.data?.message || 'Erro ao vincular orientador';
+        error.response?.data?.message || "Erro ao vincular orientador";
       toast.error(Array.isArray(message) ? message[0] : message);
     },
   });
