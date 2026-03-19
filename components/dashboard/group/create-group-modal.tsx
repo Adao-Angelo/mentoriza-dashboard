@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -26,8 +27,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useUpdateGroup } from '@/hooks/groups/useUpdateGroup';
-import { Group } from '@/services/groups/Interfaces';
+import { useCreateGroup } from '@/hooks/groups/use-create-group';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -38,53 +38,52 @@ const formSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
   information: z.string().optional(),
+  advisorId: z.number().optional().nullable(),
+  coAdvisorId: z.number().optional().nullable(),
 });
 
-type EditGroupFormData = z.infer<typeof formSchema>;
+type CreateGroupFormData = z.infer<typeof formSchema>;
 
-interface EditGroupModalProps {
-  group: Group;
+interface CreateGroupModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export default function EditGroupModal({
-  group,
+export default function CreateGroupModal({
   isOpen,
   onOpenChange,
-}: EditGroupModalProps) {
-  const { mutate: updateGroup, isPending } = useUpdateGroup();
+}: CreateGroupModalProps) {
+  const { mutate: createGroup, isPending } = useCreateGroup();
 
-  const form = useForm<EditGroupFormData>({
+  const form = useForm<CreateGroupFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: group.name,
-      course: group.course,
-      title: group.title || '',
-      description: group.description || '',
-      information: group.information || '',
+      name: '',
+      course: '',
+      title: '',
+      description: '',
+      information: '',
+      advisorId: null,
+      coAdvisorId: null,
     },
   });
 
-  const onSubmit = (data: EditGroupFormData) => {
-    updateGroup(
-      { id: group.id, data },
-      {
-        onSuccess: () => {
-          onOpenChange(false);
-          form.reset();
-        },
-      }
-    );
+  const onSubmit = (data: CreateGroupFormData) => {
+    createGroup(data as any, {
+      onSuccess: () => {
+        onOpenChange(false);
+        form.reset();
+      },
+    });
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className='sm:max-w-[600px]'>
         <DialogHeader>
-          <DialogTitle>Editar Grupo</DialogTitle>
+          <DialogTitle>Criar Novo Grupo</DialogTitle>
           <DialogDescription>
-            Atualize as informações do grupo abaixo.
+            Preencha as informações do novo grupo abaixo.
           </DialogDescription>
         </DialogHeader>
 
@@ -95,7 +94,7 @@ export default function EditGroupModal({
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome do Grupo</FormLabel>
+                  <FormLabel>Nome do Grupo *</FormLabel>
                   <FormControl>
                     <Input placeholder='Nome do grupo' {...field} />
                   </FormControl>
@@ -109,9 +108,12 @@ export default function EditGroupModal({
               name='course'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Curso</FormLabel>
+                  <FormLabel>Curso *</FormLabel>
                   <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select
+                      value={field.value || ''}
+                      onValueChange={field.onChange}
+                    >
                       <SelectTrigger className='w-full h-12!'>
                         <SelectValue placeholder='Selecione curso' />
                       </SelectTrigger>
@@ -190,7 +192,7 @@ export default function EditGroupModal({
                 Cancelar
               </Button>
               <Button type='submit' disabled={isPending}>
-                {isPending ? 'Salvando...' : 'Atualizar Informações'}
+                {isPending ? 'Criando...' : 'Criar Grupo'}
               </Button>
             </DialogFooter>
           </form>
