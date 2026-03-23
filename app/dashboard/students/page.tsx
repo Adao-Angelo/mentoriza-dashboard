@@ -61,7 +61,6 @@ const formSchema = z.object({
     .max(1, { message: "Apenas um ficheiro por vez" }),
 });
 
-
 function CourseTabs() {
   const { selectedCourse, setSelectedCourse } = useCourseStore();
   const router = useRouter();
