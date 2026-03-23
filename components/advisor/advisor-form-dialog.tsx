@@ -1,11 +1,11 @@
 // src/components/advisors/AdvisorFormDialog.tsx
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +13,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -21,27 +21,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Loader2 } from "lucide-react";
 
-import { useCreateAdvisor } from '@/hooks/advisors/use-create-advisor';
-import { useUpdateAdvisor } from '@/hooks/advisors/use-update-advisor';
+import { useCreateAdvisor } from "@/hooks/advisors/use-create-advisor";
+import { useUpdateAdvisor } from "@/hooks/advisors/use-update-advisor";
 import {
   Advisor,
   CreateAdvisorDto,
   UpdateAdvisorDto,
-} from '@/services/advisor/interfaces';
+} from "@/services/advisor/interfaces";
 
 const advisorSchema = z.object({
-  email: z.string().email({ message: 'Email inválido' }),
-  name: z.string().min(3, { message: 'Nome deve ter pelo menos 3 caracteres' }),
+  email: z.string().email({ message: "Email inválido" }),
+  name: z.string().min(3, { message: "Nome deve ter pelo menos 3 caracteres" }),
   specialty: z.string().optional(),
   lattes: z
     .string()
-    .url({ message: 'URL inválida' })
+    .url({ message: "URL inválida" })
     .optional()
-    .or(z.literal('')),
+    .or(z.literal("")),
   phone: z.string().optional(),
 });
 
@@ -65,11 +65,11 @@ export function AdvisorFormDialog({
   const form = useForm<AdvisorFormValues>({
     resolver: zodResolver(advisorSchema),
     defaultValues: {
-      email: advisor?.email || '',
-      name: advisor?.name || '',
-      specialty: advisor?.specialty || '',
-      lattes: advisor?.lattes || '',
-      phone: advisor?.user?.phone || '',
+      email: advisor?.email || "",
+      name: advisor?.name || "",
+      specialty: advisor?.specialty || "",
+      lattes: advisor?.lattes || "",
+      phone: advisor?.user?.phone || "",
     },
   });
 
@@ -86,27 +86,27 @@ export function AdvisorFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-md'>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? 'Editar Orientador' : 'Novo Orientador'}
+            {isEdit ? "Editar Orientador" : "Novo Orientador"}
           </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Atualize os detalhes do orientador.'
-              : 'Crie um novo orientador.'}
+              ? "Atualize os detalhes do orientador."
+              : "Crie um novo orientador."}
           </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             <FormField
-              name='name'
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder='Dr. Carlos Silva' {...field} />
+                    <Input placeholder="Dr. Carlos Silva" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -114,14 +114,14 @@ export function AdvisorFormDialog({
             />
 
             <FormField
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
-                      type='email'
-                      placeholder='orientador@example.com'
+                      type="email"
+                      placeholder="orientador@example.com"
                       {...field}
                     />
                   </FormControl>
@@ -131,12 +131,12 @@ export function AdvisorFormDialog({
             />
 
             <FormField
-              name='specialty'
+              name="specialty"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Especialidade</FormLabel>
                   <FormControl>
-                    <Input placeholder='Inteligência Artificial' {...field} />
+                    <Input placeholder="Inteligência Artificial" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -144,12 +144,12 @@ export function AdvisorFormDialog({
             />
 
             <FormField
-              name='phone'
+              name="phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Telefone</FormLabel>
                   <FormControl>
-                    <Input placeholder='(244) 912-345678' {...field} />
+                    <Input placeholder="(244) 912-345678" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -157,9 +157,9 @@ export function AdvisorFormDialog({
             />
 
             <DialogFooter>
-              <Button type='submit' disabled={isPending}>
-                {isPending && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-                {isEdit ? 'Atualizar' : 'Criar Orientador'}
+              <Button type="submit" disabled={isPending}>
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {isEdit ? "Atualizar" : "Criar Orientador"}
               </Button>
             </DialogFooter>
           </form>
