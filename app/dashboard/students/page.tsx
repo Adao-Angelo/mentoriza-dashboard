@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import * as z from 'zod';
@@ -40,6 +40,9 @@ import {
   X,
 } from 'lucide-react';
 import StudentsTable from './students-table';
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useCourseStore } from "@/store/use-course.store";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   files: z
@@ -47,6 +50,15 @@ const formSchema = z.object({
     .min(1, { message: 'Selecione pelo menos um ficheiro' })
     .max(1, { message: 'Apenas um ficheiro por vez' }),
 });
+
+type CourseType = "engenharia_electronica" | "engenharia_informatica";
+
+const COURSE_LABELS: Record<CourseType, string> = {
+  engenharia_electronica: "Eletrônica",
+  engenharia_informatica: "Informática",
+};
+
+const DEFAULT_COURSE: CourseType = "engenharia_informatica";
 
 function CourseTabs() {
   const { selectedCourse, setSelectedCourse } = useCourseStore();
@@ -228,7 +240,9 @@ export default function StudentsPage() {
           {!showDropzone && (
             <div className='space-y-4'>
               <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
-                <div></div>
+                <div>
+                  <CourseTabs />
+                </div>
                 <div className='flex items-center gap-3'>
                   <Button
                     variant='default'
