@@ -40,6 +40,19 @@ import {
   X,
 } from "lucide-react";
 import StudentsTable from "./students-table";
+import { useCourseStore } from "@/store/use-course.store";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect } from "react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+type CourseType = "engenharia_electronica" | "engenharia_informatica";
+
+const COURSE_LABELS: Record<CourseType, string> = {
+  engenharia_electronica: "Eletrônica",
+  engenharia_informatica: "Informática",
+};
+
+const DEFAULT_COURSE: CourseType = "engenharia_informatica";
 
 const formSchema = z.object({
   files: z
@@ -47,6 +60,69 @@ const formSchema = z.object({
     .min(1, { message: "Selecione pelo menos um ficheiro" })
     .max(1, { message: "Apenas um ficheiro por vez" }),
 });
+
+
+function CourseTabs() {
+  const { selectedCourse, setSelectedCourse } = useCourseStore();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  useEffect(() => {
+    const courseFromUrl = searchParams.get("course") as CourseType | null;
+
+    let courseToUse: CourseType;
+
+    if (courseFromUrl && Object.keys(COURSE_LABELS).includes(courseFromUrl)) {
+      courseToUse = courseFromUrl;
+    } else {
+      courseToUse = DEFAULT_COURSE;
+
+      router.replace(
+        `${pathname}?${createQueryString("course", DEFAULT_COURSE)}`,
+        { scroll: false },
+      );
+    }
+
+    if (selectedCourse !== courseToUse) {
+      setSelectedCourse(courseToUse);
+    }
+  }, [searchParams, pathname, router, setSelectedCourse, createQueryString]);
+
+  const handleCourseChange = (value: string) => {
+    const newCourse = value as CourseType;
+    setSelectedCourse(newCourse);
+
+    router.push(`${pathname}?${createQueryString("course", newCourse)}`, {
+      scroll: false,
+    });
+  };
+
+  return (
+    <Tabs
+      value={selectedCourse || DEFAULT_COURSE}
+      onValueChange={handleCourseChange}
+      className="w-fit"
+    >
+      <TabsList>
+        {Object.entries(COURSE_LABELS).map(([value, label]) => (
+          <TabsTrigger key={value} className="px-8" value={value}>
+            {label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
+  );
+}
 
 export default function StudentsPage() {
   const [showDropzone, setShowDropzone] = useState(false);
@@ -166,7 +242,9 @@ export default function StudentsPage() {
           {!showDropzone && (
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div></div>
+                <div>
+                  <CourseTabs />
+                </div>
                 <div className="flex items-center gap-3">
                   <Button
                     variant="default"
