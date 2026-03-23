@@ -2,6 +2,7 @@
 
 import DashboardCard from "@/components/dashboard/card";
 import StatsCard from "@/components/dashboard/card-Stats";
+import { ReportsChart } from "@/components/dashboard/charts/reports-chart";
 import { useDashboardStats } from "@/hooks/dashboard/use-dashboard-stats";
 import { FileSpreadsheet, GraduationCap, Users } from "lucide-react";
 
@@ -49,6 +50,10 @@ export default function DashboardPage() {
           ]}
         />
       </DashboardCard>
+
+      <div className="md:col-span-4">
+        <ReportsChart />
+      </div>
     </div>
   );
 }

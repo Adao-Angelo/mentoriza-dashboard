@@ -4,51 +4,118 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCourseStore } from "@/store/use-course.store";
 import { ArrowUpFromLine, FileUp, Plus } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import CreateGroupModal from "../group/create-group-modal";
 
-export default function GroupHeader() {
+type CourseType = "engenharia_electronica" | "engenharia_informatica";
+
+const COURSE_LABELS: Record<CourseType, string> = {
+  engenharia_electronica: "Eletrônica",
+  engenharia_informatica: "Informática",
+};
+
+const DEFAULT_COURSE: CourseType = "engenharia_informatica";
+
+function CourseTabs() {
   const { selectedCourse, setSelectedCourse } = useCourseStore();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  useEffect(() => {
+    const courseFromUrl = searchParams.get("course") as CourseType | null;
+
+    let courseToUse: CourseType;
+
+    if (courseFromUrl && Object.keys(COURSE_LABELS).includes(courseFromUrl)) {
+      courseToUse = courseFromUrl;
+    } else {
+      courseToUse = DEFAULT_COURSE;
+
+      router.replace(
+        `${pathname}?${createQueryString("course", DEFAULT_COURSE)}`,
+        { scroll: false },
+      );
+    }
+
+    if (selectedCourse !== courseToUse) {
+      setSelectedCourse(courseToUse);
+    }
+  }, [searchParams, pathname, router, setSelectedCourse, createQueryString]);
+
+  const handleCourseChange = (value: string) => {
+    const newCourse = value as CourseType;
+    setSelectedCourse(newCourse);
+
+    router.push(`${pathname}?${createQueryString("course", newCourse)}`, {
+      scroll: false,
+    });
+  };
 
   return (
-    <div className="w-full h-12 flex justify-between items-center mt-2">
-      <div className="flex items-center justify-center gap-2">
-        <Tabs
-          value={selectedCourse}
-          onValueChange={(value) =>
-            setSelectedCourse(
-              value as "engenharia_electronica" | "engenharia_informatica",
-            )
-          }
-          className="w-fit"
-        >
-          <TabsList>
-            <TabsTrigger className="px-8" value="engenharia_electronica">
-              Electronica
-            </TabsTrigger>
-            <TabsTrigger className="px-8" value="engenharia_informatica">
-              Informática
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
+    <Tabs
+      value={selectedCourse || DEFAULT_COURSE}
+      onValueChange={handleCourseChange}
+      className="w-fit"
+    >
+      <TabsList>
+        {Object.entries(COURSE_LABELS).map(([value, label]) => (
+          <TabsTrigger key={value} className="px-8" value={value}>
+            {label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
+  );
+}
+function ActionButtons({ onCreateGroup }: { onCreateGroup: () => void }) {
+  return (
+    <div className="flex items-center gap-2">
+      <Button onClick={onCreateGroup}>
+        Adicionar
+        <Plus className="ml-2 h-4 w-4" />
+      </Button>
 
-      <div className="w-auto flex items-center justify-center gap-2">
-        <Button>
-          Adicionar
-          <Plus />
-        </Button>
+      <Button>
+        Publicar
+        <ArrowUpFromLine className="ml-2 h-4 w-4" />
+      </Button>
 
-        <Button>
-          Publish
-          <ArrowUpFromLine />
-        </Button>
-
-        <Button variant={"outline"}>Assign Mentors</Button>
-
-        <Button variant={"outline"}>
-          Export
-          <FileUp />
-        </Button>
-      </div>
+      <Button variant="outline">
+        Exportar
+        <FileUp className="ml-2 h-4 w-4" />
+      </Button>
     </div>
+  );
+}
+
+export default function GroupHeader() {
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  return (
+    <>
+      <header className="flex w-full items-center justify-between mt-2 h-12">
+        <div className="flex items-center gap-3">
+          <CourseTabs />
+        </div>
+
+        <ActionButtons onCreateGroup={() => setIsCreateModalOpen(true)} />
+      </header>
+
+      <CreateGroupModal
+        isOpen={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+      />
+    </>
   );
 }

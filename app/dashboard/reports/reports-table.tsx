@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +21,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -32,18 +33,9 @@ import {
 
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import {
-  BarChart3,
-  CheckCircle2,
-  Clock,
-  Eye,
-  FileText,
-  MoreHorizontal,
-  Trash2,
-  XCircle,
-} from "lucide-react";
+import { BarChart3, Eye, FileText, MoreHorizontal, Trash2 } from "lucide-react";
 
-import { useDeleteReport } from "@/hooks/reports/use-delete-report"; // ajusta se necessário
+import { useDeleteReport } from "@/hooks/reports/use-delete-report";
 import { Report } from "@/services/reports/Interfaces";
 import { useRouter } from "next/navigation";
 
@@ -54,39 +46,72 @@ interface ReportsTableProps {
 export function ReportsTable({ reports }: ReportsTableProps) {
   const router = useRouter();
   const { mutate: deleteReport } = useDeleteReport();
+  const [selectedReportIds, setSelectedReportIds] = useState<number[]>([]);
+
+  const allSelected =
+    reports.length > 0 && selectedReportIds.length === reports.length;
+
+  const toggleSelectAll = () => {
+    setSelectedReportIds(allSelected ? [] : reports.map((report) => report.id));
+  };
+
+  const toggleSelectOne = (id: number) => {
+    setSelectedReportIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((selectedId) => selectedId !== id)
+        : [...prev, id],
+    );
+  };
+
+  const statusConfig: Record<
+    Report["status"],
+    { label: string; color: string }
+  > = {
+    approved: { label: "Aprovado", color: "bg-emerald-500" },
+    rejected: { label: "Rejeitado", color: "bg-red-500" },
+    under_review: { label: "Em avaliação", color: "bg-amber-500" },
+  };
 
   const getStatusBadge = (status: Report["status"]) => {
-    switch (status) {
-      case "approved":
-        return (
-          <Badge variant="default" className="gap-1">
-            <CheckCircle2 className="h-3.5 w-3.5" />
-            Aprovado
-          </Badge>
-        );
-      case "rejected":
-        return (
-          <Badge variant="destructive" className="gap-1">
-            <XCircle className="h-3.5 w-3.5" />
-            Rejeitado
-          </Badge>
-        );
-      case "under_review":
-      default:
-        return (
-          <Badge variant="secondary" className="gap-1">
-            <Clock className="h-3.5 w-3.5" />
-            Em avaliação
-          </Badge>
-        );
-    }
+    const config = statusConfig[status];
+
+    return (
+      <span className="inline-flex items-center gap-2 text-sm font-medium text-secondary-foreground">
+        <span className={`h-2.5 w-2.5 rounded-full ${config.color}`} />
+        <span>{config.label}</span>
+      </span>
+    );
   };
 
   return (
     <div className="border rounded-lg overflow-hidden">
+      {selectedReportIds.length > 0 && (
+        <div className="px-4 py-2 border-b bg-muted/30 flex items-center justify-between">
+          <p className="text-sm font-medium">
+            Selecionados: {selectedReportIds.length}
+          </p>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setSelectedReportIds([])}
+          >
+            Limpar seleção
+          </Button>
+        </div>
+      )}
+
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead>
+              <input
+                type="checkbox"
+                checked={allSelected}
+                onChange={toggleSelectAll}
+                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                aria-label="Selecionar todos os relatórios"
+              />
+            </TableHead>
             <TableHead>Grupo</TableHead>
             <TableHead>Submissão</TableHead>
             <TableHead>Data de Envio</TableHead>
@@ -99,6 +124,15 @@ export function ReportsTable({ reports }: ReportsTableProps) {
         <TableBody>
           {reports.map((report) => (
             <TableRow key={report.id}>
+              <TableCell>
+                <input
+                  type="checkbox"
+                  checked={selectedReportIds.includes(report.id)}
+                  onChange={() => toggleSelectOne(report.id)}
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  aria-label={`Selecionar relatório ${report.id}`}
+                />
+              </TableCell>
               <TableCell className="font-medium">
                 Grupo {report.groupId}
               </TableCell>

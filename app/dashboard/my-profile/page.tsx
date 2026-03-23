@@ -11,11 +11,11 @@ export default function MyProfilePage() {
     <div className="w-full px-2 mt-3">
       <div className="relative w-full">
         <Image
-          src="/cover.svg"
+          src="/capa.svg"
           alt="Cover"
-          width={100}
-          height={100}
-          className="w-full object-cover h-45 rounded-xl"
+          width={977}
+          height={220}
+          className="w-full object-cover h-60 rounded-xl"
         />
 
         <div className="absolute -bottom-12 left-6 ">

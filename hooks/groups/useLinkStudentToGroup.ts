@@ -16,6 +16,9 @@ export function useLinkStudentToGroup() {
       queryClient.invalidateQueries({ queryKey: ["groups", "detail"] });
       queryClient.invalidateQueries({ queryKey: ["groups", "list"] });
       queryClient.invalidateQueries({ queryKey: ["students", "list"] });
+      queryClient.invalidateQueries({
+        queryKey: ["students", "without-group"],
+      });
     },
 
     onError: (error: AxiosError<IErrorResponse>) => {

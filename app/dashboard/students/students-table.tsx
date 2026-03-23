@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Switch } from "@/components/ui/switch";
-import { MoreHorizontal, Pencil, Power, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 
 import {
   AlertDialog,
@@ -36,6 +36,8 @@ import { useDeleteStudent } from "@/hooks/students/use-delete-student";
 import UserProfileDisplay from "@/components/user-profile-display";
 import { cn } from "@/lib/utils";
 import { Student } from "@/services/students/Interfaces";
+import { Eye } from "lucide-react";
+import Link from "next/link";
 
 interface StudentsTableProps {
   students: Student[];
@@ -63,7 +65,7 @@ export default function StudentsTable({ students }: StudentsTableProps) {
             <TableHead>Email</TableHead>
             <TableHead>Curso</TableHead>
             <TableHead>Turma</TableHead>
-            <TableHead>RA</TableHead>
+            <TableHead>Número de Estudante</TableHead>
             <TableHead>Grupo</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Ações</TableHead>
@@ -108,16 +110,20 @@ export default function StudentsTable({ students }: StudentsTableProps) {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-40">
-                    {/* Toggle Ativar/Desativar */}
+                    {/* Ver Detalhes */}
+                    <DropdownMenuItem asChild>
+                      <Link href={`/dashboard/students/${student.id}`}>
+                        <Eye className="mr-2 h-4 w-4" />
+                        Ver Detalhes
+                      </Link>
+                    </DropdownMenuItem>
+
                     <DropdownMenuItem
                       onSelect={(e) => e.preventDefault()}
                       className="flex items-center justify-between cursor-pointer"
                     >
                       <div className="flex items-center">
-                        <Power className="mr-2 h-4 w-4" />
-                        <span>
-                          {student.status === "active" ? "Desativar" : "Ativar"}
-                        </span>
+                        <span>Estado</span>
                       </div>
                       <Switch
                         checked={student.status === "active"}
@@ -126,7 +132,6 @@ export default function StudentsTable({ students }: StudentsTableProps) {
                       />
                     </DropdownMenuItem>
 
-                    {/* Editar (placeholder - podes implementar depois) */}
                     <DropdownMenuItem className="cursor-pointer">
                       <Pencil className="mr-2 h-4 w-4" />
                       Editar

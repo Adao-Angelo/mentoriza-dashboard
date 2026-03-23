@@ -20,8 +20,8 @@ export function useUploadReportDocx() {
       queryClient.invalidateQueries({ queryKey: ["reports", "list"] });
     },
     onError: (error: AxiosError<ApiErrorResponse>) => {
-      toast.error(error?.message || "Erro ao enviar o relatório");
-      console.error("Upload error:", error);
+      const msg = error?.response?.data?.message || "Erro ao criar relatório";
+      toast.error(Array.isArray(msg) ? msg[0] : msg);
     },
   });
 }

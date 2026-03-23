@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import * as z from "zod";
 
+import CreateStudentDialog from "@/app/dashboard/students/components/create-student-dialog";
 import Dropzone from "@/components/dashboard/dropzone";
 import GlobalLoader from "@/components/loader";
 import { Button } from "@/components/ui/button";
@@ -27,13 +28,13 @@ import {
 } from "@/components/ui/select";
 import { useStudents } from "@/hooks/students/use-students";
 import { useUploadStudentsCsv } from "@/hooks/students/use-upload-students-csv";
+
 import {
   ArrowLeftIcon,
   ArrowRight,
   CloudUpload,
   FileSearch2,
   Loader2,
-  Plus,
   SearchIcon,
   Upload,
   X,
@@ -176,18 +177,7 @@ export default function StudentsPage() {
                     Upload CSV
                   </Button>
 
-                  <Button
-                    variant="outline"
-                    size={"lg"}
-                    onClick={() => {
-                      toast.error(
-                        "Funcionalidade de adicionar novo estudante em breve",
-                      );
-                    }}
-                  >
-                    <Plus />
-                    Novo Estudante
-                  </Button>
+                  <CreateStudentDialog />
                 </div>
               </div>
 

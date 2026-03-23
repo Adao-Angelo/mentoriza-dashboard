@@ -16,14 +16,7 @@ export function useStudents(
   params: StudentQueryParams = { page: 1, perPage: 10 },
 ) {
   const query = useQuery<StudentListResponse, AxiosError<IErrorResponse>>({
-    queryKey: [
-      "students",
-      params.page,
-      params.perPage,
-      params.q,
-      params.status,
-      params.groupId,
-    ],
+    queryKey: ["students", "list", params],
     queryFn: () => StudentsService.getAllStudents(params),
     staleTime: 1000 * 60 * 4,
     placeholderData: keepPreviousData,

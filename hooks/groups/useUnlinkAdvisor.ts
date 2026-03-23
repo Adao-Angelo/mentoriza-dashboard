@@ -4,7 +4,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 
-export function useUnlinkAdvisor(groupId: number) {
+interface UseUnlinkAdvisorProps {
+  groupId: number;
+}
+
+export function useUnlinkAdvisor({ groupId }: UseUnlinkAdvisorProps) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -15,6 +19,7 @@ export function useUnlinkAdvisor(groupId: number) {
       queryClient.invalidateQueries({
         queryKey: ["groups", "detail", groupId],
       });
+      queryClient.invalidateQueries({ queryKey: ["groups", "list"] });
     },
 
     onError: (error: AxiosError<IErrorResponse>) => {

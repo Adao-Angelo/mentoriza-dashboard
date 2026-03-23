@@ -1,4 +1,8 @@
-import { ClipboardList, MoreVertical, Trash2 } from "lucide-react";
+import { useUnlinkAdvisor } from "@/hooks/groups/useUnlinkAdvisor";
+import { useUnlinkCoAdvisor } from "@/hooks/groups/useUnlinkCoAdvisor";
+import { Group } from "@/services/groups/Interfaces";
+import { Eye, MoreVertical, Trash } from "lucide-react";
+import Link from "next/link";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -11,9 +15,33 @@ import UserProfileDisplay from "../user-profile-display";
 interface AdvisorCardProps {
   name: string;
   role: string;
+  advisorId?: number;
+  group?: Group;
+  isCoAdvisor?: boolean;
 }
 
-export default function AdvisorCard({ name, role }: AdvisorCardProps) {
+export default function AdvisorCard({
+  name,
+  role,
+  advisorId,
+  group,
+  isCoAdvisor = false,
+}: AdvisorCardProps) {
+  const { mutate: unlinkAdvisor } = useUnlinkAdvisor({
+    groupId: group?.id || 0,
+  });
+  const { mutate: unlinkCoAdvisor } = useUnlinkCoAdvisor({
+    groupId: group?.id || 0,
+  });
+
+  const handleUnlink = () => {
+    if (isCoAdvisor) {
+      unlinkCoAdvisor();
+    } else {
+      unlinkAdvisor();
+    }
+  };
+
   return (
     <div className="w-full  flex justify-between items-center border rounded-lg p-2">
       <div className="w-auto flex gap-2 items-center">
@@ -31,15 +59,23 @@ export default function AdvisorCard({ name, role }: AdvisorCardProps) {
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align="end" className="w-44">
-          <DropdownMenuItem>
-            <ClipboardList className="mr-2 h-4 w-4" />
-            Ver Detalhes
-          </DropdownMenuItem>
-
-          <DropdownMenuItem>
-            <Trash2 className="mr-2 h-4 w-4" />
-            Deletar
-          </DropdownMenuItem>
+          {advisorId && (
+            <DropdownMenuItem asChild>
+              <Link href={`/dashboard/mentors/${advisorId}`}>
+                <Eye className="mr-2 h-4 w-4" />
+                Ver Detalhes
+              </Link>
+            </DropdownMenuItem>
+          )}
+          {advisorId && (
+            <DropdownMenuItem
+              className="text-destructive hover:text-destructive"
+              onClick={handleUnlink}
+            >
+              <Trash className="mr-2 h-4 w-4 text-destructive" />
+              Remover
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

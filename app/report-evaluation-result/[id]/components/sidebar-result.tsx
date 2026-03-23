@@ -10,8 +10,6 @@ interface Props {
 export default function SidebarEvaluation({ report, onIndicatorClick }: Props) {
   const indicators: [string, any][] = Object.entries(report.keyResults || {});
 
-  console.log(report.keyResults);
-
   return (
     <div className="bg-sidebar p-4 min-w-80 border-r h-dvh">
       <div className="rounded-full border-2 border-gray-300 flex items-center justify-center w-full h-10 m-auto">

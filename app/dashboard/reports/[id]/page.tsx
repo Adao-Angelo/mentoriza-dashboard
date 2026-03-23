@@ -1,8 +1,21 @@
 "use client";
 
+import { useState } from "react";
+
 import GlobalLoader from "@/components/loader";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { useUpdateReportStatus } from "@/hooks/reports/use-update-report-status";
 import { useReport } from "@/hooks/reports/useReport";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -13,8 +26,32 @@ export default function ReportDetailsPage() {
   const reportId = Number(params.id);
 
   const { data: report, isLoading } = useReport(reportId);
+  const updateStatus = useUpdateReportStatus();
+
+  const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
+  const [rejectionReason, setRejectionReason] = useState("");
 
   const observations = report?.observations ?? [];
+
+  const handleApprove = () => {
+    if (!report) return;
+    updateStatus.mutate({
+      id: report.id,
+      payload: { status: "approved" },
+    });
+  };
+
+  const handleReject = () => {
+    if (!report) return;
+
+    updateStatus.mutate({
+      id: report.id,
+      payload: { status: "rejected", rejectionReason },
+    });
+
+    setIsRejectDialogOpen(false);
+    setRejectionReason("");
+  };
 
   if (isLoading) {
     return (
@@ -34,13 +71,65 @@ export default function ReportDetailsPage() {
         <h1 className="text-xl font-semibold">Relatório #{report.id}</h1>
 
         <div className="flex gap-3">
-          <Button>Aprovar Relatório</Button>
-          <Button variant="outline">Reprovar Relatório</Button>
+          <Button
+            onClick={handleApprove}
+            disabled={report.status === "approved"}
+          >
+            Aprovar Relatório
+          </Button>
+
+          <Dialog
+            open={isRejectDialogOpen}
+            onOpenChange={setIsRejectDialogOpen}
+          >
+            <DialogTrigger asChild>
+              <Button variant="outline" disabled={report.status === "rejected"}>
+                Reprovar Relatório
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[500px]">
+              <DialogHeader>
+                <DialogTitle>Reprovar relatório</DialogTitle>
+                <DialogDescription>
+                  Informe a razão pela qual o relatório está sendo rejeitado.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Textarea
+                  value={rejectionReason}
+                  onChange={(event) => setRejectionReason(event.target.value)}
+                  placeholder="Motivo da reprovação"
+                  className="min-h-[140px]"
+                />
+              </div>
+              <DialogFooter className="flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => {
+                    setIsRejectDialogOpen(false);
+                    setRejectionReason("");
+                  }}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="button"
+                  variant={"destructive"}
+                  disabled={!rejectionReason.trim() || updateStatus.isPending}
+                  onClick={handleReject}
+                >
+                  {updateStatus.isPending ? "Reprovar..." : "Enviar reprovação"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
           <Button
             onClick={() => window.open(report.fileUrl, "_blank")}
             variant="outline"
           >
-            Exportar PDF
+            Baixar Ficheiro
           </Button>
         </div>
       </div>
@@ -49,7 +138,15 @@ export default function ReportDetailsPage() {
         <div className="flex justify-between">
           <h2 className="text-md font-semibold">Informações do Relatório</h2>
 
-          <Badge variant="secondary">
+          <Badge
+            variant={
+              report.status === "approved"
+                ? "default"
+                : report.status === "rejected"
+                  ? "destructive"
+                  : "outline"
+            }
+          >
             {report.status === "approved"
               ? "Aprovado"
               : report.status === "rejected"
@@ -115,6 +212,17 @@ export default function ReportDetailsPage() {
             <p className="truncate text-sm">{report.publicId}</p>
           </div>
         </div>
+
+        {report.rejectionReason && (
+          <div className="rounded-md border border-destructive/50 bg-destructive/5 p-4">
+            <h3 className="text-sm font-semibold text-destructive">
+              Motivo da reprovação
+            </h3>
+            <p className="text-sm text-destructive-foreground">
+              {report.rejectionReason}
+            </p>
+          </div>
+        )}
       </div>
 
       {observations?.length > 0 && (

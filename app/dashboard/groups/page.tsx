@@ -43,6 +43,7 @@ import { useGenerateGroups } from "@/hooks/groups/useGenerateGroups";
 import { useLinkStudentToGroup } from "@/hooks/groups/useLinkStudentToGroup";
 import { useStudents } from "@/hooks/students/use-students";
 import { useCourseStore } from "@/store/use-course.store";
+import { useSearchParams } from "next/navigation";
 
 const GROUP_SIZES = [3, 4, 5, 6];
 function EmptyGroupsView() {
@@ -132,10 +133,13 @@ function GenerateGroupsDialogContent({
 }
 
 export default function GroupsPage() {
+  const searchParams = useSearchParams();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { data: students } = useStudents();
   const [selectedGroupSize, setSelectedGroupSize] = useState(4);
-  const { data: groupsFromApi, isLoading } = useGroups();
+  const { data: groupsFromApi, isLoading } = useGroups({
+    course: searchParams.get("course") || "",
+  });
   const { selectedCourse } = useCourseStore();
 
   const [groups, setGroups] = useState<Group[]>([]);
@@ -298,7 +302,7 @@ export default function GroupsPage() {
   const hasGroups = groups?.length > 0;
 
   return (
-    <div className="w-full min-h-dvh flex flex-col items-center justify-start">
+    <div className="w-full min-h-dvh h-auto flex flex-col items-center justify-start">
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <GroupHeader />
 

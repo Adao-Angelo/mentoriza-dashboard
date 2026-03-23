@@ -1,9 +1,13 @@
 "use client";
 
 import AdvisorCard from "@/components/advisor/advisor-card";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Group } from "@/services/groups/Interfaces";
-import { ReactNode } from "react";
+import { Plus } from "lucide-react";
+import { ReactNode, useState } from "react";
+import { AddAdvisorToGroupModal } from "./add-advisor-to-group-modal";
+import { AddStudentToGroupModal } from "./add-student-to-group-modal";
 import AdvisorList from "./advisor-list";
 import GroupHeader from "./group-header";
 
@@ -13,28 +17,106 @@ interface GroupCardProps {
 }
 
 export default function GroupCard({ children, group }: GroupCardProps) {
+  const [showAddButton, setShowAddButton] = useState(false);
+  const [addStudentOpen, setAddStudentOpen] = useState(false);
+  const [addAdvisorOpen, setAddAdvisorOpen] = useState(false);
+  const [addCoAdvisorOpen, setAddCoAdvisorOpen] = useState(false);
+
   return (
-    <div className="min-w-70.75 rounded-lg bg-white border border-[#DEDEE6]">
+    <div
+      onMouseEnter={() => setShowAddButton(true)}
+      onMouseLeave={() => setShowAddButton(false)}
+      className="min-w-70.75 rounded-lg  bg-white border border-[#DEDEE6] h-fix! "
+    >
       <GroupHeader
         group={group}
         groupName={group?.name}
-        description={"The future starts now!"}
+        description={group?.title || group?.description || "Grupo sem Tema "}
       />
 
-      {children}
-      <Separator className="mt-24" />
+      <div className="relative">
+        {children}
+
+        <div
+          className={`
+            px-3 pb-3
+            transition-all duration-300 ease-in-out
+            ${
+              showAddButton
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-2 pointer-events-none"
+            }
+          `}
+        >
+          <Button
+            className="w-full"
+            onClick={() => setAddStudentOpen(true)}
+            variant="outline"
+            size="sm"
+          >
+            Adicionar Estudante
+            <Plus size={20} className="ml-2" />
+          </Button>
+        </div>
+      </div>
+      <Separator className="mt-8" />
       <AdvisorList>
-        <AdvisorCard
-          name={group.advisor?.user?.name ?? ""}
-          role="Orientador"
-        ></AdvisorCard>
+        {group.advisor && (
+          <AdvisorCard
+            advisorId={group.advisor?.id}
+            name={group.advisor?.user?.name ?? ""}
+            role="Orientador"
+            group={group}
+          />
+        )}
         {group.coAdvisor && (
           <AdvisorCard
+            advisorId={group.coAdvisor?.id}
             name={group.coAdvisor?.user?.name ?? ""}
             role="Co-orientador"
-          ></AdvisorCard>
+            group={group}
+            isCoAdvisor
+          />
+        )}
+        {!group.advisor && (
+          <Button
+            onClick={() => setAddAdvisorOpen(true)}
+            variant={"outline"}
+            size={"sm"}
+          >
+            <Plus size={14} /> Adicionar orientador
+          </Button>
+        )}
+        {!group.coAdvisor && (
+          <Button
+            onClick={() => setAddCoAdvisorOpen(true)}
+            variant={"outline"}
+            size={"sm"}
+          >
+            <Plus size={14} /> Adicionar co-orientador
+          </Button>
         )}
       </AdvisorList>
+
+      <AddStudentToGroupModal
+        group={group}
+        open={addStudentOpen}
+        onOpenChange={setAddStudentOpen}
+      />
+
+      <AddAdvisorToGroupModal
+        group={group}
+        isCoAdvisor={false}
+        open={addAdvisorOpen}
+        onOpenChange={setAddAdvisorOpen}
+      />
+
+      <AddAdvisorToGroupModal
+        group={group}
+        isCoAdvisor={true}
+        open={addCoAdvisorOpen}
+        onOpenChange={setAddCoAdvisorOpen}
+      />
     </div>
   );
 }

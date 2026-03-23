@@ -1,6 +1,7 @@
 "use client";
 
-import { MoreHorizontal, Pencil, ShieldCheck, Trash2 } from "lucide-react";
+import { Eye, MoreHorizontal, Pencil, ShieldCheck, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -68,6 +69,12 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
+            <DropdownMenuItem asChild>
+              <Link href={`/dashboard/mentors/${advisor.id}`}>
+                <Eye className="mr-2 h-4 w-4" />
+                Ver Detalhes
+              </Link>
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={onEdit}>
               <Pencil className="mr-2 h-4 w-4" />
               Editar

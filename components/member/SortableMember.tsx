@@ -29,6 +29,7 @@ export default function SortableMember({ id, student }: SortableMemberProps) {
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       <MemberCard
+        studentId={student?.id}
         name={student?.user?.name ?? ""}
         email={student?.user?.email ?? ""}
       />

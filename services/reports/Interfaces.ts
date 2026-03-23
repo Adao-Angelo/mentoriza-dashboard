@@ -29,6 +29,7 @@ export interface Report {
   fileUrl: string;
   publicId?: string;
   status: ReportStatus;
+  rejectionReason?: string;
   score?: number;
   observations?: string[];
   keyResults?: Record<string, unknown>;
@@ -48,6 +49,7 @@ export interface ReportSingleResponse {
 
 export interface UpdateStatusPayload {
   status: ReportStatus;
+  rejectionReason?: string;
 }
 
 export interface UpdateAIResultsPayload {

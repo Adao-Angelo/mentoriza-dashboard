@@ -8,7 +8,7 @@ export function useDeleteAdvisor() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (id: number) => AdvisorsService.getAdvisor(id),
+    mutationFn: (id: number) => AdvisorsService.deleteAdvisor(id),
 
     onSuccess: () => {
       toast.success("Orientador removido com sucesso!");

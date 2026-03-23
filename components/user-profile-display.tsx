@@ -15,7 +15,25 @@ export default function UserProfileDisplay({
   onClick,
   status,
 }: UserProfileDisplayProps) {
-  const initials = getInitials(username ?? "A");
+  let initials: string;
+
+  if (!username || typeof username !== "string" || username.trim() === "") {
+    initials = "??";
+  } else {
+    try {
+      initials = getInitials(username.trim());
+    } catch (err) {
+      console.warn("getInitials falhou:", err);
+      initials =
+        username
+          .trim()
+          .split(/\s+/)
+          .map((w) => w[0])
+          .join("")
+          .slice(0, 2)
+          .toUpperCase() || "??";
+    }
+  }
 
   return (
     <div

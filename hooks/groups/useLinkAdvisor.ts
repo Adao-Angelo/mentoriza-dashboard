@@ -9,41 +9,20 @@ export function useLinkAdvisor(groupId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: LinkAdvisorDto) =>
-      GroupsService.linkAdvisor(groupId, data),
+    mutationFn: async (data: LinkAdvisorDto) =>
+      await GroupsService.linkAdvisor(groupId, data),
 
     onSuccess: () => {
       toast.success("Orientador vinculado com sucesso");
       queryClient.invalidateQueries({
         queryKey: ["groups", "detail", groupId],
       });
+      queryClient.invalidateQueries({ queryKey: ["groups", "list"] });
     },
 
     onError: (error: AxiosError<IErrorResponse>) => {
       const msg =
         error?.response?.data?.message || "Erro ao vincular orientador";
-      toast.error(Array.isArray(msg) ? msg[0] : msg);
-    },
-  });
-}
-
-export function useLinkCoAdvisor(groupId: number) {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (data: LinkAdvisorDto) =>
-      GroupsService.linkCoAdvisor(groupId, data),
-
-    onSuccess: () => {
-      toast.success("Co-orientador vinculado com sucesso");
-      queryClient.invalidateQueries({
-        queryKey: ["groups", "detail", groupId],
-      });
-    },
-
-    onError: (error: AxiosError<IErrorResponse>) => {
-      const msg =
-        error?.response?.data?.message || "Erro ao vincular co-orientador";
       toast.error(Array.isArray(msg) ? msg[0] : msg);
     },
   });

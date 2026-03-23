@@ -17,6 +17,11 @@ async function getAdvisor(id: number) {
   return response.data;
 }
 
+async function deleteAdvisor(id: number) {
+  const response = await API.delete(`/advisors/${id}`);
+  return response.data;
+}
+
 async function updateAdvisor(id: number, data: UpdateAdvisorDto) {
   const response = await API.patch(`/advisors/${id}`, data);
   return response.data;
@@ -63,4 +68,5 @@ export const AdvisorsService = {
   unlinkAdvisorFromUser,
   getAdvisorUser,
   getAdvisedGroups,
+  deleteAdvisor,
 };

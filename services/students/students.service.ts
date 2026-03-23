@@ -91,6 +91,15 @@ async function uploadStudentsCsv(file: File) {
 
   return response.data;
 }
+
+async function getStudentsWithoutGroup(course?: string) {
+  const params = course ? { course } : {};
+  const response = await API.get("/students/without-group/available", {
+    params,
+  });
+  return response.data;
+}
+
 export const StudentsService = {
   createStudent,
   getAllStudents,
@@ -106,4 +115,5 @@ export const StudentsService = {
   changeGroup,
   uploadStudentsCsv,
   deleteStudentCascade,
+  getStudentsWithoutGroup,
 };

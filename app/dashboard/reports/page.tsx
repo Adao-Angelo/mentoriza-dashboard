@@ -24,6 +24,14 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Report } from "@/services/reports/Interfaces";
 import { FileDown, Plus, Send } from "lucide-react";
 
 import { EmptyReportsState } from "@/components/dashboard/empty-reports-state";
@@ -45,6 +53,14 @@ export default function ReportsPage() {
   const [files, setFiles] = useState<File[]>([]);
 
   const [open, setOpen] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<Report["status"] | "all">(
+    "all",
+  );
+
+  const filteredReports =
+    statusFilter === "all"
+      ? reports
+      : reports.filter((report) => report.status === statusFilter);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -160,7 +176,37 @@ export default function ReportsPage() {
       ) : reports.length === 0 ? (
         <EmptyReportsState onOpenUpload={() => setOpen(true)} />
       ) : (
-        <ReportsTable reports={reports} />
+        <>
+          <div className="mb-4 flex flex-wrap items-center justify-end gap-2">
+            <Select
+              value={statusFilter}
+              onValueChange={(value) =>
+                setStatusFilter(value as Report["status"] | "all")
+              }
+            >
+              <SelectTrigger className="w-44">
+                <SelectValue placeholder="Todos" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="under_review">Em avaliação</SelectItem>
+                <SelectItem value="approved">Aprovado</SelectItem>
+                <SelectItem value="rejected">Rejeitado</SelectItem>
+              </SelectContent>
+            </Select>
+            {statusFilter !== "all" ? (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setStatusFilter("all")}
+              >
+                Limpar filtro
+              </Button>
+            ) : null}
+          </div>
+
+          <ReportsTable reports={filteredReports} />
+        </>
       )}
     </div>
   );

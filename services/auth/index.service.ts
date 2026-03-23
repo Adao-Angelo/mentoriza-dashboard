@@ -21,7 +21,6 @@ async function login({ email, password }: LoginFormData) {
 }
 
 async function ResetPassword({ token, newPassword }: ResetPasswordPayload) {
-  console.log(newPassword);
   const response = await API.post("/auth/reset-password", {
     token,
     newPassword,
