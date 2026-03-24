@@ -50,8 +50,9 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
   };
 
   return (
-    <div className="border rounded-lg p-4 bg-card">
-      <div className="w-auto flex justify-between items-start mb-2">
+    <div className="w-auto border rounded-lg py-4 px-2 bg-card">
+      <div className="flex justify-between mb-2">
+
         <UserProfileDisplay
           username={advisor.user?.name}
           email={advisor.user?.email}
@@ -63,7 +64,7 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
             <Button
               variant="outline"
               size="icon"
-              className="h-8 w-8 border-color-stroke text-Gray"
+              className="h-8 w-8 shrink-0 border-color-stroke text-Gray"
             >
               <MoreHorizontal className="h-4 w-4" />
             </Button>
