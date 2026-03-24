@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type CourseType = "engenharia_electronica" | "engenharia_informatica";
+export type CourseType = "electronica" | "informatica";
 
 interface CourseState {
   selectedCourse: CourseType;
@@ -8,6 +8,6 @@ interface CourseState {
 }
 
 export const useCourseStore = create<CourseState>((set) => ({
-  selectedCourse: "engenharia_electronica",
+  selectedCourse: "electronica",
   setSelectedCourse: (course) => set({ selectedCourse: course }),
 }));
