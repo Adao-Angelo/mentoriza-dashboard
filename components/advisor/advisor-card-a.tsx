@@ -51,7 +51,7 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
 
   return (
     <div className="border rounded-lg p-4 bg-card">
-      <div className="flex justify-between items-start mb-2">
+      <div className="w-auto flex justify-between items-start mb-2">
         <UserProfileDisplay
           username={advisor.user?.name}
           email={advisor.user?.email}
