@@ -10,6 +10,7 @@ export interface StudentQueryParams {
   q?: string;
   status?: string;
   groupId?: number;
+  course?: "electronica" | "informatica";
 }
 
 export function useStudents(

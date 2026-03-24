@@ -8,14 +8,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import CreateGroupModal from "../group/create-group-modal";
 
-type CourseType = "engenharia_electronica" | "engenharia_informatica";
+type CourseType = "electronica" | "informatica";
 
 const COURSE_LABELS: Record<CourseType, string> = {
-  engenharia_electronica: "Eletrônica",
-  engenharia_informatica: "Informática",
+  electronica: "Eletrônica",
+  informatica: "Informática",
 };
 
-const DEFAULT_COURSE: CourseType = "engenharia_informatica";
+const DEFAULT_COURSE: CourseType = "informatica";
 
 function CourseTabs() {
   const { selectedCourse, setSelectedCourse } = useCourseStore();
