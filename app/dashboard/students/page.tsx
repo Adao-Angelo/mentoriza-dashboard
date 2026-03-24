@@ -124,8 +124,7 @@ export default function StudentsPage() {
 
   const { selectedCourse } = useCourseStore();
 
-  const { mutate: uploadCsv, isPending: isUploading } =
-    useUploadStudentsCsv();
+  const { mutate: uploadCsv, isPending: isUploading } = useUploadStudentsCsv();
 
   const {
     data: students = [],
@@ -135,7 +134,7 @@ export default function StudentsPage() {
     page: currentPage,
     perPage: pageSize,
     q: searchText,
-    course: selectedCourse, 
+    course: selectedCourse,
   });
 
   const totalPages = meta?.totalPages ?? 1;
@@ -295,9 +294,7 @@ export default function StudentsPage() {
                         size="sm"
                         disabled={currentPage >= totalPages}
                         onClick={() =>
-                          setCurrentPage((p) =>
-                            Math.min(totalPages, p + 1),
-                          )
+                          setCurrentPage((p) => Math.min(totalPages, p + 1))
                         }
                       >
                         Próxima <ArrowRight />
