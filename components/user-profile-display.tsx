@@ -37,7 +37,7 @@ export default function UserProfileDisplay({
 
   return (
     <div
-      className={`flex items-center gap-2 cursor-pointer ${className}`}
+      className={`flex items-center gap-2 cursor-pointer min-w-0 flex-1 ${className}`}
       onClick={onClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
@@ -51,13 +51,13 @@ export default function UserProfileDisplay({
         )}
       </div>
 
-      <div className="hidden md:flex md:flex-col md:items-start">
+      <div className="min-w-0 truncate hidden md:flex md:flex-col md:items-start">
         {username && (
-          <p className="text-[14px] font-semibold leading-tight text-gray-600">
+          <p className="text-[14px] font-semibold leading-tight text-gray-600 truncate">
             {username}
           </p>
         )}
-        {email && <p className="text-xs text-gray-500">{email}</p>}
+        {email && <p className="text-xs text-gray-500 truncate">{email}</p>}
       </div>
     </div>
   );
