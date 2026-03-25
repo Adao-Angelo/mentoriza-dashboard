@@ -52,7 +52,6 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
   return (
     <div className="w-auto border rounded-lg py-4 px-2 bg-card">
       <div className="flex justify-between mb-2">
-
         <UserProfileDisplay
           username={advisor.user?.name}
           email={advisor.user?.email}
