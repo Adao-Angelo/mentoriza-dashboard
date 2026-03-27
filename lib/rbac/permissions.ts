@@ -1,25 +1,25 @@
-import { Role } from './roles';
+import { Role } from "./roles";
 
-export type Action = 'read' | 'create' | 'update' | 'delete';
-export type Resource = 'advisor' | 'project' | 'user';
+export type Action = "read" | "create" | "update" | "delete";
+export type Resource = "advisor" | "project" | "user";
 
 type Permissions = Record<Role, Partial<Record<Resource, Action[]>>>;
 
 export const rolePermissions: Permissions = {
   [Role.STUDENT]: {
-    project: ['read', 'create'],
+    project: ["read", "create"],
   },
   [Role.TEACHER]: {
-    project: ['read'],
+    project: ["read"],
   },
   [Role.ADVISOR]: {
-    project: ['read', 'update'],
-    advisor: ['read'],
+    project: ["read", "update"],
+    advisor: ["read"],
   },
   [Role.COORDINATOR]: {
-    project: ['read', 'create', 'update', 'delete'],
-    advisor: ['read', 'update', 'delete'],
-    user: ['read', 'update', 'delete'],
+    project: ["read", "create", "update", "delete"],
+    advisor: ["read", "update", "delete"],
+    user: ["read", "update", "delete"],
   },
 };
 

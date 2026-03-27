@@ -1,4 +1,4 @@
-import { Group } from '../groups/Interfaces';
+import { Group } from "../groups/Interfaces";
 
 export interface CreateAdvisorDto {
   email: string;

@@ -1,8 +1,8 @@
-import { StudentListResponse } from '@/services/students/Interfaces';
-import { StudentsService } from '@/services/students/students.service';
-import { IErrorResponse } from '@/shared/Interface/IErrorResponse';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
+import { StudentListResponse } from "@/services/students/Interfaces";
+import { StudentsService } from "@/services/students/students.service";
+import { IErrorResponse } from "@/shared/Interface/IErrorResponse";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 export interface StudentQueryParams {
   page?: number;
@@ -14,10 +14,10 @@ export interface StudentQueryParams {
 }
 
 export function useStudents(
-  params: StudentQueryParams = { page: 1, perPage: 10 }
+  params: StudentQueryParams = { page: 1, perPage: 10 },
 ) {
   const query = useQuery<StudentListResponse, AxiosError<IErrorResponse>>({
-    queryKey: ['students', 'list', params],
+    queryKey: ["students", "list", params],
     queryFn: () => StudentsService.getAllStudents(params),
     staleTime: 1000 * 60 * 4,
     placeholderData: keepPreviousData,

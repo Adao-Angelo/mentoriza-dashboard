@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Eye,
@@ -7,31 +7,31 @@ import {
   PhoneCall,
   ShieldCheck,
   Trash2,
-} from 'lucide-react';
-import Link from 'next/link';
+} from "lucide-react";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Switch } from '@/components/ui/switch';
+} from "@/components/ui/dropdown-menu";
+import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 
-import { useActivateAdvisor } from '@/hooks/advisors/use-activate-advisor';
-import { useDeactivateAdvisor } from '@/hooks/advisors/use-deactivate-advisor';
-import { useDeleteAdvisor } from '@/hooks/advisors/use-delete-advisor';
-import { useConfirm } from '@/hooks/use-confirm';
-import type { Advisor } from '@/services/advisor/interfaces';
-import { Group } from '@/services/groups/Interfaces';
-import UserProfileDisplay from '../user-profile-display';
+import { useActivateAdvisor } from "@/hooks/advisors/use-activate-advisor";
+import { useDeactivateAdvisor } from "@/hooks/advisors/use-deactivate-advisor";
+import { useDeleteAdvisor } from "@/hooks/advisors/use-delete-advisor";
+import { useConfirm } from "@/hooks/use-confirm";
+import type { Advisor } from "@/services/advisor/interfaces";
+import { Group } from "@/services/groups/Interfaces";
+import UserProfileDisplay from "../user-profile-display";
 
 interface AdvisorCardProps {
   advisor: Advisor;
@@ -45,9 +45,9 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
   const confirm = useConfirm();
 
   const handleToggleActive = async () => {
-    if (advisor.user?.status === 'active') {
+    if (advisor.user?.status === "active") {
       const confirmed = await confirm({
-        title: 'Desativar Orientador',
+        title: "Desativar Orientador",
         message: `Deseja desativar "${advisor.user?.name}"? O usuário associado também será desativado.`,
       });
       if (confirmed) deactivate(advisor.id);
@@ -58,7 +58,7 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
 
   const handleDelete = async () => {
     const confirmed = await confirm({
-      title: 'Remover Orientador',
+      title: "Remover Orientador",
       message: `Tem certeza que deseja remover "${advisor.user?.name}" permanentemente?`,
     });
     if (confirmed) remove(advisor.id);
@@ -73,62 +73,62 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
   }) => (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild className='bg-card'>
+        <TooltipTrigger asChild className="bg-card">
           <div
             className={`bg-card text-[14px] p-1 px-2 border-b font-semibold w-full hover:border-l border-l-primary cursor-help ${
-              isCoAdvisor ? 'bg-text-stroke text-gray-800 border-b-0' : ''
+              isCoAdvisor ? "bg-text-stroke text-gray-800 border-b-0" : ""
             }`}
           >
-            <span className='text-black-dark'>{group?.name}</span>
+            <span className="text-black-dark">{group?.name}</span>
             {isCoAdvisor && (
-              <span className='text-xs text-stroke ml-1'>(Co-orientador)</span>
+              <span className="text-xs text-stroke ml-1">(Co-orientador)</span>
             )}
-            <p className='text-Gray font-normal text-xs'>{group?.course}</p>
+            <p className="text-Gray font-normal text-xs">{group?.course}</p>
           </div>
         </TooltipTrigger>
 
         <TooltipContent
-          side='right'
-          className='max-w-xs bg-card border rounded-lg p-4'
+          side="right"
+          className="max-w-xs bg-card border rounded-lg p-4"
         >
-          <div className='space-y-2'>
+          <div className="space-y-2">
             <div>
-              <p className='font-semibold text-sm text-black-dark'>
+              <p className="font-semibold text-sm text-black-dark">
                 {group?.name}
               </p>
-              <p className='text-xs text-muted-foreground'>{group?.course}</p>
+              <p className="text-xs text-muted-foreground">{group?.course}</p>
             </div>
 
             <div>
-              <p className='text-xs font-medium text-gray-500'>
+              <p className="text-xs font-medium text-gray-500">
                 Título do Projeto
               </p>
               {group.title && (
-                <p className='text-sm'>
-                  {group?.title || 'Título não definido'}
+                <p className="text-sm">
+                  {group?.title || "Título não definido"}
                 </p>
               )}
             </div>
 
             <div>
-              <p className='text-xs font-medium text-gray-500'>Descrição</p>
-              <p className='text-sm line-clamp-3'>
-                {group?.description || 'Descrição não definida'}
+              <p className="text-xs font-medium text-gray-500">Descrição</p>
+              <p className="text-sm line-clamp-3">
+                {group?.description || "Descrição não definida"}
               </p>
             </div>
 
             {group.information && (
               <div>
-                <p className='text-xs font-medium text-gray-500'>
+                <p className="text-xs font-medium text-gray-500">
                   Informações Adicionais
                 </p>
-                <p className='text-sm'>{group?.information}</p>
+                <p className="text-sm">{group?.information}</p>
               </div>
             )}
 
-            <div className='pt-1 border-t text-xs text-muted-foreground'>
-              {group.name} Criado em{' '}
-              {new Date(group?.createdAt).toLocaleDateString('pt-AO')}
+            <div className="pt-1 border-t text-xs text-muted-foreground">
+              {group.name} Criado em{" "}
+              {new Date(group?.createdAt).toLocaleDateString("pt-AO")}
             </div>
           </div>
         </TooltipContent>
@@ -137,8 +137,8 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
   );
 
   return (
-    <div className='w-auto border rounded-lg py-4 px-3 bg-card'>
-      <div className='flex justify-between mb-3'>
+    <div className="w-auto border rounded-lg py-4 px-3 bg-card">
+      <div className="flex justify-between mb-3">
         <UserProfileDisplay
           username={advisor.user?.name}
           email={advisor.user?.email}
@@ -147,62 +147,62 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant='outline' size='icon' className='h-8 w-8 shrink-0'>
-              <MoreHorizontal className='h-4 w-4' />
+            <Button variant="outline" size="icon" className="h-8 w-8 shrink-0">
+              <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
+          <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
               <Link href={`/dashboard/mentors/${advisor.id}`}>
-                <Eye className='mr-2 h-4 w-4' />
+                <Eye className="mr-2 h-4 w-4" />
                 Ver Detalhes
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={onEdit}>
-              <Pencil className='mr-2 h-4 w-4' />
+              <Pencil className="mr-2 h-4 w-4" />
               Editar
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleToggleActive}
-              className='flex justify-between items-center'
+              className="flex justify-between items-center"
             >
-              <div className='flex items-center'>
-                <ShieldCheck className='mr-2 h-4 w-4' />
-                {advisor.user?.status === 'active' ? 'Desativar' : 'Ativar'}
+              <div className="flex items-center">
+                <ShieldCheck className="mr-2 h-4 w-4" />
+                {advisor.user?.status === "active" ? "Desativar" : "Ativar"}
               </div>
               <Switch
-                checked={advisor.user?.status === 'active'}
-                className='ml-2'
+                checked={advisor.user?.status === "active"}
+                className="ml-2"
               />
             </DropdownMenuItem>
             <DropdownMenuItem
-              className='text-destructive focus:text-destructive'
+              className="text-destructive focus:text-destructive"
               onClick={handleDelete}
             >
-              <Trash2 className='mr-2 h-4 w-4' />
+              <Trash2 className="mr-2 h-4 w-4" />
               Remover
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
-      <p className='text-sm mb-4 mt-2 border border-black-dark text-black-dark p-1 px-3 w-fit rounded-full'>
-        {advisor.specialty || 'Especialidade não definida'}
+      <p className="text-sm mb-4 mt-2 border border-black-dark text-black-dark p-1 px-3 w-fit rounded-full">
+        {advisor.specialty || "Especialidade não definida"}
       </p>
 
-      <p className='text-sm text-muted-foreground font-bold flex items-center gap-2'>
+      <p className="text-sm text-muted-foreground font-bold flex items-center gap-2">
         <PhoneCall size={18} />
-        {advisor.user?.phone || 'Não fornecido'}
+        {advisor.user?.phone || "Não fornecido"}
       </p>
 
-      <div className='w-full border-b mt-5 mb-3'></div>
+      <div className="w-full border-b mt-5 mb-3"></div>
 
       <div>
-        <h1 className='font-bold text-[12px] text-Gray mb-3'>
+        <h1 className="font-bold text-[12px] text-Gray mb-3">
           GRUPOS ASSOCIADOS
         </h1>
 
-        <div className='flex flex-col gap-2 max-h-60 overflow-y-auto border rounded-lg'>
+        <div className="flex flex-col gap-2 max-h-60 overflow-y-auto border rounded-lg">
           {advisor.advisedGroups?.map((group) => (
             <GroupItem key={group.id} group={group} />
           ))}
@@ -213,7 +213,7 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
 
           {!advisor.advisedGroups?.length &&
             !advisor.coAdvisedGroups?.length && (
-              <p className='text-sm text-muted-foreground italic py-2'>
+              <p className="text-sm text-muted-foreground italic py-2">
                 Nenhum grupo associado
               </p>
             )}
