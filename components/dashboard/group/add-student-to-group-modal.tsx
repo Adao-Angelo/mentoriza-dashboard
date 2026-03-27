@@ -1,21 +1,20 @@
-// AddStudentToGroupModal.tsx
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { useLinkStudentToGroup } from "@/hooks/groups/useLinkStudentToGroup";
-import { useStudentsWithoutGroup } from "@/hooks/students/use-students-without-group";
-import { Group } from "@/services/groups/Interfaces";
-import { Student } from "@/services/students/Interfaces";
-import { Check } from "lucide-react";
-import { useState } from "react";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { useLinkStudentsToGroup } from '@/hooks/groups/useLinkStudentsToGroup';
+import { useStudentsWithoutGroup } from '@/hooks/students/use-students-without-group';
+import { Group } from '@/services/groups/Interfaces';
+import { Student } from '@/services/students/Interfaces';
+import { Check } from 'lucide-react';
+import { useState } from 'react';
 
 interface Props {
   group: Group;
@@ -24,95 +23,121 @@ interface Props {
 }
 
 export function AddStudentToGroupModal({ group, open, onOpenChange }: Props) {
-  const [search, setSearch] = useState("");
-  const [selectedStudentId, setSelectedStudentId] = useState<number | null>(
-    null,
-  );
+  const [search, setSearch] = useState('');
+  const [selectedStudentIds, setSelectedStudentIds] = useState<number[]>([]);
 
   const { data: availableStudents = [], isLoading } = useStudentsWithoutGroup(
-    group.course,
+    group.course
   );
-  const linkMutation = useLinkStudentToGroup();
+
+  const linkMutation = useLinkStudentsToGroup();
 
   const filteredStudents = availableStudents.filter(
     (s: Student) =>
       s.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
-      s.user?.email?.toLowerCase().includes(search.toLowerCase()),
+      s.user?.email?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleAdd = () => {
-    if (!selectedStudentId) return;
-
-    linkMutation.mutate(
-      { groupId: group.id, studentId: selectedStudentId },
-      {
-        onSuccess: () => {
-          onOpenChange(false);
-          setSelectedStudentId(null);
-          setSearch("");
-        },
-      },
+  const toggleStudent = (studentId: number) => {
+    setSelectedStudentIds((prev) =>
+      prev.includes(studentId)
+        ? prev.filter((id) => id !== studentId)
+        : [...prev, studentId]
     );
   };
 
+  const handleAdd = () => {
+    if (selectedStudentIds.length === 0) return;
+
+    linkMutation.mutate(
+      { groupId: group.id, studentIds: selectedStudentIds },
+      {
+        onSuccess: () => {
+          onOpenChange(false);
+          setSelectedStudentIds([]);
+          setSearch('');
+        },
+      }
+    );
+  };
+
+  const selectedCount = selectedStudentIds.length;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-xl">
+      <DialogContent className='max-w-xl'>
         <DialogHeader>
-          <DialogTitle>Adicionar estudante ao grupo</DialogTitle>
+          <DialogTitle className='flex items-center gap-2'>
+            Adicionar estudantes ao grupo
+          </DialogTitle>
           <DialogDescription>
-            Grupo: <strong>{group.name}</strong>
+            <strong>{group.name}</strong> • {group.course}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="py-4">
+        <div className='py-4'>
           <Input
-            placeholder="Buscar por nome ou email..."
+            placeholder='Buscar por nome ou email...'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="mb-4"
+            className='mb-4'
           />
 
-          <div className="max-h-72 overflow-y-auto border rounded-md">
+          {/* Contador de selecionados */}
+          {selectedCount > 0 && (
+            <div className='mb-3 px-3 py-2 bg-purple-50 text-purple-700 rounded-md text-sm flex items-center gap-2'>
+              <Check className='w-4 h-4' />
+              {selectedCount} estudante{selectedCount > 1 ? 's' : ''}{' '}
+              selecionado{selectedCount > 1 ? 's' : ''}
+            </div>
+          )}
+
+          <div className='max-h-72 overflow-y-auto border rounded-md'>
             {isLoading ? (
-              <p className="p-4 text-center text-gray-500">Carregando...</p>
+              <p className='p-4 text-center text-gray-500'>Carregando...</p>
             ) : filteredStudents.length === 0 ? (
-              <p className="p-4 text-center text-gray-500">
+              <p className='p-4 text-center text-gray-500'>
                 Nenhum estudante disponível
               </p>
             ) : (
-              filteredStudents.map((student: Student) => (
-                <div
-                  key={student.id}
-                  className={`flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-50 cursor-pointer ${
-                    selectedStudentId === student.id ? "bg-purple-50" : ""
-                  }`}
-                  onClick={() => setSelectedStudentId(student.id)}
-                >
-                  <div>
-                    <p className="font-medium">{student.user?.name}</p>
-                    <p className="text-sm text-gray-500">
-                      {student.user?.email}
-                    </p>
+              filteredStudents.map((student: Student) => {
+                const isSelected = selectedStudentIds.includes(student.id);
+                return (
+                  <div
+                    key={student.id}
+                    className={`flex items-center justify-between p-3 border-b last:border-b-0 hover:bg-gray-50 cursor-pointer transition-colors ${
+                      isSelected ? 'bg-purple-50' : ''
+                    }`}
+                    onClick={() => toggleStudent(student.id)}
+                  >
+                    <div>
+                      <p className='font-medium'>{student.user?.name}</p>
+                      <p className='text-sm text-gray-500'>
+                        {student.user?.email}
+                      </p>
+                    </div>
+
+                    {isSelected && (
+                      <Check className='text-green-600' size={20} />
+                    )}
                   </div>
-                  {selectedStudentId === student.id && (
-                    <Check className="text-green-600" size={20} />
-                  )}
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
 
-        <div className="flex justify-end gap-3">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+        <div className='flex justify-end gap-3'>
+          <Button variant='outline' onClick={() => onOpenChange(false)}>
             Cancelar
           </Button>
           <Button
             onClick={handleAdd}
-            disabled={!selectedStudentId || linkMutation.isPending}
+            disabled={selectedCount === 0 || linkMutation.isPending}
           >
-            {linkMutation.isPending ? "Adicionando..." : "Adicionar ao grupo"}
+            {linkMutation.isPending
+              ? 'Adicionando...'
+              : `Adicionar ${selectedCount > 0 ? `(${selectedCount})` : ''} ao grupo`}
           </Button>
         </div>
       </DialogContent>

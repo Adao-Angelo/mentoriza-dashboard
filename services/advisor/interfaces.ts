@@ -1,3 +1,5 @@
+import { Group } from '../groups/Interfaces';
+
 export interface CreateAdvisorDto {
   email: string;
   name: string;
@@ -32,6 +34,6 @@ export interface Advisor {
     phone?: string;
   };
   groups?: Array<{ id: number; name: string }>;
-  advisedGroups: Array<{ name: string }>;
-  coAdvisedGroups: Array<{ name: string }>;
+  advisedGroups: Group[];
+  coAdvisedGroups: Group[];
 }

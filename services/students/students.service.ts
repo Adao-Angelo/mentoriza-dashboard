@@ -1,13 +1,13 @@
-import { API } from "@/services/api";
+import { API } from '@/services/api';
 import type {
   CreateStudentDto,
   LinkGroupDto,
   LinkUserDto,
   UpdateStudentDto,
-} from "./Interfaces";
+} from './Interfaces';
 
 async function createStudent(data: CreateStudentDto) {
-  const response = await API.post("/students", data);
+  const response = await API.post('/students', data);
   return response.data;
 }
 
@@ -20,7 +20,7 @@ interface GetStudentsParams {
 }
 
 async function getAllStudents(params: GetStudentsParams = {}) {
-  const response = await API.get("/students", { params });
+  const response = await API.get('/students', { params });
   return response.data;
 }
 
@@ -79,13 +79,14 @@ async function deleteStudentCascade(id: number) {
   return response;
 }
 
-async function uploadStudentsCsv(file: File) {
+async function uploadStudentsCsv(file: File, course: string) {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append('file', file);
+  formData.append('course', course);
 
-  const response = await API.post("/uploads/students-csv", formData, {
+  const response = await API.post('/uploads/students-csv', formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 
@@ -94,7 +95,7 @@ async function uploadStudentsCsv(file: File) {
 
 async function getStudentsWithoutGroup(course?: string) {
   const params = course ? { course } : {};
-  const response = await API.get("/students/without-group/available", {
+  const response = await API.get('/students/without-group/available', {
     params,
   });
   return response.data;
