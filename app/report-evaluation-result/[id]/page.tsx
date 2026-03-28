@@ -1,55 +1,41 @@
-"use client";
+'use client';
 
-import GlobalLoader from "@/components/loader";
-import ABNTResultHeader from "@/components/report/abnt-results/header";
-import { useReport } from "@/hooks/reports/useReport";
-import { useParams } from "next/navigation";
-import { useState } from "react";
-
-import dynamic from "next/dynamic";
-import DocxPreview from "./components/DocxPreview";
-import SidebarEvaluation from "./components/sidebar-result";
-const PDFPreview = dynamic(() => import("./components/pdf-preview"), {
-  ssr: false,
-});
+import GlobalLoader from '@/components/loader';
+import ABNTResultHeader from '@/components/report/abnt-results/header';
+import { useReport } from '@/hooks/reports/useReport';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import DocxPreviewEnhanced from './components/DocxPreviewEnhanced';
+import SidebarABNTDetailed from './components/sidebar-result';
 
 export default function ReportEvaluationResultPage() {
   const params = useParams();
   const reportId = Number(params.id);
   const { data: report, isLoading } = useReport(reportId);
-  const [highlightedIndicator, setHighlightedIndicator] = useState<
-    string | undefined
-  >(undefined);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-100">
-        <GlobalLoader variant="mini" />
-      </div>
-    );
-  }
+  const [highlightedPoint, setHighlightedPoint] = useState<string | undefined>(
+    undefined
+  );
 
-  if (!report?.fileUrl) {
-    return <div>Relatório não encontrado ou sem PDF</div>;
-  }
+  if (isLoading || !report) return <GlobalLoader variant='mini' />;
 
   return (
     <>
       <ABNTResultHeader />
-      <div className="flex justify-between">
-        <SidebarEvaluation
+      <div className='flex h-[calc(100dvh-60px)]'>
+        <SidebarABNTDetailed
           report={report}
-          onIndicatorClick={(key) => {
-            console.log("Clicou em:", key);
-            setHighlightedIndicator(key);
-          }}
+          onPointClick={setHighlightedPoint}
+          highlightedPoint={highlightedPoint}
         />
-
-        <DocxPreview
-          docxUrl={report.fileUrl}
-          errors={report.errors ?? []}
-          highlightedIndicator={highlightedIndicator}
-        />
+        <div className='flex-1 overflow-hidden'>
+          <DocxPreviewEnhanced
+            report={report}
+            docxUrl={report.fileUrl || ''}
+            abntData={report.keyResults?.abnt}
+            highlightedPoint={highlightedPoint}
+          />
+        </div>
       </div>
     </>
   );

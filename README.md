@@ -23,7 +23,7 @@ O Coordenador é o responsável pela gestão global da plataforma e pela organiz
 
 Funcionalidades
 
-1- Acompanhar o progresso dos projectos
+1- Acompanhar o progresso dos projects
 2- Visualizar relatórios e estatísticas
 3- Gerir prazos de entrega
 4- Aprovar ou reprovar relatórios finais
@@ -38,14 +38,14 @@ Avaliações -> Visualizar
 
 _Tutor_
 
-O Tutor acompanha os estudantes no desenvolvimento técnico do projecto.
+O Tutor acompanha os estudantes no desenvolvimento técnico do projeto.
 
 Funcionalidades
 
 1- Acompanhar grupos atribuídos
 2- Orientar estudantes no desenvolvimento da PAP
 3- Submeter feedback
-4- Avaliar progresso do projecto
+4- Avaliar progresso do projeto
 5- Consultar relatórios submetidos
 6- Comunicar com estudantes
 
@@ -61,15 +61,15 @@ _Professor de PT_
 
 _Estudante_
 
-O Estudante é o principal utilizador da plataforma e responsável pela submissão do projecto de PAP.
+O Estudante é o principal utilizador da plataforma e responsável pela submissão do projeto de PAP.
 
 Funcionalidades
 
 1- Submeter relatórios da PAP
-2- Actualizar versões do relatório
+2- Atualizar versões do relatório
 3- Visualizar feedback de tutores e professores
 4- Consultar prazos
-5- Acompanhar o progresso do projecto
+5- Acompanhar o progresso do projeto
 
 Permissões (RBAC)
 
