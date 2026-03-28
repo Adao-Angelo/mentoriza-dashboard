@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
-import GlobalLoader from '@/components/loader';
-import { Report } from '@/services/reports/Interfaces';
-import mammoth from 'mammoth';
-import { useEffect, useRef, useState } from 'react';
+import GlobalLoader from "@/components/loader";
+import { Report } from "@/services/reports/Interfaces";
+import mammoth from "mammoth";
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   docxUrl: string;
@@ -19,7 +19,7 @@ export default function DocxPreviewEnhanced({
   abntData,
   highlightedPoint,
 }: Props) {
-  const [htmlContent, setHtmlContent] = useState<string>('');
+  const [htmlContent, setHtmlContent] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +38,7 @@ export default function DocxPreviewEnhanced({
       } catch (err) {
         console.error(err);
         setHtmlContent(
-          "<p class='text-red-500'>Erro ao carregar o documento.</p>"
+          "<p class='text-red-500'>Erro ao carregar o documento.</p>",
         );
       } finally {
         setLoading(false);
@@ -50,7 +50,7 @@ export default function DocxPreviewEnhanced({
   useEffect(() => {
     if (!highlightedPoint || !containerRef.current) return;
 
-    const markInstance = new (require('mark.js'))(containerRef.current);
+    const markInstance = new (require("mark.js"))(containerRef.current);
     markInstance.unmark();
 
     const pointData = abntData?.abnt_points?.[highlightedPoint];
@@ -65,7 +65,7 @@ export default function DocxPreviewEnhanced({
           separateWordSearch: false,
           acrossElements: true,
           className:
-            'abnt-highlight bg-red-200 border-b-2 border-red-500 px-1 rounded',
+            "abnt-highlight bg-red-200 border-b-2 border-red-500 px-1 rounded",
         });
       }
     });
@@ -73,18 +73,18 @@ export default function DocxPreviewEnhanced({
 
   if (loading) {
     return (
-      <div className='flex items-center justify-center h-full bg-white'>
+      <div className="flex items-center justify-center h-full bg-white">
         <GlobalLoader />
       </div>
     );
   }
 
   return (
-    <div className='h-full overflow-auto bg-white p-8'>
+    <div className="h-full overflow-auto bg-white p-8">
       <div
         ref={containerRef}
-        className='docx-content prose prose-slate max-w-none mx-auto border p-6'
-        style={{ maxWidth: '210mm', minHeight: '297mm' }}
+        className="docx-content prose prose-slate max-w-none mx-auto border p-6"
+        style={{ maxWidth: "210mm", minHeight: "297mm" }}
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
     </div>

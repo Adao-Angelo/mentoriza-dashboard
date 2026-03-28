@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Dialog,
@@ -6,7 +6,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 interface HelpDialogProps {
   open: boolean;
@@ -16,7 +16,7 @@ interface HelpDialogProps {
 export function HelpDialog({ open, onOpenChange }: HelpDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-[500px]'>
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>O que é um Indicador?</DialogTitle>
           <DialogDescription>
@@ -26,9 +26,9 @@ export function HelpDialog({ open, onOpenChange }: HelpDialogProps) {
             enviado.
           </DialogDescription>
         </DialogHeader>
-        <div className='space-y-4 text-sm text-muted-foreground'>
+        <div className="space-y-4 text-sm text-muted-foreground">
           <p>
-            Por exemplo, você pode ter um indicador de{' '}
+            Por exemplo, você pode ter um indicador de{" "}
             <strong> Percentagem de IA </strong> que mostra quanto do relatório
             foi gerado por inteligência artificial.
           </p>
@@ -36,7 +36,7 @@ export function HelpDialog({ open, onOpenChange }: HelpDialogProps) {
             Cada indicador ajuda você a entender melhor a performance dos
             relatórios.
           </p>
-          <p className='text-xs text-muted-foreground mt-2'>
+          <p className="text-xs text-muted-foreground mt-2">
             Dica: utilize indicadores para acompanhar métricas importantes em
             seus documentos.
           </p>

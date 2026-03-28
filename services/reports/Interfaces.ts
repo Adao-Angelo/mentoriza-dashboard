@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-type ReportStatus = 'under_review' | 'approved' | 'rejected';
+type ReportStatus = "under_review" | "approved" | "rejected";
 
 export interface CreateReportDto {
   groupId: number;
@@ -29,7 +29,7 @@ export interface ABNTPoint {
 export interface ABNTViolation {
   type: string;
   message: string;
-  severity: 'low' | 'medium' | 'high';
+  severity: "low" | "medium" | "high";
   indicator: string;
   text_reference?: string;
 }
