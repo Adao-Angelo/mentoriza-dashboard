@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type ReportStatus = 'under_review' | 'approved' | 'rejected';
+export type ReportStatus = "under_review" | "approved" | "rejected";
 
 export interface CreateReportDto {
   groupId: number;
@@ -23,7 +23,7 @@ export interface UpdateReportDto {
 export interface ABNTViolation {
   type: string;
   message: string;
-  severity: 'low' | 'medium' | 'high';
+  severity: "low" | "medium" | "high";
   indicator: string;
   text_reference?: string;
 }
@@ -61,7 +61,7 @@ export interface ABNTResult {
 export interface ProblematicViolation {
   type: string;
   message: string;
-  severity: 'low' | 'medium' | 'high';
+  severity: "low" | "medium" | "high";
   indicator: string;
   text_reference?: string;
 }
@@ -77,7 +77,7 @@ export interface ProblematicResult {
 export interface TheoreticalViolation {
   type: string;
   message: string;
-  severity: 'low' | 'medium' | 'high';
+  severity: "low" | "medium" | "high";
   indicator: string;
   text_reference?: string;
 }

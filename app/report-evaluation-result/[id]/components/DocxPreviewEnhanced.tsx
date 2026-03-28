@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
-import GlobalLoader from '@/components/loader';
-import { Report } from '@/services/reports/Interfaces';
-import mammoth from 'mammoth';
+import GlobalLoader from "@/components/loader";
+import { Report } from "@/services/reports/Interfaces";
+import mammoth from "mammoth";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
 interface Props {
   docxUrl: string;
@@ -20,7 +20,7 @@ export default function DocxPreviewEnhanced({
   report,
   highlightedIndicator,
 }: Props) {
-  const [htmlContent, setHtmlContent] = useState<string>('');
+  const [htmlContent, setHtmlContent] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -38,9 +38,9 @@ export default function DocxPreviewEnhanced({
 
         setHtmlContent(html);
       } catch (err) {
-        console.error('Erro ao converter DOCX:', err);
+        console.error("Erro ao converter DOCX:", err);
         setHtmlContent(
-          "<p class='text-red-500 p-4'>Erro ao carregar o documento. Tente novamente.</p>"
+          "<p class='text-red-500 p-4'>Erro ao carregar o documento. Tente novamente.</p>",
         );
       } finally {
         setLoading(false);
@@ -53,7 +53,7 @@ export default function DocxPreviewEnhanced({
   useEffect(() => {
     if (!highlightedIndicator || !containerRef.current || !htmlContent) return;
 
-    const markInstance = new (require('mark.js'))(containerRef.current);
+    const markInstance = new (require("mark.js"))(containerRef.current);
     markInstance.unmark();
 
     const keyResults = report.keyResults;
@@ -62,7 +62,7 @@ export default function DocxPreviewEnhanced({
     let violations: any[] = [];
 
     switch (highlightedIndicator) {
-      case 'abnt':
+      case "abnt":
         if (keyResults.abnt?.abnt_points) {
           Object.values(keyResults.abnt.abnt_points).forEach((point: any) => {
             if (point?.violations) violations.push(...point.violations);
@@ -72,15 +72,15 @@ export default function DocxPreviewEnhanced({
           violations.push(...keyResults.abnt.violations);
         break;
 
-      case 'problematic':
+      case "problematic":
         violations = keyResults.problematic?.errors || [];
         break;
 
-      case 'theoretical':
+      case "theoretical":
         violations = keyResults.theoretical?.errors || [];
         break;
 
-      case 'ai_detection':
+      case "ai_detection":
         return;
       default:
         return;
@@ -96,23 +96,23 @@ export default function DocxPreviewEnhanced({
           separateWordSearch: false,
           acrossElements: true,
           className:
-            'highlight-error bg-danger/10 border-b-2 border-danger px-1 rounded font-medium cursor-help',
+            "highlight-error bg-danger/10 border-b-2 border-danger px-1 rounded font-medium cursor-help",
           each: (element: HTMLElement) => {
-            element.addEventListener('mouseenter', (e) => {});
+            element.addEventListener("mouseenter", (e) => {});
 
             let tooltip: HTMLDivElement | null = null;
 
-            element.addEventListener('mouseenter', (e) => {
-              tooltip = document.createElement('div');
+            element.addEventListener("mouseenter", (e) => {
+              tooltip = document.createElement("div");
               tooltip.textContent = violation.message;
               tooltip.className =
-                'absolute bg-white border border-danger text-black-dark p-2 shadow-lg z-50 max-w-xs text-sm font-medium';
+                "absolute bg-white border border-danger text-black-dark p-2 shadow-lg z-50 max-w-xs text-sm font-medium";
               tooltip.style.top = `${e.clientY + 10}px`;
               tooltip.style.left = `${e.clientX + 10}px`;
               document.body.appendChild(tooltip);
             });
 
-            element.addEventListener('mouseleave', () => {
+            element.addEventListener("mouseleave", () => {
               if (tooltip) {
                 tooltip.remove();
                 tooltip = null;
@@ -131,20 +131,20 @@ export default function DocxPreviewEnhanced({
 
   if (loading) {
     return (
-      <div className='flex items-center justify-center h-full bg-white'>
+      <div className="flex items-center justify-center h-full bg-white">
         <GlobalLoader />
       </div>
     );
   }
 
   return (
-    <div className='h-full overflow-auto bg-white p-8'>
+    <div className="h-full overflow-auto bg-white p-8">
       <div
         ref={containerRef}
-        className='docx-content prose prose-slate max-w-none mx-auto border shadow-sm bg-white p-10'
+        className="docx-content prose prose-slate max-w-none mx-auto border shadow-sm bg-white p-10"
         style={{
-          maxWidth: '210mm',
-          minHeight: '297mm',
+          maxWidth: "210mm",
+          minHeight: "297mm",
         }}
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
