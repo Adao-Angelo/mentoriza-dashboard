@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -243,7 +243,7 @@ body {
 .spinner::before,
 .mini-spinner::before,
 .white-mini-spinner::before {
-  content: "";
+  content: '';
   grid-area: 1/1;
   margin: 2px;
   border: inherit;
@@ -254,7 +254,7 @@ body {
 .spinner::after,
 .mini-spinner::after,
 .white-mini-spinner::after {
-  content: "";
+  content: '';
   grid-area: 1/1;
   margin: 6px;
   border: inherit;
@@ -265,4 +265,15 @@ body {
 .mini-spinner::after,
 .white-mini-spinner::after {
   margin: 4px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+'use client';
 
-import GlobalLoader from "@/components/loader";
-import mammoth from "mammoth";
-import Mark from "mark.js";
-import { useEffect, useRef, useState } from "react";
+import GlobalLoader from '@/components/loader';
+import mammoth from 'mammoth';
+import Mark from 'mark.js';
+import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   docxUrl: string;
@@ -17,7 +17,7 @@ export default function DocxPreview({
   errors,
   highlightedIndicator,
 }: Props) {
-  const [htmlContent, setHtmlContent] = useState<string>("");
+  const [htmlContent, setHtmlContent] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -35,8 +35,8 @@ export default function DocxPreview({
 
         setHtmlContent(html);
       } catch (err) {
-        console.error("Erro ao carregar DOCX", err);
-        setHtmlContent("<p>Erro ao carregar documento.</p>");
+        console.error('Erro ao carregar DOCX', err);
+        setHtmlContent('<p>Erro ao carregar documento.</p>');
       } finally {
         setLoading(false);
       }
@@ -52,7 +52,7 @@ export default function DocxPreview({
     markInstance.unmark();
 
     const relevantErrors = errors.filter(
-      (e) => e.indicator === highlightedIndicator && e.text_reference?.trim(),
+      (e) => e.indicator === highlightedIndicator && e.text_reference?.trim()
     );
 
     relevantErrors.forEach((err) => {
@@ -66,7 +66,7 @@ export default function DocxPreview({
         caseSensitive: false,
         separateWordSearch: false,
         acrossElements: true,
-        className: "highlight bg-destructive rounded px-0.5 cursor-pointer",
+        className: 'highlight bg-destructive rounded px-0.5 cursor-pointer',
         done: (totalMarks) => {
           if (totalMarks === 0) {
             console.warn(`Nenhum match encontrado para: "${text}"`);
@@ -74,17 +74,17 @@ export default function DocxPreview({
         },
         each: (element: HTMLElement) => {
           let tooltip: HTMLDivElement | null = null;
-          element.addEventListener("mouseenter", (e) => {
-            tooltip = document.createElement("div");
+          element.addEventListener('mouseenter', (e) => {
+            tooltip = document.createElement('div');
             tooltip.textContent = err.message;
             tooltip.className =
-              "absolute bg-primary text-white p-2 rounded-lb-lg  shadow-lg z-50 max-w-xs text-sm font-medium";
+              'absolute bg-primary text-white p-2 rounded-lb-lg  shadow-lg z-50 max-w-xs text-sm font-medium';
             tooltip.style.top = `${e.clientY + 10}px`;
             tooltip.style.left = `${e.clientX + 10}px`;
             document.body.appendChild(tooltip);
           });
 
-          element.addEventListener("mouseleave", () => {
+          element.addEventListener('mouseleave', () => {
             if (tooltip) {
               tooltip.remove();
               tooltip = null;
@@ -97,16 +97,16 @@ export default function DocxPreview({
 
   if (loading)
     return (
-      <div className="flex items-center justify-center min-h-dvh flex-1">
+      <div className='flex items-center justify-center min-h-dvh flex-1'>
         <GlobalLoader />
       </div>
     );
 
   return (
-    <div className="max-h-dvh overflow-y-scroll">
+    <div className='max-h-dvh overflow-y-scroll'>
       <div
         ref={containerRef}
-        className="docx-content prose max-w-none p-6 bg-white min-h-screen"
+        className='docx-content prose max-w-none p-6 bg-white min-h-screen'
       >
         <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
       </div>

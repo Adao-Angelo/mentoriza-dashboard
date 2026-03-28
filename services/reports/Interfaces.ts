@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-type ReportStatus = "under_review" | "approved" | "rejected";
+export type ReportStatus = 'under_review' | 'approved' | 'rejected';
 
 export interface CreateReportDto {
   groupId: number;
@@ -20,18 +20,18 @@ export interface UpdateReportDto {
   observations?: string[];
 }
 
+export interface ABNTViolation {
+  type: string;
+  message: string;
+  severity: 'low' | 'medium' | 'high';
+  indicator: string;
+  text_reference?: string;
+}
+
 export interface ABNTPoint {
   sub_score: number;
   violations: ABNTViolation[];
   details: Record<string, any>;
-}
-
-export interface ABNTViolation {
-  type: string;
-  message: string;
-  severity: "low" | "medium" | "high";
-  indicator: string;
-  text_reference?: string;
 }
 
 export interface ABNTResult {
@@ -58,23 +58,43 @@ export interface ABNTResult {
   };
 }
 
+export interface ProblematicViolation {
+  type: string;
+  message: string;
+  severity: 'low' | 'medium' | 'high';
+  indicator: string;
+  text_reference?: string;
+}
+
+export interface ProblematicResult {
+  score: number;
+  errors: ProblematicViolation[];
+  key_results?: Record<string, number>;
+  observations?: string[];
+  details?: Record<string, any>;
+}
+
+export interface TheoreticalViolation {
+  type: string;
+  message: string;
+  severity: 'low' | 'medium' | 'high';
+  indicator: string;
+  text_reference?: string;
+}
+
+export interface TheoreticalResult {
+  score: number;
+  errors: TheoreticalViolation[];
+  key_results?: Record<string, number>;
+  observations?: string[];
+  details?: Record<string, any>;
+}
+
 export interface AIResult {
   ai_percentage: number;
   is_ai_generated: boolean;
   confidence?: number;
   error?: string;
-}
-
-export interface ProblematicResult {
-  score?: number;
-  violations?: any[];
-  details?: any;
-}
-
-export interface TheoreticalResult {
-  score?: number;
-  violations?: any[];
-  details?: any;
 }
 
 export interface Group {
@@ -83,13 +103,15 @@ export interface Group {
   course: string;
   title?: string;
   description?: string;
+  information?: string;
   hasApprovedReport: boolean;
   advisorId?: number;
   coAdvisorId?: number;
   isPublished: boolean;
-  publishedAt?: string;
+  publishedAt?: string | null;
   createdAt: string;
   updatedAt: string;
+  deletedAt?: string | null;
 }
 
 export interface Submission {
@@ -100,6 +122,7 @@ export interface Submission {
   stage: number;
   createdAt: string;
   updatedAt: string;
+  deletedAt?: string | null;
 }
 
 export interface Report {
@@ -108,21 +131,26 @@ export interface Report {
   submissionId: number;
   fileUrl: string;
   publicId?: string;
+
   status: ReportStatus;
   rejectionReason?: string | null;
+
   score?: number;
   observations?: string[];
 
   /** Resultados detalhados por indicador */
   keyResults?: {
     abnt?: ABNTResult;
-    ai_detection?: AIResult;
     problematic?: ProblematicResult;
     theoretical?: TheoreticalResult;
+    ai_detection?: AIResult;
   };
 
-  /** Erros gerais do processamento */
+  /** Erros gerais do processamento (nível superior) */
   errors: any[];
+
+  /** Fontes utilizadas (quando aplicável) */
+  sources?: string[];
 
   /** Relacionamentos */
   group?: Group;
