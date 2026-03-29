@@ -1,7 +1,7 @@
-import { useUserPermission } from '@/hooks/rbac/useUserPermission';
-import { Action, Resource } from '@/lib/rbac/permissions';
-import { Role } from '@/lib/rbac/roles';
-import { ReactNode } from 'react';
+import { useUserPermission } from "@/hooks/rbac/useUserPermission";
+import { Action, Resource } from "@/lib/rbac/permissions";
+import { Role } from "@/lib/rbac/roles";
+import { ReactNode } from "react";
 
 interface CanProps {
   role?: Role;
@@ -22,7 +22,7 @@ export function Can({
 }: CanProps) {
   const allowed = useUserPermission({ role, permission, resource, action });
 
-  if (typeof children === 'function') {
+  if (typeof children === "function") {
     return <>{children(allowed)}</>;
   }
 

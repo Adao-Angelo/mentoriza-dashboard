@@ -1,6 +1,6 @@
-import { Action, can, Resource } from '@/lib/rbac/permissions';
-import { Role } from '@/lib/rbac/roles';
-import { useAuthStore } from '@/store/use-auth.store';
+import { Action, can, Resource } from "@/lib/rbac/permissions";
+import { Role } from "@/lib/rbac/roles";
+import { useAuthStore } from "@/store/use-auth.store";
 
 interface UseUserPermissionProps {
   role?: Role;
