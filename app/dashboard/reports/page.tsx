@@ -86,7 +86,7 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="container rounded-[12px]">
+    <div className="container rounded-2xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div></div>
 
@@ -107,7 +107,7 @@ export default function ReportsPage() {
             </div>
           </div>
 
-          <DialogContent className="sm:max-w-[500px]">
+          <DialogContent className="sm:max-w-125">
             <DialogHeader>
               <DialogTitle>Novo Relatório</DialogTitle>
               <DialogDescription>

@@ -45,7 +45,7 @@ export default function UserProfileDisplay({
       <div className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-gray-300 bg-white">
         <span className="text-base font-semibold text-Gray">{initials}</span>
         {status == "active" && (
-          <div className="text-[8px] p-1 pt-[1px]   bg-green-100 text-green-600 rounded-full border border-green-200 absolute bottom-[-8px] right-[-3px]">
+          <div className="text-sm p-1 pt-px bg-green-100 text-green-600 rounded-full border border-green-200 absolute bottom-[-8px] right-[-3px]">
             <p className="font-bold">Ative</p>
           </div>
         )}
@@ -53,7 +53,7 @@ export default function UserProfileDisplay({
 
       <div className="min-w-0 truncate hidden md:flex md:flex-col md:items-start">
         {username && (
-          <p className="text-[14px] font-semibold leading-tight text-gray-600 truncate">
+          <p className="text-base font-semibold leading-tight text-gray-600 truncate">
             {username}
           </p>
         )}
