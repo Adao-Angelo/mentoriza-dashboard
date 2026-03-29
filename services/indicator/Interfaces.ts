@@ -8,6 +8,7 @@ export interface UpdateIndicatorDto {
   title?: string;
   value?: number;
   type?: "MIN" | "MAX";
+  isActive?: boolean;
 }
 
 export interface Indicator {
@@ -16,6 +17,7 @@ export interface Indicator {
   value: number;
   type?: "MIN" | "MAX";
   description?: string;
+  isActive?: boolean;
   createdAt: string;
   updatedAt: string;
 }

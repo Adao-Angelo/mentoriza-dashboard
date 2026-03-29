@@ -70,7 +70,6 @@ API.interceptors.response.use(
       const refreshResponse = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
         {},
-        // { withCredentials: true }
       );
 
       const { accessToken, expiresIn } = refreshResponse.data;

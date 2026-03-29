@@ -3,6 +3,7 @@
 import { MoreHorizontal, Pencil } from "lucide-react";
 import { useState } from "react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,9 +11,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-import { useDeleteIndicator } from "@/hooks/indicators/use-delete-indicator";
-import { useConfirm } from "@/hooks/use-confirm";
+import { Switch } from "@/components/ui/switch";
+import { useUpdateIndicator } from "@/hooks/indicators/use-update-indicator";
 import type { Indicator } from "@/services/indicator/Interfaces";
 import { IndicatorFormDialog } from "./indicator-form-dialog";
 
@@ -22,28 +22,23 @@ interface IndicatorCardProps {
 
 export function IndicatorCard({ indicator }: IndicatorCardProps) {
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const { mutate: remove } = useDeleteIndicator();
-  const confirm = useConfirm();
+  const { mutate: update, isPending: isUpdating } = useUpdateIndicator();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleDelete = async () => {
-    const confirmed = await confirm({
-      title: "Remover Indicador",
-      message: `Tem certeza que deseja remover "${indicator.title}"? Esta ação não pode ser desfeita.`,
-      confirmText: "Remover",
-      cancelText: "Cancelar",
+  const handleToggleActive = () => {
+    update({
+      id: indicator.id,
+      data: { isActive: !indicator.isActive },
     });
-
-    if (confirmed) {
-      remove(indicator.id);
-    }
   };
 
   return (
     <>
-      <div className="border rounded-lg p-3 hover:border-primary transition-shadow bg-card relative">
+      <div className="border rounded-lg p-3  transition-shadow bg-card relative">
         <div className="flex justify-between items-start mb-3">
-          <div></div>
+          <Badge variant={indicator.isActive ? "success" : "error"}>
+            {indicator.isActive ? "Ativo" : "Inativo"}
+          </Badge>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -60,31 +55,35 @@ export function IndicatorCard({ indicator }: IndicatorCardProps) {
                 <Pencil className="mr-2 h-4 w-4" />
                 Editar
               </DropdownMenuItem>
-              {/* <DropdownMenuItem
-                className='text-destructive focus:text-destructive'
-                onClick={handleDelete}
+
+              <DropdownMenuItem
+                onSelect={(e) => e.preventDefault()}
+                className="cursor-default"
               >
-                <Trash2 className='mr-2 h-4 w-4 text-destructive' />
-                Remover
-              </DropdownMenuItem> */}
+                <div className="flex items-center justify-between w-full gap-2">
+                  <span className="text-sm">
+                    {indicator.isActive ? "Ativo" : "Inativo"}
+                  </span>
+                  <Switch
+                    checked={indicator.isActive}
+                    onCheckedChange={handleToggleActive}
+                    disabled={isUpdating}
+                  />
+                </div>
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
-        <h3 className="text-[12px] h-10 overflow-hidden text-clip font-semibold">
+        <h3 className="text-[16px] mb-3 overflow-hidden text-clip font-semibold">
           {indicator.title}
         </h3>
-        <p className="text-Gray text-xs">{indicator.description}</p>
+        <p className="text-Gray text-sm">{indicator.description}</p>
         <div className="flex item-end justify-between mt-6">
           <p className="text-xl font-bold text-primary ">{indicator.value}%</p>
           <div className="flex">
             <p className="text-[12px] text-primary text-right bg-purple-100 rounded-full w-fit h-fit p-1 px-2 flex gap-2">
               <strong>{indicator.type === "MAX" ? "Máximo" : "Mínimo"}</strong>
-              {/* {indicator.type === 'MAX' ? (
-                <ArrowUp size={18} />
-              ) : (
-                <ArrowDown size={18} />
-              )} */}
             </p>
           </div>
         </div>

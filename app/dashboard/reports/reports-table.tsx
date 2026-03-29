@@ -113,6 +113,7 @@ export function ReportsTable({ reports }: ReportsTableProps) {
               />
             </TableHead>
             <TableHead>Grupo</TableHead>
+            <TableHead>Curso</TableHead>
             <TableHead>Submissão</TableHead>
             <TableHead>Data de Envio</TableHead>
             <TableHead>Nota</TableHead>
@@ -134,7 +135,10 @@ export function ReportsTable({ reports }: ReportsTableProps) {
                 />
               </TableCell>
               <TableCell className="font-medium">
-                Grupo {report.groupId}
+                {report.group?.name || "Não vinculado"}
+              </TableCell>
+              <TableCell className="font-medium">
+                {report?.group?.course || "Não disponível"}
               </TableCell>
 
               <TableCell>Submissão #{report.submissionId}</TableCell>
@@ -146,7 +150,9 @@ export function ReportsTable({ reports }: ReportsTableProps) {
               </TableCell>
 
               <TableCell>
-                {report.score !== undefined ? `${report.score}/100` : "-"}
+                {report.score != undefined || report.score != null
+                  ? `${report.score}/100`
+                  : "Em avaliação"}
               </TableCell>
 
               <TableCell>{getStatusBadge(report.status)}</TableCell>
@@ -197,9 +203,9 @@ export function ReportsTable({ reports }: ReportsTableProps) {
                       <AlertDialogTrigger asChild>
                         <DropdownMenuItem
                           onSelect={(e) => e.preventDefault()}
-                          className="text-destructive focus:bg-destructive/10 focus:text-destructive cursor-pointer"
+                          className="text-danger focus:bg-danger/10 focus:text-danger cursor-pointer"
                         >
-                          <Trash2 className="mr-2 h-4 w-4 text-destructive" />
+                          <Trash2 className="mr-2 h-4 w-4 text-danger" />
                           Remover
                         </DropdownMenuItem>
                       </AlertDialogTrigger>

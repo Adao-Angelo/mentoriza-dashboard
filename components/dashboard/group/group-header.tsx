@@ -29,12 +29,19 @@ export default function GroupHeader({
   const [isEditOpen, setIsEditOpen] = useState(false);
   const confirm = useConfirm();
 
+  console.log(group, "group");
+
   return (
     <>
-      <div className="w-full flex justify-between p-3 border-b">
+      <div className="w-full flex justify-between p-3 border-b relative">
         <div className="flex flex-col">
-          <div className="w-fit rounded-full mb-1">
+          <div className="w-fit  rounded-full mb-1 flex items-center gap-2 ">
             <h2 className="font-bold text-sm text-center">{groupName}</h2>
+            {group?.information && (
+              <div className="flex items-center justify-center w-4 h-4 rounded-full border-2 border-danger animate-pulse">
+                <div className="w-2 h-2 rounded-full bg-danger"></div>
+              </div>
+            )}
           </div>
           <p className="text-xs text-Gray">{description}</p>
         </div>

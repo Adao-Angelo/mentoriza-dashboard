@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CloudUpload, FileSearch2 } from "lucide-react";
+import { Can } from "@/components/rbac/can";
+import { PERMISSIONS } from "@/context/permissions";
 
 interface EmptyReportsStateProps {
   onOpenUpload: () => void;
@@ -16,10 +18,12 @@ export function EmptyReportsState({ onOpenUpload }: EmptyReportsStateProps) {
       <p className="text-sm text-muted-foreground mt-2 max-w-md">
         Envie o primeiro relatório PDF do seu grupo para avaliação.
       </p>
-      <Button className="mt-8 gap-2" onClick={onOpenUpload}>
-        <CloudUpload className="h-4 w-4" />
-        Enviar Relatório
-      </Button>
+      <Can permission={PERMISSIONS.REPORT_SUBMIT}>
+        <Button className="mt-8 gap-2" onClick={onOpenUpload}>
+          <CloudUpload className="h-4 w-4" />
+          Enviar Relatório
+        </Button>
+      </Can>
     </div>
   );
 }

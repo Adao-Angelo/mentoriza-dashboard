@@ -119,12 +119,8 @@ export default function CreateGroupModal({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="none">Nenhum</SelectItem>
-                        <SelectItem value="engenharia_informatica">
-                          Informática
-                        </SelectItem>
-                        <SelectItem value="engenharia_electronica">
-                          Eletrônica
-                        </SelectItem>
+                        <SelectItem value="informatica">Informática</SelectItem>
+                        <SelectItem value="electronica">Eletrônica</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>

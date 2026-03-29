@@ -92,7 +92,7 @@ export function LoginForm() {
           </Link>
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? <GlobalLoader variant="white-mini" /> : "Entrar"}
         </Button>
       </form>

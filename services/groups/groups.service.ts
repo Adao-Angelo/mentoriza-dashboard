@@ -85,6 +85,12 @@ async function generateGroups(data: GenerateGroupsDto) {
   const response = await API.post("/groups/generate", data);
   return response.data;
 }
+async function linkStudents(groupId: number, studentIds: number[]) {
+  const response = await API.post(`/groups/${groupId}/link-students`, {
+    studentIds,
+  });
+  return response.data;
+}
 
 export const GroupsService = {
   createGroup,
@@ -98,6 +104,7 @@ export const GroupsService = {
   linkCoAdvisor,
   unlinkCoAdvisor,
   linkStudent,
+  linkStudents,
   unlinkStudent,
   generateGroups,
 };

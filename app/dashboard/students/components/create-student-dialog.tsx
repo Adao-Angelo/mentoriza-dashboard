@@ -124,10 +124,10 @@ export default function CreateStudentDialog() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="none">Nenhum</SelectItem>
-                          <SelectItem value="engenharia_informatica">
+                          <SelectItem value="informatica">
                             Informática
                           </SelectItem>
-                          <SelectItem value="engenharia_electronica">
+                          <SelectItem value="electronica">
                             Eletrônica
                           </SelectItem>
                         </SelectContent>

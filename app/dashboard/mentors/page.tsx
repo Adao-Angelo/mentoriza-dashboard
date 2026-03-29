@@ -12,6 +12,8 @@ import { AdvisorFormDialog } from "@/components/advisor/advisor-form-dialog";
 import GlobalLoader from "@/components/loader";
 import { useAdvisors } from "@/hooks/advisors/use-advisors";
 import { Advisor } from "@/services/advisor/interfaces";
+import { Can } from "@/components/rbac/can";
+import { PERMISSIONS } from "@/context/permissions";
 
 export default function AdvisorsPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -20,7 +22,7 @@ export default function AdvisorsPage() {
   const { data: advisors = [], isLoading } = useAdvisors();
 
   return (
-    <div className="container rounded-[12px]">
+    <div className="container rounded-2xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between md:items-end gap-4 mb-5">
         <h1 className="text-xl font-bold tracking-tight"></h1>
         <div className="flex gap-3">
@@ -28,10 +30,12 @@ export default function AdvisorsPage() {
             <FileDown />
             Exportar
           </Button>
-          <Button onClick={() => setOpenCreateDialog(true)}>
-            <Plus />
-            Novo Orientador
-          </Button>
+          <Can permission={PERMISSIONS.GROUP_ADD_MENTOR}>
+            <Button onClick={() => setOpenCreateDialog(true)}>
+              <Plus />
+              Novo Orientador
+            </Button>
+          </Can>
         </div>
       </div>
 
@@ -50,15 +54,17 @@ export default function AdvisorsPage() {
           <p className="text-sm text-muted-foreground">
             Nenhum orientador criado ainda
           </p>
-          <Button
-            size={"lg"}
-            className="mt-6"
-            variant={"outline"}
-            onClick={() => setOpenCreateDialog(true)}
-          >
-            <Plus />
-            Criar o primeiro orientador
-          </Button>
+          <Can permission={PERMISSIONS.GROUP_ADD_MENTOR}>
+            <Button
+              size={"lg"}
+              className="mt-6"
+              variant={"outline"}
+              onClick={() => setOpenCreateDialog(true)}
+            >
+              <Plus />
+              Criar o primeiro orientador
+            </Button>
+          </Can>
         </div>
       ) : (
         <div className="grid gap-3 grid-cols-1 md:grid-cols-3  lg:grid-cols-4">

@@ -1,3 +1,4 @@
+import { Role } from "@/lib/rbac/roles";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -11,6 +12,8 @@ export interface User {
   username: string;
   email: string;
   phone: string;
+  roles: Role[];
+  permissions: string[];
 }
 
 interface AuthState {
@@ -30,7 +33,6 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       token: null,
       expiresIn: null,
-
       isAuthenticated: false,
 
       setAuth: (data) =>

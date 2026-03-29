@@ -35,6 +35,8 @@ import { useSubmissions } from "@/hooks/submissions/use-submissions";
 import { useUpdateSubmission } from "@/hooks/submissions/use-update-submission";
 import { useConfirm } from "@/hooks/use-confirm";
 import { Submission } from "@/services/submission/Interfaces";
+import { Can } from "@/components/rbac/can";
+import { PERMISSIONS } from "@/context/permissions";
 
 export default function SubmissionsPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
@@ -72,12 +74,14 @@ export default function SubmissionsPage() {
   };
 
   return (
-    <div className="container rounded-[12px]">
+    <div className="container rounded-2xl">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-        <h1 className="text-1xl font-bold tracking-tight"></h1>
-        <Button onClick={() => setOpenCreateDialog(true)}>
-          <Plus /> Nova Submissão
-        </Button>
+        <h1 className="text-xl font-bold tracking-tight"></h1>
+        <Can permission={PERMISSIONS.SUBMISSION_CREATE}>
+          <Button onClick={() => setOpenCreateDialog(true)}>
+            <Plus /> Nova Submissão
+          </Button>
+        </Can>  
       </div>
 
       {isLoading ? (
@@ -145,27 +149,33 @@ export default function SubmissionsPage() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          onClick={() => setEditingSubmission(submission)}
-                        >
-                          <Pencil className="mr-2 h-4 w-4" />
-                          Editar
-                        </DropdownMenuItem>
-                        {submission.status === "active" && (
+                        <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
                           <DropdownMenuItem
-                            onClick={() => handleClose(submission)}
+                            onClick={() => setEditingSubmission(submission)}
                           >
-                            <PowerOff className="mr-2 h-4 w-4 text-warning" />
-                            Fechar
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Editar
                           </DropdownMenuItem>
+                        </Can>
+                        {submission.status === "active" && (
+                          <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
+                            <DropdownMenuItem
+                              onClick={() => handleClose(submission)}
+                            >
+                              <PowerOff className="mr-2 h-4 w-4 text-warning" />
+                              Fechar
+                            </DropdownMenuItem>
+                          </Can>
                         )}
-                        <DropdownMenuItem
-                          className="text-destructive focus:text-destructive"
-                          onClick={() => handleDelete(submission)}
-                        >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Remover
-                        </DropdownMenuItem>
+                        <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
+                          <DropdownMenuItem
+                            className="text-danger focus:text-danger"
+                            onClick={() => handleDelete(submission)}
+                          >
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Remover
+                          </DropdownMenuItem>
+                        </Can>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

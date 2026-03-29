@@ -79,9 +79,10 @@ async function deleteStudentCascade(id: number) {
   return response;
 }
 
-async function uploadStudentsCsv(file: File) {
+async function uploadStudentsCsv(file: File, course: string) {
   const formData = new FormData();
   formData.append("file", file);
+  formData.append("course", course);
 
   const response = await API.post("/uploads/students-csv", formData, {
     headers: {

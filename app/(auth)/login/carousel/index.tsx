@@ -43,7 +43,7 @@ export function CarouselAuthLogin() {
                 />
                 <div className="absolute bottom-0 w-full bg-linear-to-t from-black-dark  to-transparent z-10 h-screen" />
 
-                <div className="absolute bottom-31 z-20 w-full max-w-120.5 flex flex-col gap-4 px-4">
+                <div className="absolute left-10 bottom-31 z-20 w-full max-w-120.5 flex flex-col gap-4 px-4 ">
                   <h4 className="text-4xl font-bold leading-10.5 text-white">
                     {title}
                   </h4>
@@ -57,7 +57,7 @@ export function CarouselAuthLogin() {
         </CarouselContent>
       </Carousel>
 
-      <div className="absolute bottom-6 left-0 right-0 flex justify-start gap-2 z-30 p-3">
+      <div className="absolute bottom-8 left-0 right-0 left-12 flex justify-start gap-2 z-30 p-3">
         {loginCarrouselItems.map(({ id }) => (
           <button
             key={id}

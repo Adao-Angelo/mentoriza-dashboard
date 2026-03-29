@@ -8,10 +8,17 @@ export function useUploadReportDocx() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ file, groupId }: { file: File; groupId: number }) => {
+    mutationFn: async (payload: {
+      file: File;
+
+      sources?: string[];
+    }) => {
       const formData = new FormData();
-      formData.append("file", file);
-      formData.append("groupId", groupId.toString());
+      formData.append("file", payload.file);
+
+      if (payload.sources?.length) {
+        formData.append("sources", JSON.stringify(payload.sources));
+      }
 
       return ReportsService.uploadReportDocx(formData);
     },

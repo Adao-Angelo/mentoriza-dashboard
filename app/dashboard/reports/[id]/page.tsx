@@ -19,10 +19,14 @@ import { useUpdateReportStatus } from "@/hooks/reports/use-update-report-status"
 import { useReport } from "@/hooks/reports/useReport";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { useParams } from "next/navigation";
+import { CheckCheck, MonitorCheck, PrinterCheck } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { Can } from "@/components/rbac/can";
+import { PERMISSIONS } from "@/context/permissions";
 
 export default function ReportDetailsPage() {
   const params = useParams();
+  const router = useRouter();
   const reportId = Number(params.id);
 
   const { data: report, isLoading } = useReport(reportId);
@@ -71,23 +75,45 @@ export default function ReportDetailsPage() {
         <h1 className="text-xl font-semibold">Relatório #{report.id}</h1>
 
         <div className="flex gap-3">
+          <Can permission={PERMISSIONS.REPORT_APPROVE}>
+            <Button
+              onClick={handleApprove}
+              disabled={report.status === "approved"}
+            >
+              <CheckCheck />
+              Aprovar
+            </Button>
+          </Can>
+
           <Button
-            onClick={handleApprove}
-            disabled={report.status === "approved"}
+            onClick={() => {
+              router.push(`/report-evaluation-result/${report.id}`);
+            }}
+            variant="default"
           >
-            Aprovar Relatório
+            <MonitorCheck />
+            Ver Analises
+          </Button>
+          <Button
+            onClick={() => window.open(report.fileUrl, "_blank")}
+            variant="outline"
+          >
+            <PrinterCheck />
+            Baixar Ficheiro
           </Button>
 
           <Dialog
             open={isRejectDialogOpen}
             onOpenChange={setIsRejectDialogOpen}
           >
-            <DialogTrigger asChild>
-              <Button variant="outline" disabled={report.status === "rejected"}>
-                Reprovar Relatório
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <Can permission={PERMISSIONS.REPORT_REJECT}>
+              <DialogTrigger asChild>
+                <Button variant="outline" disabled={report.status === "rejected"}>
+                  Reprovar
+                </Button>
+              </DialogTrigger>
+            </Can>
+            <DialogContent className="sm:max-w-125">
               <DialogHeader>
                 <DialogTitle>Reprovar relatório</DialogTitle>
                 <DialogDescription>
@@ -99,7 +125,7 @@ export default function ReportDetailsPage() {
                   value={rejectionReason}
                   onChange={(event) => setRejectionReason(event.target.value)}
                   placeholder="Motivo da reprovação"
-                  className="min-h-[140px]"
+                  className="min-h-35"
                 />
               </div>
               <DialogFooter className="flex justify-end gap-2">
@@ -124,13 +150,6 @@ export default function ReportDetailsPage() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
-
-          <Button
-            onClick={() => window.open(report.fileUrl, "_blank")}
-            variant="outline"
-          >
-            Baixar Ficheiro
-          </Button>
         </div>
       </div>
 
@@ -196,7 +215,7 @@ export default function ReportDetailsPage() {
                 ? format(new Date(report.analyzedAt), "dd/MM/yyyy", {
                     locale: ptBR,
                   })
-                : "-"}
+                : "Em análise"}
             </p>
           </div>
 
@@ -214,8 +233,8 @@ export default function ReportDetailsPage() {
         </div>
 
         {report.rejectionReason && (
-          <div className="rounded-md border border-destructive/50 bg-destructive/5 p-4">
-            <h3 className="text-sm font-semibold text-destructive">
+          <div className="rounded-md border border-danger/50 bg-danger/5 p-4">
+            <h3 className="text-sm font-semibold text-danger">
               Motivo da reprovação
             </h3>
             <p className="text-sm text-destructive-foreground">

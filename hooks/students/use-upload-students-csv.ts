@@ -3,11 +3,11 @@ import { StudentsService } from "@/services/students/students.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 
-export function useUploadStudentsCsv() {
+export function useUploadStudentsCsv(course: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (file: File) => StudentsService.uploadStudentsCsv(file),
+    mutationFn: (file: File) => StudentsService.uploadStudentsCsv(file, course),
 
     onSuccess: () => {
       toast.success("Estudantes carregados com sucesso!");
