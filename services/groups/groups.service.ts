@@ -92,6 +92,14 @@ async function linkStudents(groupId: number, studentIds: number[]) {
   return response.data;
 }
 
+async function exportGroupsPdf(course?: string) {
+  const response = await API.get("/groups/export-pdf", {
+    params: { course },
+    responseType: "blob",
+  });
+  return response.data;
+}
+
 export const GroupsService = {
   createGroup,
   getAllGroups,
@@ -107,4 +115,5 @@ export const GroupsService = {
   linkStudents,
   unlinkStudent,
   generateGroups,
+  exportGroupsPdf,
 };

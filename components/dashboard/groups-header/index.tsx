@@ -51,7 +51,14 @@ function CourseTabs() {
     if (selectedCourse !== courseToUse) {
       setSelectedCourse(courseToUse);
     }
-  }, [searchParams, pathname, router, setSelectedCourse, createQueryString]);
+  }, [
+    selectedCourse,
+    searchParams,
+    pathname,
+    router,
+    setSelectedCourse,
+    createQueryString,
+  ]);
 
   const handleCourseChange = (value: string) => {
     const newCourse = value as CourseType;

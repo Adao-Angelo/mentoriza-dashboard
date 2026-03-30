@@ -57,7 +57,9 @@ export default function UserProfileDisplay({
             {username}
           </p>
         )}
-        {email && <p className="text-xs text-gray-500 truncate w-10">{email}</p>}
+        {email && (
+          <p className="text-xs text-gray-500 truncate w-10">{email}</p>
+        )}
       </div>
     </div>
   );

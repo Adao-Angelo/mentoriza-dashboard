@@ -81,7 +81,7 @@ export default function SubmissionsPage() {
           <Button onClick={() => setOpenCreateDialog(true)}>
             <Plus /> Nova Submissão
           </Button>
-        </Can>  
+        </Can>
       </div>
 
       {isLoading ? (

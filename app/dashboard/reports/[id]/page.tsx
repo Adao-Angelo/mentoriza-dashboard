@@ -108,7 +108,10 @@ export default function ReportDetailsPage() {
           >
             <Can permission={PERMISSIONS.REPORT_REJECT}>
               <DialogTrigger asChild>
-                <Button variant="outline" disabled={report.status === "rejected"}>
+                <Button
+                  variant="outline"
+                  disabled={report.status === "rejected"}
+                >
                   Reprovar
                 </Button>
               </DialogTrigger>
