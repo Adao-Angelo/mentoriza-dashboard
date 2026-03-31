@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import AdvisorCard from '@/components/advisor/advisor-card';
-import { Can } from '@/components/rbac/can';
-import { Button } from '@/components/ui/button';
+import AdvisorCard from "@/components/advisor/advisor-card";
+import { Can } from "@/components/rbac/can";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { PERMISSIONS } from '@/context/permissions';
-import { useGroup } from '@/hooks/groups/use-group';
-import { Group } from '@/services/groups/Interfaces';
-import { useState } from 'react';
-import EditGroupModal from './edit-group-modal';
+} from "@/components/ui/dialog";
+import { PERMISSIONS } from "@/context/permissions";
+import { useGroup } from "@/hooks/groups/use-group";
+import { Group } from "@/services/groups/Interfaces";
+import { useState } from "react";
+import EditGroupModal from "./edit-group-modal";
 
 interface ViewGroupDetailsProps {
   group: Group;
@@ -48,32 +48,32 @@ export default function ViewGroupDetailsModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className='sm:max-w-[600px]'>
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>{group.name}</DialogTitle>
         </DialogHeader>
 
-        <div className='space-y-6 py-4'>
-          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2'>
+        <div className="space-y-6 py-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <h3 className='text-sm font-semibold text-muted-foreground mb-2'>
+              <h3 className="text-sm font-semibold text-muted-foreground mb-2">
                 Curso
               </h3>
-              <p className='text-base bg-primary/10 text-primary p-1 px-4 rounded-full w-fit font-medium'>
+              <p className="text-base bg-primary/10 text-primary p-1 px-4 rounded-full w-fit font-medium">
                 {groupDetails?.course}
               </p>
             </div>
 
             {group.advisor && (
               <div>
-                <h3 className='text-sm font-semibold text-muted-foreground mb-2'>
+                <h3 className="text-sm font-semibold text-muted-foreground mb-2">
                   Orientador
                 </h3>
                 <AdvisorCard
                   name={
                     groupDetails?.advisor?.user.name || group.advisor.user.name
                   }
-                  role={'Orientador'}
+                  role={"Orientador"}
                 />
               </div>
             )}
@@ -81,43 +81,43 @@ export default function ViewGroupDetailsModal({
 
           {group.title && (
             <div>
-              <h3 className='text-sm font-semibold text-muted-foreground mb-2'>
+              <h3 className="text-sm font-semibold text-muted-foreground mb-2">
                 Tema
               </h3>
-              <p className='text-base'>{group.title}</p>
+              <p className="text-base">{group.title}</p>
             </div>
           )}
 
           {group.description && (
             <div>
-              <h3 className='text-sm font-semibold text-muted-foreground mb-2'>
+              <h3 className="text-sm font-semibold text-muted-foreground mb-2">
                 Descrição
               </h3>
-              <p className='text-base'>{group.description}</p>
+              <p className="text-base">{group.description}</p>
             </div>
           )}
 
           {group.information && (
             <div>
-              <h3 className='text-sm font-semibold text-muted-foreground mb-2'>
+              <h3 className="text-sm font-semibold text-muted-foreground mb-2">
                 Informação
               </h3>
-              <p className='text-base'>{group.information}</p>
+              <p className="text-base">{group.information}</p>
             </div>
           )}
 
           {group.coAdvisor && (
             <div>
-              <h3 className='text-sm font-semibold text-muted-foreground mb-2'>
+              <h3 className="text-sm font-semibold text-muted-foreground mb-2">
                 Co-orientador
               </h3>
-              <p className='text-base'>{group.coAdvisor.user.name}</p>
+              <p className="text-base">{group.coAdvisor.user.name}</p>
             </div>
           )}
         </div>
 
-        <div className='flex justify-end gap-2 pt-4'>
-          <Button variant='outline' onClick={() => setIsOpen(false)}>
+        <div className="flex justify-end gap-2 pt-4">
+          <Button variant="outline" onClick={() => setIsOpen(false)}>
             Fechar
           </Button>
           <Can permission={PERMISSIONS.GROUP_UPDATE}>
