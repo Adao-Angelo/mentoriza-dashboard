@@ -19,7 +19,7 @@ export function proxy(request: NextRequest) {
       token &&
       (pathname === "/login" || pathname.startsWith("/forgot-password"))
     ) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return NextResponse.redirect(new URL("/dashboard/groups", request.url));
     }
     return NextResponse.next();
   }
