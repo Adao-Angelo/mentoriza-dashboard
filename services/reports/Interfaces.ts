@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export type ReportStatus = "under_review" | "approved" | "rejected";
+export type ReportStatus = 'under_review' | 'approved' | 'rejected';
 
 export interface CreateReportDto {
   groupId: number;
@@ -23,7 +23,7 @@ export interface UpdateReportDto {
 export interface ABNTViolation {
   type: string;
   message: string;
-  severity: "low" | "medium" | "high";
+  severity: 'low' | 'medium' | 'high';
   indicator: string;
   text_reference?: string;
 }
@@ -58,10 +58,22 @@ export interface ABNTResult {
   };
 }
 
+export interface Metadata {
+  margins_px: MarginsPx;
+  paragraph_count: number;
+}
+
+export interface MarginsPx {
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
+}
+
 export interface ProblematicViolation {
   type: string;
   message: string;
-  severity: "low" | "medium" | "high";
+  severity: 'low' | 'medium' | 'high';
   indicator: string;
   text_reference?: string;
 }
@@ -77,7 +89,7 @@ export interface ProblematicResult {
 export interface TheoreticalViolation {
   type: string;
   message: string;
-  severity: "low" | "medium" | "high";
+  severity: 'low' | 'medium' | 'high';
   indicator: string;
   text_reference?: string;
 }
@@ -125,12 +137,30 @@ export interface Submission {
   deletedAt?: string | null;
 }
 
+export interface Preview {
+  html: string;
+  metadata: Metadata;
+}
+
+export interface Metadata {
+  margins_px: MarginsPx;
+  paragraph_count: number;
+}
+
+export interface MarginsPx {
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
+}
+
 export interface Report {
   id: number;
   groupId: number;
   submissionId: number;
   fileUrl: string;
   publicId?: string;
+  preview?: Preview;
 
   status: ReportStatus;
   rejectionReason?: string | null;
