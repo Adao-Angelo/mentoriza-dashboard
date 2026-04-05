@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { Can } from '@/components/rbac/can';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { PERMISSIONS } from '@/context/permissions';
-import { useCourseStore } from '@/store/use-course.store';
-import { ArrowUpFromLine, FileUp, Plus } from 'lucide-react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
-import CreateGroupModal from '../group/create-group-modal';
+import { Can } from "@/components/rbac/can";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PERMISSIONS } from "@/context/permissions";
+import { useCourseStore } from "@/store/use-course.store";
+import { ArrowUpFromLine, FileUp, Plus } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import CreateGroupModal from "../group/create-group-modal";
 
-type CourseType = 'electronica' | 'informatica';
+type CourseType = "electronica" | "informatica";
 
 const COURSE_LABELS: Record<CourseType, string> = {
-  electronica: 'Eletrônica',
-  informatica: 'Informática',
+  electronica: "Eletrônica",
+  informatica: "Informática",
 };
 
-const DEFAULT_COURSE: CourseType = 'informatica';
+const DEFAULT_COURSE: CourseType = "informatica";
 
-import { usePTTeachers } from '@/hooks/pt-teachers/use-pt-teachers';
-import { useAuthStore } from '@/store/use-auth.store';
+import { usePTTeachers } from "@/hooks/pt-teachers/use-pt-teachers";
+import { useAuthStore } from "@/store/use-auth.store";
 
 function CourseTabs() {
   const { selectedCourse, setSelectedCourse } = useCourseStore();
@@ -31,7 +31,7 @@ function CourseTabs() {
   const searchParams = useSearchParams();
 
   const isCoordinator = user?.roles.some((r) =>
-    ['ADMIN', 'COORDINATOR'].includes(r)
+    ["ADMIN", "COORDINATOR"].includes(r),
   );
   const ptProfile = ptTeachers.find((t) => t.user.name === user?.username);
   const teacherCourse = ptProfile?.course as CourseType;
@@ -42,11 +42,11 @@ function CourseTabs() {
       params.set(name, value);
       return params.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
   useEffect(() => {
-    const courseFromUrl = searchParams.get('course') as CourseType | null;
+    const courseFromUrl = searchParams.get("course") as CourseType | null;
 
     let courseToUse: CourseType;
 
@@ -64,8 +64,8 @@ function CourseTabs() {
     if (selectedCourse !== courseToUse) {
       setSelectedCourse(courseToUse);
       router.replace(
-        `${pathname}?${createQueryString('course', courseToUse)}`,
-        { scroll: false }
+        `${pathname}?${createQueryString("course", courseToUse)}`,
+        { scroll: false },
       );
     }
   }, [
@@ -83,15 +83,15 @@ function CourseTabs() {
     const newCourse = value as CourseType;
     setSelectedCourse(newCourse);
 
-    router.push(`${pathname}?${createQueryString('course', newCourse)}`, {
+    router.push(`${pathname}?${createQueryString("course", newCourse)}`, {
       scroll: false,
     });
   };
 
   if (!isCoordinator && teacherCourse) {
     return (
-      <div className='bg-muted/50 px-6 py-2 rounded-lg border'>
-        <span className='text-sm font-semibold text-muted-foreground uppercase tracking-wider'>
+      <div className="bg-muted/50 px-6 py-2 rounded-lg border">
+        <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
           Curso de {COURSE_LABELS[teacherCourse]}
         </span>
       </div>
@@ -102,11 +102,11 @@ function CourseTabs() {
     <Tabs
       value={selectedCourse || DEFAULT_COURSE}
       onValueChange={handleCourseChange}
-      className='w-fit'
+      className="w-fit"
     >
       <TabsList>
         {Object.entries(COURSE_LABELS).map(([value, label]) => (
-          <TabsTrigger key={value} className='px-8' value={value}>
+          <TabsTrigger key={value} className="px-8" value={value}>
             {label}
           </TabsTrigger>
         ))}
@@ -116,24 +116,24 @@ function CourseTabs() {
 }
 function ActionButtons({ onCreateGroup }: { onCreateGroup: () => void }) {
   return (
-    <div className='flex items-center gap-2'>
+    <div className="flex items-center gap-2">
       <Can permission={PERMISSIONS.GROUP_CREATE}>
         <Button onClick={onCreateGroup}>
           Adicionar
-          <Plus className='ml-2 h-4 w-4' />
+          <Plus className="ml-2 h-4 w-4" />
         </Button>
       </Can>
       <Can permission={PERMISSIONS.GROUP_PUBLISH}>
         <Button>
           Publicar
-          <ArrowUpFromLine className='ml-2 h-4 w-4' />
+          <ArrowUpFromLine className="ml-2 h-4 w-4" />
         </Button>
       </Can>
 
       <Can permission={PERMISSIONS.GROUP_UPDATE}>
         <Button>
           Importar
-          <FileUp className='ml-2 h-4 w-4' />
+          <FileUp className="ml-2 h-4 w-4" />
         </Button>
       </Can>
     </div>
@@ -145,8 +145,8 @@ export default function GroupHeader() {
 
   return (
     <>
-      <header className='flex w-full items-center justify-between mt-2 h-12'>
-        <div className='flex items-center gap-3'>
+      <header className="flex w-full items-center justify-between mt-2 h-12">
+        <div className="flex items-center gap-3">
           <CourseTabs />
         </div>
 

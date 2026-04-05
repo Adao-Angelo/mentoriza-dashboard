@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -17,35 +17,35 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   useCreatePTTeacher,
   useUpdatePTTeacher,
-} from '@/hooks/pt-teachers/use-pt-teachers';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+} from "@/hooks/pt-teachers/use-pt-teachers";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
-  email: z.string().email('Email inválido'),
+  name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
+  email: z.string().email("Email inválido"),
   password: z
     .string()
-    .min(6, 'Senha deve ter pelo menos 6 caracteres')
+    .min(6, "Senha deve ter pelo menos 6 caracteres")
     .optional()
-    .or(z.literal('')),
+    .or(z.literal("")),
   phone: z.string().optional(),
-  course: z.enum(['informatica', 'electronica'], {
-    message: 'Selecione um curso',
+  course: z.enum(["informatica", "electronica"], {
+    message: "Selecione um curso",
   }),
 });
 
@@ -67,11 +67,11 @@ export function PTTeacherFormDialog({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-      phone: '',
-      course: 'informatica',
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+      course: "informatica",
     },
   });
 
@@ -80,17 +80,17 @@ export function PTTeacherFormDialog({
       form.reset({
         name: ptTeacher.user.name,
         email: ptTeacher.user.email,
-        phone: ptTeacher.user.phone || '',
-        course: ptTeacher.course || 'informatica',
-        password: '',
+        phone: ptTeacher.user.phone || "",
+        course: ptTeacher.course || "informatica",
+        password: "",
       });
     } else {
       form.reset({
-        name: '',
-        email: '',
-        password: '',
-        phone: '',
-        course: 'informatica',
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
+        course: "informatica",
       });
     }
   }, [ptTeacher, form, open]);
@@ -109,22 +109,22 @@ export function PTTeacherFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {isEdit ? 'Editar Professor' : 'Novo Professor'}
+            {isEdit ? "Editar Professor" : "Novo Professor"}
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name='name'
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder='Nome completo' {...field} />
+                    <Input placeholder="Nome completo" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -132,12 +132,12 @@ export function PTTeacherFormDialog({
             />
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='email@exemplo.com' {...field} />
+                    <Input placeholder="email@exemplo.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -146,12 +146,12 @@ export function PTTeacherFormDialog({
             {!isEdit && (
               <FormField
                 control={form.control}
-                name='password'
+                name="password"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Senha</FormLabel>
                     <FormControl>
-                      <Input type='password' placeholder='******' {...field} />
+                      <Input type="password" placeholder="******" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,12 +160,12 @@ export function PTTeacherFormDialog({
             )}
             <FormField
               control={form.control}
-              name='phone'
+              name="phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Telefone</FormLabel>
                   <FormControl>
-                    <Input placeholder='Ex: 11999998888' {...field} />
+                    <Input placeholder="Ex: 11999998888" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -173,7 +173,7 @@ export function PTTeacherFormDialog({
             />
             <FormField
               control={form.control}
-              name='course'
+              name="course"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Curso</FormLabel>
@@ -183,12 +183,12 @@ export function PTTeacherFormDialog({
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder='Selecione um curso' />
+                        <SelectValue placeholder="Selecione um curso" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value='informatica'>Informática</SelectItem>
-                      <SelectItem value='electronica'>Eletrônica</SelectItem>
+                      <SelectItem value="informatica">Informática</SelectItem>
+                      <SelectItem value="electronica">Eletrônica</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -196,8 +196,8 @@ export function PTTeacherFormDialog({
               )}
             />
             <DialogFooter>
-              <Button type='submit' disabled={isPending}>
-                {isPending ? 'Salvando...' : 'Salvar'}
+              <Button type="submit" disabled={isPending}>
+                {isPending ? "Salvando..." : "Salvar"}
               </Button>
             </DialogFooter>
           </form>
