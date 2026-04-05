@@ -40,7 +40,7 @@ import GroupsBoard from "@/components/dashboard/group/groups-board";
 import GlobalLoader from "@/components/loader";
 import SortableMember from "@/components/member/SortableMember";
 import { Can } from "@/components/rbac/can";
-import { PERMISSIONS } from "@/context/permissions";
+import { ROLES } from "@/constants/roles";
 import { useGenerateGroups } from "@/hooks/groups/useGenerateGroups";
 import { useLinkStudentToGroup } from "@/hooks/groups/useLinkStudentToGroup";
 import { useStudents } from "@/hooks/students/use-students";
@@ -58,7 +58,7 @@ function EmptyGroupsView() {
           Não há registros de grupos disponíveis no momento.
         </p>
       </div>
-      <Can permission={PERMISSIONS.STUDENT_LINK_GROUP}>
+      <Can role={[ROLES.PT_TEACHER, ROLES.COORDINATOR, ROLES.ADMIN]}>
         <DialogTrigger asChild>
           <Button className="mt-5">
             <Users /> Gerar grupos

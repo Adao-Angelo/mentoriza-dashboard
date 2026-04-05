@@ -31,6 +31,7 @@ import { useDeleteAdvisor } from "@/hooks/advisors/use-delete-advisor";
 import { useConfirm } from "@/hooks/use-confirm";
 import type { Advisor } from "@/services/advisor/interfaces";
 import { Group } from "@/services/groups/Interfaces";
+import { Badge } from "../ui/badge";
 import UserProfileDisplay from "../user-profile-display";
 
 interface AdvisorCardProps {
@@ -147,7 +148,11 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon" className="h-8 w-8 shrink-0">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-8 w-8 shrink-0 border-Gray text-Gray hover:bg-transparent hover:text-foreground"
+            >
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -186,9 +191,21 @@ export function AdvisorCard({ advisor, onEdit }: AdvisorCardProps) {
         </DropdownMenu>
       </div>
 
-      <p className="text-sm mb-4 mt-2 border border-black-dark text-black-dark p-1 px-3 w-fit rounded-full">
-        {advisor.specialty || "Especialidade não definida"}
-      </p>
+      <div className="flex justify-between items-center mb-3 mt-2">
+        <p className="text-sm  border border-black-dark text-black-dark p-1 px-3 w-fit rounded-full">
+          {advisor.specialty || "Especialidade não definida"}
+        </p>
+
+        <Badge
+          variant={
+            advisor.user?.status === "active" ? "success" : "destructive"
+          }
+        >
+          <p className="font-bold">
+            {advisor.user?.status === "active" ? "Ativo" : "Inativo"}
+          </p>
+        </Badge>
+      </div>
 
       <p className="text-sm text-muted-foreground font-bold flex items-center gap-2">
         <PhoneCall size={18} />

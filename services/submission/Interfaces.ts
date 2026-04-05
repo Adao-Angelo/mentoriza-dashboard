@@ -1,12 +1,16 @@
+import { Phase } from "../phase/interfaces";
+
 export interface CreateSubmissionDto {
   endDate: string;
   stage: number;
+  phaseId?: number;
 }
 
 export interface UpdateSubmissionDto {
   status?: "active" | "inactive";
   endDate?: string;
   stage?: number;
+  phaseId?: number;
 }
 
 export interface Submission {
@@ -15,6 +19,8 @@ export interface Submission {
   endDate: string;
   status: "active" | "inactive";
   stage: number;
+  phaseId?: number;
+  phase?: Phase;
   createdAt: string;
   updatedAt: string;
 }

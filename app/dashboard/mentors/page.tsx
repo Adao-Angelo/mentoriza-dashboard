@@ -22,21 +22,18 @@ export default function AdvisorsPage() {
   const { data: advisors = [], isLoading } = useAdvisors();
 
   return (
-    <div className="container rounded-2xl">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between md:items-end gap-4 mb-5">
-        <h1 className="text-xl font-bold tracking-tight"></h1>
-        <div className="flex gap-3">
-          <Button variant={"outline"} onClick={() => setOpenCreateDialog(true)}>
-            <FileDown />
-            Exportar
+    <div className="space-y-4">
+      <div className="flex justify-end items-center gap-3">
+        <Button variant={"outline"} onClick={() => setOpenCreateDialog(true)}>
+          <FileDown className="mr-2 h-4 w-4" />
+          Exportar
+        </Button>
+        <Can permission={PERMISSIONS.GROUP_ADD_MENTOR}>
+          <Button onClick={() => setOpenCreateDialog(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Novo Orientador
           </Button>
-          <Can permission={PERMISSIONS.GROUP_ADD_MENTOR}>
-            <Button onClick={() => setOpenCreateDialog(true)}>
-              <Plus />
-              Novo Orientador
-            </Button>
-          </Can>
-        </div>
+        </Can>
       </div>
 
       {isLoading ? (

@@ -69,6 +69,16 @@ export const itemsSidebar: SidebarItem[] = [
         url: "/dashboard/configurations/submissions",
         requiredPermission: PERMISSIONS.SUBMISSION_READ,
       },
+      {
+        title: "Coordenadores",
+        url: "/dashboard/configurations/coordinators",
+        requiredPermission: PERMISSIONS.USER_READ,
+      },
+      {
+        title: "Professores de PT",
+        url: "/dashboard/configurations/pt-teachers",
+        requiredPermission: PERMISSIONS.USER_READ,
+      },
     ],
   },
 ];

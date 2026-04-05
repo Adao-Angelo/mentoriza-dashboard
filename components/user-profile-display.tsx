@@ -13,7 +13,6 @@ export default function UserProfileDisplay({
   email,
   className = "",
   onClick,
-  status,
 }: UserProfileDisplayProps) {
   let initials: string;
 
@@ -44,11 +43,6 @@ export default function UserProfileDisplay({
     >
       <div className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-gray-300 bg-white">
         <span className="text-base font-semibold text-Gray">{initials}</span>
-        {status == "active" && (
-          <div className="text-sm p-1 pt-px bg-green-100 text-green-600 rounded-full border border-green-200 absolute -bottom-2 -right-0.75">
-            <p className="font-bold">Ative</p>
-          </div>
-        )}
       </div>
 
       <div className="min-w-0 truncate hidden md:flex md:flex-col md:items-start">
@@ -58,7 +52,7 @@ export default function UserProfileDisplay({
           </p>
         )}
         {email && (
-          <p className="text-xs text-gray-500 truncate w-10">{email}</p>
+          <p className="text-xs text-gray-500 truncate w-30">{email}</p>
         )}
       </div>
     </div>

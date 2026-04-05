@@ -31,6 +31,8 @@ import { useStudents } from "@/hooks/students/use-students";
 import { useUploadStudentsCsv } from "@/hooks/students/use-upload-students-csv";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { usePTTeachers } from "@/hooks/pt-teachers/use-pt-teachers";
+import { useAuthStore } from "@/store/use-auth.store";
 import { useCourseStore } from "@/store/use-course.store";
 import {
   ArrowLeftIcon,
@@ -63,9 +65,17 @@ const DEFAULT_COURSE: CourseType = "informatica";
 
 function CourseTabs() {
   const { selectedCourse, setSelectedCourse } = useCourseStore();
+  const { user } = useAuthStore();
+  const { data: ptTeachers = [] } = usePTTeachers();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const isCoordinator = user?.roles.some((r) =>
+    ["ADMIN", "COORDINATOR"].includes(r),
+  );
+  const ptProfile = ptTeachers.find((t) => t.user.name === user?.username);
+  const teacherCourse = ptProfile?.course as CourseType;
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -81,19 +91,23 @@ function CourseTabs() {
 
     let courseToUse: CourseType;
 
-    if (courseFromUrl && Object.keys(COURSE_LABELS).includes(courseFromUrl)) {
+    if (!isCoordinator && teacherCourse) {
+      courseToUse = teacherCourse;
+    } else if (
+      courseFromUrl &&
+      Object.keys(COURSE_LABELS).includes(courseFromUrl)
+    ) {
       courseToUse = courseFromUrl;
     } else {
       courseToUse = DEFAULT_COURSE;
-
-      router.replace(
-        `${pathname}?${createQueryString("course", DEFAULT_COURSE)}`,
-        { scroll: false },
-      );
     }
 
     if (selectedCourse !== courseToUse) {
       setSelectedCourse(courseToUse);
+      router.replace(
+        `${pathname}?${createQueryString("course", courseToUse)}`,
+        { scroll: false },
+      );
     }
   }, [
     searchParams,
@@ -102,6 +116,8 @@ function CourseTabs() {
     setSelectedCourse,
     createQueryString,
     selectedCourse,
+    isCoordinator,
+    teacherCourse,
   ]);
 
   const handleCourseChange = (value: string) => {
@@ -112,6 +128,16 @@ function CourseTabs() {
       scroll: false,
     });
   };
+
+  if (!isCoordinator && teacherCourse) {
+    return (
+      <div className="bg-muted/50 px-6 py-2 rounded-lg border">
+        <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+          Curso de {COURSE_LABELS[teacherCourse]}
+        </span>
+      </div>
+    );
+  }
 
   return (
     <Tabs

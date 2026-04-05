@@ -1,4 +1,4 @@
-import { Role } from "./roles";
+import { Role, ROLES } from "@/constants/roles";
 
 export type Action = "read" | "create" | "update" | "delete";
 export type Resource = "advisor" | "project" | "user";
@@ -6,21 +6,22 @@ export type Resource = "advisor" | "project" | "user";
 type Permissions = Record<Role, Partial<Record<Resource, Action[]>>>;
 
 export const rolePermissions: Permissions = {
-  [Role.STUDENT]: {
+  [ROLES.STUDENT]: {
     project: ["read", "create"],
   },
-  [Role.TEACHER]: {
+  [ROLES.PT_TEACHER]: {
     project: ["read"],
   },
-  [Role.ADVISOR]: {
+  [ROLES.ADVISOR]: {
     project: ["read", "update"],
     advisor: ["read"],
   },
-  [Role.COORDINATOR]: {
+  [ROLES.COORDINATOR]: {
     project: ["read", "create", "update", "delete"],
     advisor: ["read", "update", "delete"],
     user: ["read", "update", "delete"],
   },
+  [ROLES.ADMIN]: {},
 };
 
 export function can(role: Role, action: Action, resource: Resource): boolean {

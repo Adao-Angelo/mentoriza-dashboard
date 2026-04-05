@@ -1,11 +1,16 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/use-auth.store";
 import { getInitials } from "initials-extractor";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 export default function MyProfilePage() {
   const { user } = useAuthStore();
+
+  console.log(user);
 
   return (
     <div className="w-full px-2 mt-3">
@@ -31,9 +36,7 @@ export default function MyProfilePage() {
         <div className="w-full flex justify-between items-center mb-6">
           <h3 className="text-base font-bold">Informações do Perfil</h3>
 
-          <span className="px-4 py-1 rounded-full text-sm font-medium bg-green-100 text-green-700">
-            active
-          </span>
+          <Badge variant={"success"}>Ativo</Badge>
         </div>
 
         <div className="w-full flex justify-between mt-5">
@@ -50,6 +53,24 @@ export default function MyProfilePage() {
           <div>
             <p className="text-md font-semibold">Número</p>
             <p className="text-sm ">{user?.phone ?? "Não informado"}</p>
+          </div>
+        </div>
+        <div className="w-full flex justify-between mt-5">
+          <div className="flex flex-col gap-2">
+            <p className="text-md font-semibold">Cargo</p>
+            <p className="text-sm border px-2 py-1 rounded-full w-max">
+              {user?.roles?.[0] ?? "Não informado"}
+            </p>
+          </div>
+
+          <div>
+            <Button
+              onClick={() => {
+                toast.error("Funcionalidade ainda nao Implementada");
+              }}
+            >
+              Editar Perfil
+            </Button>
           </div>
         </div>
       </div>

@@ -28,11 +28,28 @@ import {
 } from "@/components/ui/select";
 import { Plus } from "lucide-react";
 
+import { usePTTeachers } from "@/hooks/pt-teachers/use-pt-teachers";
 import { useCreateStudentDialog } from "@/hooks/students/use-create-student-dialog";
+import { useAuthStore } from "@/store/use-auth.store";
+import { useEffect } from "react";
 
 export default function CreateStudentDialog() {
   const { isOpen, setIsOpen, form, onSubmit, isCreating } =
     useCreateStudentDialog();
+  const { user } = useAuthStore();
+  const { data: ptTeachers = [] } = usePTTeachers();
+
+  const isCoordinator = user?.roles.some((r) =>
+    ["ADMIN", "COORDINATOR"].includes(r),
+  );
+  const ptProfile = ptTeachers.find((t) => t.user.name === user?.username);
+  const teacherCourse = ptProfile?.course;
+
+  useEffect(() => {
+    if (!isCoordinator && teacherCourse && isOpen) {
+      form.setValue("course", teacherCourse);
+    }
+  }, [isCoordinator, teacherCourse, isOpen, form]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -118,12 +135,15 @@ export default function CreateStudentDialog() {
                       <Select
                         value={field.value}
                         onValueChange={field.onChange}
+                        disabled={!isCoordinator && !!teacherCourse}
                       >
                         <SelectTrigger className="w-full h-12!">
                           <SelectValue placeholder="Selecione curso" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="none">Nenhum</SelectItem>
+                          {isCoordinator && (
+                            <SelectItem value="none">Nenhum</SelectItem>
+                          )}
                           <SelectItem value="informatica">
                             Informática
                           </SelectItem>

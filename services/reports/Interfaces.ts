@@ -8,6 +8,7 @@ export interface CreateReportDto {
   fileUrl: string;
   publicId?: string;
   score?: number;
+  grade?: number;
   observations?: string[];
 }
 
@@ -17,6 +18,7 @@ export interface UpdateReportDto {
   fileUrl?: string;
   publicId?: string;
   score?: number;
+  grade?: number;
   observations?: string[];
 }
 
@@ -166,6 +168,7 @@ export interface Report {
   rejectionReason?: string | null;
 
   score?: number;
+  grade?: number;
   observations?: string[];
 
   /** Resultados detalhados por indicador */

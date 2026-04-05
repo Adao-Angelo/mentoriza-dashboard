@@ -31,8 +31,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { BarChart3, Eye, FileText, MoreHorizontal, Trash2 } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
@@ -116,7 +114,8 @@ export function ReportsTable({ reports }: ReportsTableProps) {
             <TableHead>Curso</TableHead>
             <TableHead>Submissão</TableHead>
             <TableHead>Data de Envio</TableHead>
-            <TableHead>Nota</TableHead>
+            <TableHead>Pontuação no Mentoriza</TableHead>
+            <TableHead>Nota Final</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Ações</TableHead>
           </TableRow>
@@ -141,18 +140,30 @@ export function ReportsTable({ reports }: ReportsTableProps) {
                 {report?.group?.course || "Não disponível"}
               </TableCell>
 
-              <TableCell>Submissão #{report.submissionId}</TableCell>
+              <TableCell className="text-center">
+                <span className="border border-Gray font-bold text-Gray flex items-center justify-center h-8 w-8">
+                  {report.submissionId}
+                </span>
+              </TableCell>
 
               <TableCell>
-                {format(new Date(report.createdAt), "dd 'de' MMM yyyy", {
-                  locale: ptBR,
+                {new Date(report.createdAt).toLocaleDateString("pt-BR", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
                 })}
               </TableCell>
 
               <TableCell>
                 {report.score != undefined || report.score != null
-                  ? `${report.score}/100`
+                  ? `${report.score}%`
                   : "Em avaliação"}
+              </TableCell>
+
+              <TableCell className="font-medium text-black-dark">
+                {report.grade != undefined || report.grade != null
+                  ? report.grade
+                  : "Sem nota"}
               </TableCell>
 
               <TableCell>{getStatusBadge(report.status)}</TableCell>

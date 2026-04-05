@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import GlobalLoader from "@/components/loader";
+import { Can } from "@/components/rbac/can";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,15 +15,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { PERMISSIONS } from "@/context/permissions";
+import { useCreateFeedback } from "@/hooks/feedback/use-create-feedback";
+import { useUpdateReportGrade } from "@/hooks/reports/use-update-report-grade";
 import { useUpdateReportStatus } from "@/hooks/reports/use-update-report-status";
 import { useReport } from "@/hooks/reports/useReport";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { CheckCheck, MonitorCheck, PrinterCheck } from "lucide-react";
+import {
+  CheckCheck,
+  GraduationCap,
+  MessageSquareShare,
+  MonitorCheck,
+  PrinterCheck,
+} from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { Can } from "@/components/rbac/can";
-import { PERMISSIONS } from "@/context/permissions";
+import toast from "react-hot-toast";
 
 export default function ReportDetailsPage() {
   const params = useParams();
@@ -31,9 +42,17 @@ export default function ReportDetailsPage() {
 
   const { data: report, isLoading } = useReport(reportId);
   const updateStatus = useUpdateReportStatus();
+  const updateGrade = useUpdateReportGrade();
+  const createFeedback = useCreateFeedback();
 
   const [isRejectDialogOpen, setIsRejectDialogOpen] = useState(false);
   const [rejectionReason, setRejectionReason] = useState("");
+
+  const [isGradeDialogOpen, setIsGradeDialogOpen] = useState(false);
+  const [grade, setGrade] = useState("");
+
+  const [isFeedbackDialogOpen, setIsFeedbackDialogOpen] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState("");
 
   const observations = report?.observations ?? [];
 
@@ -55,6 +74,28 @@ export default function ReportDetailsPage() {
 
     setIsRejectDialogOpen(false);
     setRejectionReason("");
+  };
+
+  const handleSaveGrade = () => {
+    if (!report || !grade) return;
+    updateGrade.mutate({
+      id: report.id,
+      payload: { grade: Number(grade) },
+    });
+    setIsGradeDialogOpen(false);
+    setGrade("");
+  };
+
+  const handleSendFeedback = () => {
+    if (!report || !feedbackMessage) return;
+    createFeedback.mutate({
+      reportId: report.id,
+      groupId: report.groupId,
+      message: feedbackMessage,
+      type: "manual",
+    });
+    setIsFeedbackDialogOpen(false);
+    setFeedbackMessage("");
   };
 
   if (isLoading) {
@@ -84,6 +125,108 @@ export default function ReportDetailsPage() {
               Aprovar
             </Button>
           </Can>
+
+          <Dialog open={isGradeDialogOpen} onOpenChange={setIsGradeDialogOpen}>
+            <Can permission={PERMISSIONS.REPORT_REVIEW}>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <GraduationCap />
+                  Dar Nota
+                </Button>
+              </DialogTrigger>
+            </Can>
+            <DialogContent className="sm:max-w-125">
+              <DialogHeader>
+                <DialogTitle>Atribuir Nota</DialogTitle>
+                <DialogDescription>
+                  Atribua uma nota para este relatório.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="grade">Nota 0 a 2</Label>
+                  <Input
+                    id="grade"
+                    type="number"
+                    min="0"
+                    max="2"
+                    step="0.1"
+                    value={grade}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (
+                        value == "" ||
+                        (Number(value) >= 0 && Number(value) <= 2)
+                      ) {
+                        setGrade(value);
+                      } else {
+                        toast.error("A nota deve ser um número entre 0 e 2");
+                      }
+                    }}
+                    placeholder="Digite a nota aqui"
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsGradeDialogOpen(false)}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  disabled={!grade || updateGrade.isPending}
+                  onClick={handleSaveGrade}
+                >
+                  {updateGrade.isPending ? "Salvando..." : "Salvar Nota"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog
+            open={isFeedbackDialogOpen}
+            onOpenChange={setIsFeedbackDialogOpen}
+          >
+            <Can permission={PERMISSIONS.FEEDBACK_CREATE}>
+              <DialogTrigger asChild>
+                <Button variant="outline">
+                  <MessageSquareShare />
+                  Enviar Feedback
+                </Button>
+              </DialogTrigger>
+            </Can>
+            <DialogContent className="sm:max-w-125">
+              <DialogHeader>
+                <DialogTitle>Enviar Feedback</DialogTitle>
+                <DialogDescription>
+                  Escreva um feedback direto para este relatório.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4">
+                <Textarea
+                  value={feedbackMessage}
+                  onChange={(e) => setFeedbackMessage(e.target.value)}
+                  placeholder="Seu feedback aqui..."
+                  className="min-h-35"
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsFeedbackDialogOpen(false)}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  disabled={!feedbackMessage || createFeedback.isPending}
+                  onClick={handleSendFeedback}
+                >
+                  {createFeedback.isPending ? "Enviando..." : "Enviar Feedback"}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           <Button
             onClick={() => {
@@ -223,8 +366,15 @@ export default function ReportDetailsPage() {
           </div>
 
           <div>
-            <p className="text-sm text-muted-foreground">Pontuação</p>
-            <p>{report.score ?? "0%"}</p>
+            <p className="text-sm text-muted-foreground">Pontuação IA</p>
+            <p>{report.score ? `${report.score}%` : "0%"}</p>
+          </div>
+
+          <div>
+            <p className="text-sm text-muted-foreground">Nota</p>
+            <p className="font-semibold text-primary">
+              {report.grade ?? "Pendente"}
+            </p>
           </div>
 
           <div>

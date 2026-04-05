@@ -1,9 +1,10 @@
+import { Role } from "@/constants/roles";
 import { Action, can, Resource } from "@/lib/rbac/permissions";
-import { Role } from "@/lib/rbac/roles";
+
 import { useAuthStore } from "@/store/use-auth.store";
 
 interface UseUserPermissionProps {
-  role?: Role;
+  role?: Role | Role[];
   permission?: string;
   resource?: Resource;
   action?: Action;
@@ -30,7 +31,13 @@ export function useUserPermission({
     }
   }
 
-  if (role && userRoles.includes(role)) return true;
+  if (role && Array.isArray(role)) {
+    for (const r of role) {
+      if (userRoles.includes(r)) return true;
+    }
+  } else if (role && userRoles.includes(role)) {
+    return true;
+  }
 
   return false;
 }

@@ -27,17 +27,26 @@ import { CalendarDays, Loader2 } from "lucide-react";
 
 import { useCreateSubmission } from "@/hooks/submissions/use-create-submission";
 import { useUpdateSubmission } from "@/hooks/submissions/use-update-submission";
+import { usePhases } from "@/hooks/phase/use-phases";
 import {
   CreateSubmissionDto,
   Submission,
   UpdateSubmissionDto,
 } from "@/services/submission/Interfaces";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const submissionSchema = z.object({
   endDate: z
     .string()
     .refine((val) => !isNaN(Date.parse(val)), { message: "Data inválida" }),
   stage: z.number().min(1, { message: "Etapa deve ser pelo menos 1" }),
+  phaseId: z.number().optional(),
 });
 
 type SubmissionFormValues = z.infer<typeof submissionSchema>;
@@ -63,6 +72,7 @@ export function SubmissionFormDialog({
   const isEdit = !!submission;
   const { mutate: create, isPending: isCreating } = useCreateSubmission();
   const { mutate: update, isPending: isUpdating } = useUpdateSubmission();
+  const { data: phases = [] } = usePhases();
 
   const form = useForm<SubmissionFormValues>({
     resolver: zodResolver(submissionSchema),
@@ -71,6 +81,7 @@ export function SubmissionFormDialog({
         toDateTimeLocal(submission?.endDate) ||
         toDateTimeLocal(new Date().toISOString()),
       stage: submission?.stage || 1,
+      phaseId: submission?.phaseId,
     },
   });
 
@@ -128,7 +139,7 @@ export function SubmissionFormDialog({
               name="stage"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Fase</FormLabel>
+                  <FormLabel>Etapa (Número)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -137,6 +148,34 @@ export function SubmissionFormDialog({
                       onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phaseId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fase do Projeto</FormLabel>
+                  <Select
+                    onValueChange={(value) => field.onChange(Number(value))}
+                    defaultValue={field.value?.toString()}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione uma fase" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {phases.map((phase) => (
+                        <SelectItem key={phase.id} value={phase.id.toString()}>
+                          {phase.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

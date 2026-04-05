@@ -1,10 +1,11 @@
+import { Role } from "@/constants/roles";
 import { useUserPermission } from "@/hooks/rbac/useUserPermission";
 import { Action, Resource } from "@/lib/rbac/permissions";
-import { Role } from "@/lib/rbac/roles";
+
 import { ReactNode } from "react";
 
 interface CanProps {
-  role?: Role;
+  role?: Role | Role[];
   permission?: string;
   resource?: Resource;
   action?: Action;

@@ -26,11 +26,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 
 import GlobalLoader from "@/components/loader";
 import { Can } from "@/components/rbac/can";
 import { SubmissionFormDialog } from "@/components/submissions/submission-form-dialog";
+import { Badge } from "@/components/ui/badge";
+import { ROLES } from "@/constants/roles";
 import { PERMISSIONS } from "@/context/permissions";
 import { useDeleteSubmission } from "@/hooks/submissions/use-delete-submission";
 import { useSubmissions } from "@/hooks/submissions/use-submissions";
@@ -99,13 +100,15 @@ export default function SubmissionsPage() {
           <p className="text-sm text-muted-foreground">
             Nenhuma submissão criada ainda
           </p>
-          <Button
-            size={"lg"}
-            className="mt-6"
-            onClick={() => setOpenCreateDialog(true)}
-          >
-            <Plus /> Criar a primeira submissão
-          </Button>
+          <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
+            <Button
+              size={"lg"}
+              className="mt-6"
+              onClick={() => setOpenCreateDialog(true)}
+            >
+              <Plus /> Criar a primeira submissão
+            </Button>
+          </Can>
         </div>
       ) : (
         <div className="border rounded-lg overflow-hidden">
@@ -124,26 +127,42 @@ export default function SubmissionsPage() {
             <TableBody>
               {submissions.map((submission) => (
                 <TableRow key={submission.id}>
-                  <TableCell>{submission.stage}</TableCell>
                   <TableCell>
-                    {new Date(submission.startDate).toLocaleDateString("pt-BR")}
+                    {submission.phase?.name || `Etapa ${submission.stage}`}
                   </TableCell>
                   <TableCell>
-                    {new Date(submission.endDate).toLocaleDateString("pt-BR")}
+                    {new Date(submission.startDate).toLocaleDateString(
+                      "pt-BR",
+                      {
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      },
+                    )}
                   </TableCell>
                   <TableCell>
-                    <span
-                      className={cn(
-                        "px-2 py-1 text-xs rounded-full",
+                    {new Date(submission.endDate).toLocaleDateString("pt-BR", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
                         submission.status === "active"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800",
-                      )}
+                          ? "success"
+                          : "destructive"
+                      }
                     >
-                      {submission.status === "active" ? "Aberta" : "Fechada"}
-                    </span>
+                      {submission.status === "active"
+                        ? "Em andamento"
+                        : "Terminada"}
+                    </Badge>
                   </TableCell>
-                  <Can permission={PERMISSIONS.STUDENT_LINK_GROUP}>
+                  <Can
+                    role={[ROLES.PT_TEACHER, ROLES.COORDINATOR, ROLES.ADMIN]}
+                  >
                     <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -152,7 +171,13 @@ export default function SubmissionsPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
+                          <Can
+                            role={[
+                              ROLES.PT_TEACHER,
+                              ROLES.COORDINATOR,
+                              ROLES.ADMIN,
+                            ]}
+                          >
                             <DropdownMenuItem
                               onClick={() => setEditingSubmission(submission)}
                             >
@@ -161,7 +186,13 @@ export default function SubmissionsPage() {
                             </DropdownMenuItem>
                           </Can>
                           {submission.status === "active" && (
-                            <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
+                            <Can
+                              role={[
+                                ROLES.PT_TEACHER,
+                                ROLES.COORDINATOR,
+                                ROLES.ADMIN,
+                              ]}
+                            >
                               <DropdownMenuItem
                                 onClick={() => handleClose(submission)}
                               >
@@ -170,7 +201,13 @@ export default function SubmissionsPage() {
                               </DropdownMenuItem>
                             </Can>
                           )}
-                          <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
+                          <Can
+                            role={[
+                              ROLES.PT_TEACHER,
+                              ROLES.COORDINATOR,
+                              ROLES.ADMIN,
+                            ]}
+                          >
                             <DropdownMenuItem
                               className="text-danger focus:text-danger"
                               onClick={() => handleDelete(submission)}
