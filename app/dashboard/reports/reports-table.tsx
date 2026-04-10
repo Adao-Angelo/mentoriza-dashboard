@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 import {
   AlertDialog,
@@ -19,9 +19,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -29,14 +29,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import { BarChart3, Eye, FileText, MoreHorizontal, Trash2 } from 'lucide-react';
+import { BarChart3, Eye, FileText, MoreHorizontal, Trash2 } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { useDeleteReport } from '@/hooks/reports/use-delete-report';
-import { Report } from '@/services/reports/Interfaces';
-import { useRouter } from 'next/navigation';
+import { Badge } from "@/components/ui/badge";
+import { useDeleteReport } from "@/hooks/reports/use-delete-report";
+import { Report } from "@/services/reports/Interfaces";
+import { useRouter } from "next/navigation";
 
 interface ReportsTableProps {
   reports: Report[];
@@ -58,54 +58,54 @@ export function ReportsTable({ reports }: ReportsTableProps) {
     setSelectedReportIds((prev) =>
       prev.includes(id)
         ? prev.filter((selectedId) => selectedId !== id)
-        : [...prev, id]
+        : [...prev, id],
     );
   };
 
   const statusConfig: Record<
-    Report['status'],
-    { label: string; variant: 'default' | 'destructive' | 'secondary' }
+    Report["status"],
+    { label: string; variant: "default" | "destructive" | "secondary" }
   > = {
-    approved: { label: 'Aprovado', variant: 'default' },
-    rejected: { label: 'Rejeitado', variant: 'destructive' },
-    under_review: { label: 'Em avaliação', variant: 'secondary' },
+    approved: { label: "Aprovado", variant: "default" },
+    rejected: { label: "Rejeitado", variant: "destructive" },
+    under_review: { label: "Em avaliação", variant: "secondary" },
   };
 
-  const getStatusBadge = (status: Report['status']) => {
+  const getStatusBadge = (status: Report["status"]) => {
     const config = statusConfig[status];
 
     return (
-      <Badge variant={config.variant} className='space-x-2'>
+      <Badge variant={config.variant} className="space-x-2">
         {config.label}
       </Badge>
     );
   };
 
   const destinationConfig: Record<
-    Report['destination'],
-    { label: string; variant: 'outline' | 'secondary' | 'default' }
+    Report["destination"],
+    { label: string; variant: "outline" | "secondary" | "default" }
   > = {
-    PERSONAL_TEST: { label: 'Teste pessoal', variant: 'outline' },
-    MENTOR_REVIEW: { label: 'Mentores', variant: 'secondary' },
-    FINAL_SUBMISSION: { label: 'Submissão final', variant: 'default' },
+    PERSONAL_TEST: { label: "Teste pessoal", variant: "outline" },
+    MENTOR_REVIEW: { label: "Mentores", variant: "secondary" },
+    FINAL_SUBMISSION: { label: "Submissão final", variant: "default" },
   };
 
-  const getDestinationBadge = (destination: Report['destination']) => {
+  const getDestinationBadge = (destination: Report["destination"]) => {
     const config = destinationConfig[destination];
 
     return <Badge variant={config.variant}>{config.label}</Badge>;
   };
 
   return (
-    <div className='border rounded-lg overflow-hidden'>
+    <div className="border rounded-lg overflow-hidden">
       {selectedReportIds.length > 0 && (
-        <div className='px-4 py-2 border-b bg-muted/30 flex items-center justify-between'>
-          <p className='text-sm font-medium'>
+        <div className="px-4 py-2 border-b bg-muted/30 flex items-center justify-between">
+          <p className="text-sm font-medium">
             Selecionados: {selectedReportIds.length}
           </p>
           <Button
-            size='sm'
-            variant='outline'
+            size="sm"
+            variant="outline"
             onClick={() => setSelectedReportIds([])}
           >
             Limpar seleção
@@ -118,11 +118,11 @@ export function ReportsTable({ reports }: ReportsTableProps) {
           <TableRow>
             <TableHead>
               <input
-                type='checkbox'
+                type="checkbox"
                 checked={allSelected}
                 onChange={toggleSelectAll}
-                className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'
-                aria-label='Selecionar todos os relatórios'
+                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                aria-label="Selecionar todos os relatórios"
               />
             </TableHead>
             <TableHead>Grupo</TableHead>
@@ -133,7 +133,7 @@ export function ReportsTable({ reports }: ReportsTableProps) {
             <TableHead>Nota Final</TableHead>
             <TableHead>Destino</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead className='text-right'>Ações</TableHead>
+            <TableHead className="text-right">Ações</TableHead>
           </TableRow>
         </TableHeader>
 
@@ -142,89 +142,89 @@ export function ReportsTable({ reports }: ReportsTableProps) {
             <TableRow key={report.id}>
               <TableCell>
                 <input
-                  type='checkbox'
+                  type="checkbox"
                   checked={selectedReportIds.includes(report.id)}
                   onChange={() => toggleSelectOne(report.id)}
-                  className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   aria-label={`Selecionar relatório ${report.id}`}
                 />
               </TableCell>
-              <TableCell className='font-medium'>
-                {report.group?.name || 'Não vinculado'}
+              <TableCell className="font-medium">
+                {report.group?.name || "Não vinculado"}
               </TableCell>
-              <TableCell className='font-medium'>
-                {report?.group?.course || 'Não disponível'}
+              <TableCell className="font-medium">
+                {report?.group?.course || "Não disponível"}
               </TableCell>
 
-              <TableCell className='text-center'>
-                <span className='border border-Gray font-bold text-Gray flex items-center justify-center h-8 w-8'>
+              <TableCell className="text-center">
+                <span className="border border-Gray font-bold text-Gray flex items-center justify-center h-8 w-8">
                   {report.submissionId}
                 </span>
               </TableCell>
 
               <TableCell>
-                {new Date(report.createdAt).toLocaleDateString('pt-BR', {
-                  day: 'numeric',
-                  month: 'long',
-                  year: 'numeric',
+                {new Date(report.createdAt).toLocaleDateString("pt-BR", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
                 })}
               </TableCell>
 
               <TableCell>
                 {report.score != undefined || report.score != null
                   ? `${report.score}%`
-                  : 'Em avaliação'}
+                  : "Em avaliação"}
               </TableCell>
 
-              <TableCell className='font-medium text-black-dark'>
+              <TableCell className="font-medium text-black-dark">
                 {report.grade != undefined || report.grade != null
                   ? report.grade
-                  : 'Sem nota'}
+                  : "Sem nota"}
               </TableCell>
 
               <TableCell>{getDestinationBadge(report.destination)}</TableCell>
 
               <TableCell>{getStatusBadge(report.status)}</TableCell>
 
-              <TableCell className='text-right'>
+              <TableCell className="text-right">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
-                      variant='outline'
-                      size='sm'
-                      className='h-8 w-8 p-0 text-muted-foreground hover:text-foreground border-Gray'
+                      variant="outline"
+                      size="sm"
+                      className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground border-Gray"
                     >
-                      <span className='sr-only'>Abrir menu</span>
-                      <MoreHorizontal className='h-4 w-4' />
+                      <span className="sr-only">Abrir menu</span>
+                      <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
 
-                  <DropdownMenuContent align='end' className='w-48'>
+                  <DropdownMenuContent align="end" className="w-48">
                     <DropdownMenuItem
-                      className='cursor-pointer'
-                      onClick={() => window.open(report.fileUrl, '_blank')}
+                      className="cursor-pointer"
+                      onClick={() => window.open(report.fileUrl, "_blank")}
                     >
-                      <FileText className='mr-2 h-4 w-4' />
+                      <FileText className="mr-2 h-4 w-4" />
                       Ver ficheiro
                     </DropdownMenuItem>
 
                     <DropdownMenuItem
-                      className='cursor-pointer'
+                      className="cursor-pointer"
                       onClick={() =>
                         router.push(`/dashboard/reports/${report.id}`)
                       }
                     >
-                      <Eye className='mr-2 h-4 w-4' />
+                      <Eye className="mr-2 h-4 w-4" />
                       Ver detalhes
                     </DropdownMenuItem>
 
                     <DropdownMenuItem
-                      className='cursor-pointer'
+                      className="cursor-pointer"
                       onClick={() =>
                         router.push(`/report-evaluation-result/${report.id}`)
                       }
                     >
-                      <BarChart3 className='mr-2 h-4 w-4' />
+                      <BarChart3 className="mr-2 h-4 w-4" />
                       Ver análises
                     </DropdownMenuItem>
 
@@ -232,9 +232,9 @@ export function ReportsTable({ reports }: ReportsTableProps) {
                       <AlertDialogTrigger asChild>
                         <DropdownMenuItem
                           onSelect={(e) => e.preventDefault()}
-                          className='text-danger focus:bg-danger/10 focus:text-danger cursor-pointer'
+                          className="text-danger focus:bg-danger/10 focus:text-danger cursor-pointer"
                         >
-                          <Trash2 className='mr-2 h-4 w-4 text-danger' />
+                          <Trash2 className="mr-2 h-4 w-4 text-danger" />
                           Remover
                         </DropdownMenuItem>
                       </AlertDialogTrigger>
@@ -249,11 +249,11 @@ export function ReportsTable({ reports }: ReportsTableProps) {
                         </AlertDialogHeader>
 
                         <AlertDialogFooter>
-                          <AlertDialogCancel size='sm'>
+                          <AlertDialogCancel size="sm">
                             Cancelar
                           </AlertDialogCancel>
                           <AlertDialogAction
-                            size='sm'
+                            size="sm"
                             onClick={() => deleteReport(report.id)}
                           >
                             Remover

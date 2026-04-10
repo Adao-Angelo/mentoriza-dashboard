@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { PageSkeleton } from '@/app/dashboard/configurations/coordinators/[id]/page-skeleton';
-import { Button } from '@/components/ui/button';
-import { useCoordinator } from '@/hooks/coordinators/use-coordinators';
-import { getInitials } from 'initials-extractor';
-import { ArrowLeftIcon } from 'lucide-react';
-import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
+import { PageSkeleton } from "@/app/dashboard/configurations/coordinators/[id]/page-skeleton";
+import { Button } from "@/components/ui/button";
+import { useCoordinator } from "@/hooks/coordinators/use-coordinators";
+import { getInitials } from "initials-extractor";
+import { ArrowLeftIcon } from "lucide-react";
+import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
 
 export default function CoordinatorDetailsPage() {
   const router = useRouter();
@@ -21,111 +21,111 @@ export default function CoordinatorDetailsPage() {
 
   if (!coordinator) {
     return (
-      <div className='w-full px-2 mt-3'>
+      <div className="w-full px-2 mt-3">
         <Button
-          variant='outline'
+          variant="outline"
           onClick={() => router.back()}
-          className='mb-4'
+          className="mb-4"
         >
-          <ArrowLeftIcon className='mr-2 h-4 w-4' />
+          <ArrowLeftIcon className="mr-2 h-4 w-4" />
           Voltar
         </Button>
-        <div className='text-center py-12'>
-          <p className='text-muted-foreground'>Coordenador não encontrado</p>
+        <div className="text-center py-12">
+          <p className="text-muted-foreground">Coordenador não encontrado</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className='w-full px-2 mt-3'>
-      <Button variant='outline' onClick={() => router.back()} className='mb-4'>
-        <ArrowLeftIcon className='mr-2 h-4 w-4' />
+    <div className="w-full px-2 mt-3">
+      <Button variant="outline" onClick={() => router.back()} className="mb-4">
+        <ArrowLeftIcon className="mr-2 h-4 w-4" />
         Voltar
       </Button>
 
-      <div className='relative w-full'>
+      <div className="relative w-full">
         <Image
-          src='/capa.svg'
-          alt='Capa'
+          src="/capa.svg"
+          alt="Capa"
           width={977}
           height={220}
           unoptimized
-          className='w-full object-cover h-60 rounded-xl'
+          className="w-full object-cover h-60 rounded-xl"
         />
 
-        <div className='absolute -bottom-12 left-6'>
-          <div className='w-24 h-24 rounded-4xl p-1 border flex items-center justify-center bg-white'>
-            <span className='text-2xl font-bold text-gray-700'>
-              {getInitials(coordinator.user?.name ?? 'C')}
+        <div className="absolute -bottom-12 left-6">
+          <div className="w-24 h-24 rounded-4xl p-1 border flex items-center justify-center bg-white">
+            <span className="text-2xl font-bold text-gray-700">
+              {getInitials(coordinator.user?.name ?? "C")}
             </span>
           </div>
         </div>
       </div>
 
-      <div className='w-full border rounded-2xl border-[#DEDEE6] mt-20 p-6'>
-        <div className='w-full flex justify-between items-center mb-6'>
-          <h3 className='text-base font-bold'>Informações do Coordenador</h3>
+      <div className="w-full border rounded-2xl border-[#DEDEE6] mt-20 p-6">
+        <div className="w-full flex justify-between items-center mb-6">
+          <h3 className="text-base font-bold">Informações do Coordenador</h3>
 
           <span
             className={`px-4 py-1 rounded-full text-sm font-medium ${
-              coordinator.user?.status === 'active'
-                ? 'bg-green-100 text-green-700'
-                : 'bg-red-100 text-red-700'
+              coordinator.user?.status === "active"
+                ? "bg-green-100 text-green-700"
+                : "bg-red-100 text-red-700"
             }`}
           >
-            {coordinator.user?.status === 'active' ? 'Ativo' : 'Inativo'}
+            {coordinator.user?.status === "active" ? "Ativo" : "Inativo"}
           </span>
         </div>
 
-        <div className='space-y-6'>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+        <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <p className='text-sm font-semibold text-muted-foreground mb-2'>
+              <p className="text-sm font-semibold text-muted-foreground mb-2">
                 Nome
               </p>
-              <p className='text-base'>
-                {coordinator.user?.name ?? 'Não informado'}
+              <p className="text-base">
+                {coordinator.user?.name ?? "Não informado"}
               </p>
             </div>
 
             <div>
-              <p className='text-sm font-semibold text-muted-foreground mb-2'>
+              <p className="text-sm font-semibold text-muted-foreground mb-2">
                 Email
               </p>
-              <p className='text-base'>
-                {coordinator.user?.email ?? 'Não informado'}
+              <p className="text-base">
+                {coordinator.user?.email ?? "Não informado"}
               </p>
             </div>
 
             <div>
-              <p className='text-sm font-semibold text-muted-foreground mb-2'>
+              <p className="text-sm font-semibold text-muted-foreground mb-2">
                 Telefone
               </p>
-              <p className='text-base'>
-                {coordinator.user?.phone ?? 'Não informado'}
+              <p className="text-base">
+                {coordinator.user?.phone ?? "Não informado"}
               </p>
             </div>
 
             <div>
-              <p className='text-sm font-semibold text-muted-foreground mb-2'>
+              <p className="text-sm font-semibold text-muted-foreground mb-2">
                 Perfil
               </p>
-              <p className='text-base'>Coordenador</p>
+              <p className="text-base">Coordenador</p>
             </div>
 
             <div>
-              <p className='text-sm font-semibold text-muted-foreground mb-2'>
+              <p className="text-sm font-semibold text-muted-foreground mb-2">
                 ID do Coordenador
               </p>
-              <p className='text-base'>#{coordinator.id}</p>
+              <p className="text-base">#{coordinator.id}</p>
             </div>
 
             <div>
-              <p className='text-sm font-semibold text-muted-foreground mb-2'>
+              <p className="text-sm font-semibold text-muted-foreground mb-2">
                 ID do Utilizador
               </p>
-              <p className='text-base'>#{coordinator.userId}</p>
+              <p className="text-base">#{coordinator.userId}</p>
             </div>
           </div>
         </div>

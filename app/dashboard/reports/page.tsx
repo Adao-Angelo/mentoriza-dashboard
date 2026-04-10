@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useReports } from '@/hooks/reports/use-reports';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { useReports } from "@/hooks/reports/use-reports";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-import Dropzone from '@/components/dashboard/dropzone';
-import { Button } from '@/components/ui/button';
+import Dropzone from "@/components/dashboard/dropzone";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -15,40 +15,40 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Report, ReportDestination } from '@/services/reports/Interfaces';
-import { FileDown, Plus, Send, X } from 'lucide-react';
-import toast from 'react-hot-toast';
+} from "@/components/ui/select";
+import { Report, ReportDestination } from "@/services/reports/Interfaces";
+import { FileDown, Plus, Send, X } from "lucide-react";
+import toast from "react-hot-toast";
 
-import { EmptyReportsState } from '@/components/dashboard/empty-reports-state';
-import { Can } from '@/components/rbac/can';
-import { PERMISSIONS } from '@/context/permissions';
-import { useUploadReportDocx } from '@/hooks/reports/use-upload-report-docx';
-import { PageSkeleton } from './page-skeleton';
-import { ReportsTable } from './reports-table';
+import { EmptyReportsState } from "@/components/dashboard/empty-reports-state";
+import { Can } from "@/components/rbac/can";
+import { PERMISSIONS } from "@/context/permissions";
+import { useUploadReportDocx } from "@/hooks/reports/use-upload-report-docx";
+import { PageSkeleton } from "./page-skeleton";
+import { ReportsTable } from "./reports-table";
 
 const formSchema = z.object({
   files: z
     .array(z.instanceof(File))
-    .min(1, { message: 'Selecione pelo menos um ficheiro' })
-    .max(1, { message: 'Apenas um ficheiro por vez' }),
-  sources: z.array(z.string().url({ message: 'Link inválido' })).optional(),
-  destination: z.enum(['PERSONAL_TEST', 'MENTOR_REVIEW', 'FINAL_SUBMISSION']),
+    .min(1, { message: "Selecione pelo menos um ficheiro" })
+    .max(1, { message: "Apenas um ficheiro por vez" }),
+  sources: z.array(z.string().url({ message: "Link inválido" })).optional(),
+  destination: z.enum(["PERSONAL_TEST", "MENTOR_REVIEW", "FINAL_SUBMISSION"]),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -59,19 +59,19 @@ export default function ReportsPage() {
     useUploadReportDocx();
 
   const [open, setOpen] = useState(false);
-  const [statusFilter, setStatusFilter] = useState<Report['status'] | 'all'>(
-    'all'
+  const [statusFilter, setStatusFilter] = useState<Report["status"] | "all">(
+    "all",
   );
   const [destinationFilter, setDestinationFilter] = useState<
-    ReportDestination | 'all'
-  >('all');
-  const [newSource, setNewSource] = useState('');
+    ReportDestination | "all"
+  >("all");
+  const [newSource, setNewSource] = useState("");
 
   const filteredReports = reports.filter((report) => {
     const matchStatus =
-      statusFilter === 'all' || report.status === statusFilter;
+      statusFilter === "all" || report.status === statusFilter;
     const matchDestination =
-      destinationFilter === 'all' || report.destination === destinationFilter;
+      destinationFilter === "all" || report.destination === destinationFilter;
 
     return matchStatus && matchDestination;
   });
@@ -81,42 +81,42 @@ export default function ReportsPage() {
     defaultValues: {
       files: [],
       sources: [],
-      destination: 'MENTOR_REVIEW',
+      destination: "MENTOR_REVIEW",
     },
   });
 
   const destinationLabels: Record<ReportDestination, string> = {
-    PERSONAL_TEST: 'Teste pessoal (apenas grupo)',
-    MENTOR_REVIEW: 'Avaliação dos mentores',
-    FINAL_SUBMISSION: 'Submissão final (PT e coordenação)',
+    PERSONAL_TEST: "Teste pessoal (apenas grupo)",
+    MENTOR_REVIEW: "Avaliação dos mentores",
+    FINAL_SUBMISSION: "Submissão final (PT e coordenação)",
   };
 
   const handleAddSource = () => {
     if (!newSource.trim()) return;
 
-    const currentSources = form.getValues('sources') || [];
+    const currentSources = form.getValues("sources") || [];
 
     if (currentSources.includes(newSource.trim())) {
-      toast.error('Este link já foi adicionado');
+      toast.error("Este link já foi adicionado");
       return;
     }
 
-    form.setValue('sources', [...currentSources, newSource.trim()], {
+    form.setValue("sources", [...currentSources, newSource.trim()], {
       shouldValidate: true,
     });
 
-    setNewSource('');
+    setNewSource("");
   };
 
   const handleRemoveSource = (index: number) => {
-    const currentSources = form.getValues('sources') || [];
+    const currentSources = form.getValues("sources") || [];
     const updatedSources = currentSources.filter((_, i) => i !== index);
-    form.setValue('sources', updatedSources, { shouldValidate: true });
+    form.setValue("sources", updatedSources, { shouldValidate: true });
   };
 
   function onSubmit(values: FormValues) {
     if (values.files.length === 0) {
-      toast.error('Selecione pelo menos um ficheiro');
+      toast.error("Selecione pelo menos um ficheiro");
       return;
     }
 
@@ -130,37 +130,37 @@ export default function ReportsPage() {
         onSuccess: () => {
           setOpen(false);
           form.reset();
-          setNewSource('');
+          setNewSource("");
         },
-      }
+      },
     );
   }
 
   return (
-    <div className='container rounded-2xl'>
-      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6'>
+    <div className="container rounded-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div></div>
 
         <Dialog open={open} onOpenChange={setOpen}>
-          <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between md:items-end gap-4 mb-5'>
-            <h1 className='text-xl font-bold tracking-tight'></h1>
-            <div className='flex gap-3'>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between md:items-end gap-4 mb-5">
+            <h1 className="text-xl font-bold tracking-tight"></h1>
+            <div className="flex gap-3">
               <Can permission={PERMISSIONS.REPORT_SUBMIT}>
                 <DialogTrigger asChild>
                   <Button>
-                    <Plus className='mr-2 h-4 w-4' />
+                    <Plus className="mr-2 h-4 w-4" />
                     Novo Relatório
                   </Button>
                 </DialogTrigger>
               </Can>
-              <Button variant={'outline'} onClick={() => {}}>
+              <Button variant={"outline"} onClick={() => {}}>
                 <FileDown />
                 Exportar
               </Button>
             </div>
           </div>
 
-          <DialogContent className='sm:max-w-155'>
+          <DialogContent className="sm:max-w-155">
             <DialogHeader>
               <DialogTitle>Novo Relatório</DialogTitle>
               <DialogDescription>
@@ -171,11 +171,11 @@ export default function ReportsPage() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className='space-y-6'
+                className="space-y-6"
               >
                 <FormField
                   control={form.control}
-                  name='files'
+                  name="files"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
@@ -186,11 +186,11 @@ export default function ReportsPage() {
                           }}
                           maxFiles={1}
                           accept={{
-                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-                              ['.docx'],
+                            "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                              [".docx"],
                           }}
-                          title='Selecione ou arraste o Docx'
-                          description='Apenas ficheiros .docx são permitidos'
+                          title="Selecione ou arraste o Docx"
+                          description="Apenas ficheiros .docx são permitidos"
                         />
                       </FormControl>
                       <FormMessage />
@@ -201,10 +201,10 @@ export default function ReportsPage() {
                 <div>
                   <FormField
                     control={form.control}
-                    name='destination'
+                    name="destination"
                     render={({ field }) => (
-                      <FormItem className='mb-4'>
-                        <label className='text-sm font-medium mb-2 block'>
+                      <FormItem className="mb-4">
+                        <label className="text-sm font-medium mb-2 block">
                           Para quem enviar este relatório
                         </label>
                         <Select
@@ -213,22 +213,22 @@ export default function ReportsPage() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder='Selecione o destino' />
+                              <SelectValue placeholder="Selecione o destino" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value='PERSONAL_TEST'>
+                            <SelectItem value="PERSONAL_TEST">
                               {destinationLabels.PERSONAL_TEST}
                             </SelectItem>
-                            <SelectItem value='MENTOR_REVIEW'>
+                            <SelectItem value="MENTOR_REVIEW">
                               {destinationLabels.MENTOR_REVIEW}
                             </SelectItem>
-                            <SelectItem value='FINAL_SUBMISSION'>
+                            <SelectItem value="FINAL_SUBMISSION">
                               {destinationLabels.FINAL_SUBMISSION}
                             </SelectItem>
                           </SelectContent>
                         </Select>
-                        <p className='text-xs text-muted-foreground mt-2'>
+                        <p className="text-xs text-muted-foreground mt-2">
                           O relatório sempre será analisado pela IA. Esta opção
                           define apenas quem poderá revisar e receber.
                         </p>
@@ -237,48 +237,48 @@ export default function ReportsPage() {
                     )}
                   />
 
-                  <label className='text-sm font-medium mb-2 block'>
+                  <label className="text-sm font-medium mb-2 block">
                     Fontes / Links (opcional)
                   </label>
 
-                  <div className='flex gap-2 mb-3 '>
+                  <div className="flex gap-2 mb-3 ">
                     <Input
-                      placeholder='https://exemplo.com/artigo'
+                      placeholder="https://exemplo.com/artigo"
                       value={newSource}
                       onChange={(e) => setNewSource(e.target.value)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
+                        if (e.key === "Enter") {
                           e.preventDefault();
                           handleAddSource();
                         }
                       }}
                     />
                     <Button
-                      type='button'
+                      type="button"
                       onClick={handleAddSource}
-                      variant='outline'
+                      variant="outline"
                     >
-                      <Plus className='h-4 w-4' />
+                      <Plus className="h-4 w-4" />
                     </Button>
                   </div>
 
-                  {form.watch('sources') &&
-                    form.watch('sources')!.length > 0 && (
-                      <ul className='space-y-2 max-h-48 overflow-y-auto'>
-                        {form.watch('sources')!.map((source, index) => (
+                  {form.watch("sources") &&
+                    form.watch("sources")!.length > 0 && (
+                      <ul className="space-y-2 max-h-48 overflow-y-auto">
+                        {form.watch("sources")!.map((source, index) => (
                           <li
                             key={index}
-                            className='flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md text-sm'
+                            className="flex items-center justify-between bg-gray-50 px-3 py-2 rounded-md text-sm"
                           >
-                            <span className='truncate flex-1 text-gray-700 max-w-120'>
+                            <span className="truncate flex-1 text-gray-700 max-w-120">
                               {source}
                             </span>
                             <Button
-                              type='button'
-                              variant='ghost'
-                              size='sm'
+                              type="button"
+                              variant="ghost"
+                              size="sm"
                               onClick={() => handleRemoveSource(index)}
-                              className='text-danger hover:text-danger'
+                              className="text-danger hover:text-danger"
                             >
                               <X size={16} />
                             </Button>
@@ -288,14 +288,14 @@ export default function ReportsPage() {
                     )}
                 </div>
 
-                <div className='flex justify-end'>
+                <div className="flex justify-end">
                   <Button
-                    type='submit'
+                    type="submit"
                     disabled={isUploading}
-                    className='bg-black'
+                    className="bg-black"
                   >
-                    {isUploading ? 'Enviando...' : 'Enviar para Avaliação'}
-                    <Send className='ml-2 h-4 w-4' />
+                    {isUploading ? "Enviando..." : "Enviar para Avaliação"}
+                    <Send className="ml-2 h-4 w-4" />
                   </Button>
                 </div>
               </form>
@@ -305,61 +305,61 @@ export default function ReportsPage() {
       </div>
 
       {isLoading ? (
-        <div className='flex justify-center py-12'>
+        <div className="flex justify-center py-12">
           <PageSkeleton />
         </div>
       ) : reports.length === 0 ? (
         <EmptyReportsState onOpenUpload={() => setOpen(true)} />
       ) : (
         <>
-          <div className='mb-4 flex flex-wrap items-center justify-end gap-2'>
+          <div className="mb-4 flex flex-wrap items-center justify-end gap-2">
             <Select
               value={statusFilter}
               onValueChange={(value) =>
-                setStatusFilter(value as Report['status'] | 'all')
+                setStatusFilter(value as Report["status"] | "all")
               }
             >
-              <SelectTrigger className='w-44'>
-                <SelectValue placeholder='Todos' />
+              <SelectTrigger className="w-44">
+                <SelectValue placeholder="Todos" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='all'>Todos</SelectItem>
-                <SelectItem value='under_review'>Em avaliação</SelectItem>
-                <SelectItem value='approved'>Aprovado</SelectItem>
-                <SelectItem value='rejected'>Rejeitado</SelectItem>
+                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="under_review">Em avaliação</SelectItem>
+                <SelectItem value="approved">Aprovado</SelectItem>
+                <SelectItem value="rejected">Rejeitado</SelectItem>
               </SelectContent>
             </Select>
 
             <Select
               value={destinationFilter}
               onValueChange={(value) =>
-                setDestinationFilter(value as ReportDestination | 'all')
+                setDestinationFilter(value as ReportDestination | "all")
               }
             >
-              <SelectTrigger className='w-64'>
-                <SelectValue placeholder='Destino' />
+              <SelectTrigger className="w-64">
+                <SelectValue placeholder="Destino" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value='all'>Todos os destinos</SelectItem>
-                <SelectItem value='PERSONAL_TEST'>
+                <SelectItem value="all">Todos os destinos</SelectItem>
+                <SelectItem value="PERSONAL_TEST">
                   {destinationLabels.PERSONAL_TEST}
                 </SelectItem>
-                <SelectItem value='MENTOR_REVIEW'>
+                <SelectItem value="MENTOR_REVIEW">
                   {destinationLabels.MENTOR_REVIEW}
                 </SelectItem>
-                <SelectItem value='FINAL_SUBMISSION'>
+                <SelectItem value="FINAL_SUBMISSION">
                   {destinationLabels.FINAL_SUBMISSION}
                 </SelectItem>
               </SelectContent>
             </Select>
 
-            {(statusFilter !== 'all' || destinationFilter !== 'all') && (
+            {(statusFilter !== "all" || destinationFilter !== "all") && (
               <Button
-                variant='outline'
-                size='sm'
+                variant="outline"
+                size="sm"
                 onClick={() => {
-                  setStatusFilter('all');
-                  setDestinationFilter('all');
+                  setStatusFilter("all");
+                  setDestinationFilter("all");
                 }}
               >
                 Limpar filtro

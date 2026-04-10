@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
 import {
   FileSearch2,
@@ -8,16 +8,16 @@ import {
   Plus,
   PowerOff,
   Trash2,
-} from 'lucide-react';
-import { useState } from 'react';
+} from "lucide-react";
+import { useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -25,24 +25,24 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import { PageSkeleton } from '@/app/dashboard/configurations/submissions/page-skeleton';
-import { Can } from '@/components/rbac/can';
-import { SubmissionFormDialog } from '@/components/submissions/submission-form-dialog';
-import { Badge } from '@/components/ui/badge';
-import { ROLES } from '@/constants/roles';
-import { PERMISSIONS } from '@/context/permissions';
-import { useDeleteSubmission } from '@/hooks/submissions/use-delete-submission';
-import { useSubmissions } from '@/hooks/submissions/use-submissions';
-import { useUpdateSubmission } from '@/hooks/submissions/use-update-submission';
-import { useConfirm } from '@/hooks/use-confirm';
-import { Submission } from '@/services/submission/Interfaces';
+import { PageSkeleton } from "@/app/dashboard/configurations/submissions/page-skeleton";
+import { Can } from "@/components/rbac/can";
+import { SubmissionFormDialog } from "@/components/submissions/submission-form-dialog";
+import { Badge } from "@/components/ui/badge";
+import { ROLES } from "@/constants/roles";
+import { PERMISSIONS } from "@/context/permissions";
+import { useDeleteSubmission } from "@/hooks/submissions/use-delete-submission";
+import { useSubmissions } from "@/hooks/submissions/use-submissions";
+import { useUpdateSubmission } from "@/hooks/submissions/use-update-submission";
+import { useConfirm } from "@/hooks/use-confirm";
+import { Submission } from "@/services/submission/Interfaces";
 
 export default function SubmissionsPage() {
   const [openCreateDialog, setOpenCreateDialog] = useState(false);
   const [editingSubmission, setEditingSubmission] = useState<Submission | null>(
-    null
+    null,
   );
 
   const { data: submissions = [], isLoading } = useSubmissions();
@@ -51,21 +51,21 @@ export default function SubmissionsPage() {
   const confirm = useConfirm();
 
   const handleClose = async (submission: Submission) => {
-    if (submission.status === 'inactive') return;
+    if (submission.status === "inactive") return;
 
     const confirmed = await confirm({
-      title: 'Fechar Submissão',
+      title: "Fechar Submissão",
       message: `Deseja fechar a submissão #${submission.id} (Etapa ${submission.stage})? Não será possível reabrir.`,
     });
 
     if (confirmed) {
-      update({ id: submission.id, data: { status: 'inactive' } });
+      update({ id: submission.id, data: { status: "inactive" } });
     }
   };
 
   const handleDelete = async (submission: Submission) => {
     const confirmed = await confirm({
-      title: 'Remover Submissão',
+      title: "Remover Submissão",
       message: `Tem certeza que deseja remover a submissão #${submission.id}? Esta ação é irreversível.`,
     });
 
@@ -75,9 +75,9 @@ export default function SubmissionsPage() {
   };
 
   return (
-    <div className='container rounded-2xl'>
-      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8'>
-        <h1 className='text-xl font-bold tracking-tight'></h1>
+    <div className="container rounded-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <h1 className="text-xl font-bold tracking-tight"></h1>
         <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
           <Button onClick={() => setOpenCreateDialog(true)}>
             <Plus /> Nova Submissão
@@ -86,24 +86,24 @@ export default function SubmissionsPage() {
       </div>
 
       {isLoading ? (
-        <div className='flex justify-center py-12'>
+        <div className="flex justify-center py-12">
           <PageSkeleton />
         </div>
       ) : submissions.length === 0 ? (
-        <div className='text-center py-16 border rounded-lg bg-muted/30'>
-          <div className='flex justify-center item-center'>
+        <div className="text-center py-16 border rounded-lg bg-muted/30">
+          <div className="flex justify-center item-center">
             <FileSearch2
               strokeWidth={1.5}
-              className='h-12 w-12 text-muted-foreground mb-4'
+              className="h-12 w-12 text-muted-foreground mb-4"
             />
           </div>
-          <p className='text-sm text-muted-foreground'>
+          <p className="text-sm text-muted-foreground">
             Nenhuma submissão criada ainda
           </p>
           <Can permission={PERMISSIONS.SUBMISSION_MANAGE}>
             <Button
-              size={'lg'}
-              className='mt-6'
+              size={"lg"}
+              className="mt-6"
               onClick={() => setOpenCreateDialog(true)}
             >
               <Plus /> Criar a primeira submissão
@@ -111,7 +111,7 @@ export default function SubmissionsPage() {
           </Can>
         </div>
       ) : (
-        <div className='border rounded-lg overflow-hidden'>
+        <div className="border rounded-lg overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
@@ -120,7 +120,7 @@ export default function SubmissionsPage() {
                 <TableHead>Fim</TableHead>
                 <TableHead>Status</TableHead>
                 <Can permission={PERMISSIONS.STUDENT_LINK_GROUP}>
-                  <TableHead className='text-right'>Ações</TableHead>
+                  <TableHead className="text-right">Ações</TableHead>
                 </Can>
               </TableRow>
             </TableHeader>
@@ -132,45 +132,45 @@ export default function SubmissionsPage() {
                   </TableCell>
                   <TableCell>
                     {new Date(submission.startDate).toLocaleDateString(
-                      'pt-BR',
+                      "pt-BR",
                       {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric',
-                      }
+                        day: "numeric",
+                        month: "long",
+                        year: "numeric",
+                      },
                     )}
                   </TableCell>
                   <TableCell>
-                    {new Date(submission.endDate).toLocaleDateString('pt-BR', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
+                    {new Date(submission.endDate).toLocaleDateString("pt-BR", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
                     })}
                   </TableCell>
                   <TableCell>
                     <Badge
                       variant={
-                        submission.status === 'active'
-                          ? 'success'
-                          : 'destructive'
+                        submission.status === "active"
+                          ? "success"
+                          : "destructive"
                       }
                     >
-                      {submission.status === 'active'
-                        ? 'Em andamento'
-                        : 'Terminada'}
+                      {submission.status === "active"
+                        ? "Em andamento"
+                        : "Terminada"}
                     </Badge>
                   </TableCell>
                   <Can
                     role={[ROLES.PT_TEACHER, ROLES.COORDINATOR, ROLES.ADMIN]}
                   >
-                    <TableCell className='text-right'>
+                    <TableCell className="text-right">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant='ghost' size='icon'>
-                            <MoreHorizontal className='h-4 w-4' />
+                          <Button variant="ghost" size="icon">
+                            <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align='end'>
+                        <DropdownMenuContent align="end">
                           <Can
                             role={[
                               ROLES.PT_TEACHER,
@@ -181,11 +181,11 @@ export default function SubmissionsPage() {
                             <DropdownMenuItem
                               onClick={() => setEditingSubmission(submission)}
                             >
-                              <Pencil className='mr-2 h-4 w-4' />
+                              <Pencil className="mr-2 h-4 w-4" />
                               Editar
                             </DropdownMenuItem>
                           </Can>
-                          {submission.status === 'active' && (
+                          {submission.status === "active" && (
                             <Can
                               role={[
                                 ROLES.PT_TEACHER,
@@ -196,7 +196,7 @@ export default function SubmissionsPage() {
                               <DropdownMenuItem
                                 onClick={() => handleClose(submission)}
                               >
-                                <PowerOff className='mr-2 h-4 w-4 text-warning' />
+                                <PowerOff className="mr-2 h-4 w-4 text-warning" />
                                 Fechar
                               </DropdownMenuItem>
                             </Can>
@@ -209,10 +209,10 @@ export default function SubmissionsPage() {
                             ]}
                           >
                             <DropdownMenuItem
-                              className='text-danger focus:text-danger'
+                              className="text-danger focus:text-danger"
                               onClick={() => handleDelete(submission)}
                             >
-                              <Trash2 className='mr-2 h-4 w-4' />
+                              <Trash2 className="mr-2 h-4 w-4" />
                               Remover
                             </DropdownMenuItem>
                           </Can>

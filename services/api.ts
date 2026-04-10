@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useAuthStore } from '@/store/use-auth.store';
-import { removeToken } from '@/utils/remove-token';
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
+import { useAuthStore } from "@/store/use-auth.store";
+import { removeToken } from "@/utils/remove-token";
+import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -28,12 +28,12 @@ const forceLogoutAndRedirect = () => {
   useAuthStore.getState().logout();
   removeToken();
 
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     localStorage.clear();
     sessionStorage.clear();
 
-    if (!window.location.pathname.startsWith('/login')) {
-      window.location.replace('/login?sessionExpired=true');
+    if (!window.location.pathname.startsWith("/login")) {
+      window.location.replace("/login?sessionExpired=true");
     }
   }
 };
@@ -43,15 +43,15 @@ API.interceptors.request.use(
     const token = useAuthStore.getState().token;
     if (
       token &&
-      !config.url?.includes('/auth/login') &&
-      !config.url?.includes('/auth/refresh')
+      !config.url?.includes("/auth/login") &&
+      !config.url?.includes("/auth/refresh")
     ) {
       config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 API.interceptors.response.use(
@@ -64,8 +64,8 @@ API.interceptors.response.use(
     if (
       error.response?.status !== 401 ||
       originalRequest._retry ||
-      originalRequest.url?.includes('/auth/login') ||
-      originalRequest.url?.includes('/auth/refresh')
+      originalRequest.url?.includes("/auth/login") ||
+      originalRequest.url?.includes("/auth/refresh")
     ) {
       return Promise.reject(error);
     }
@@ -90,7 +90,7 @@ API.interceptors.response.use(
     try {
       const refreshResponse = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-        {}
+        {},
       );
 
       const { accessToken, expiresIn } = refreshResponse.data;
@@ -115,7 +115,7 @@ API.interceptors.response.use(
     } finally {
       isRefreshing = false;
     }
-  }
+  },
 );
 
 export { API };
