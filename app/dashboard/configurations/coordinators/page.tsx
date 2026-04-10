@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { CoordinatorFormDialog } from '@/components/coordinator/coordinator-form-dialog';
+import { Button } from '@/components/ui/button';
 import {
-  Plus,
-  MoreHorizontal,
-  Eye,
-  Pencil,
-  CircleUserRound,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Switch } from '@/components/ui/switch';
 import {
   Table,
   TableBody,
@@ -16,25 +16,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
+import UserProfileDisplay from '@/components/user-profile-display';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Switch } from "@/components/ui/switch";
-import GlobalLoader from "@/components/loader";
-import {
+  useActivateCoordinator,
   useCoordinators,
   useDeactivateCoordinator,
-  useActivateCoordinator,
-} from "@/hooks/coordinators/use-coordinators";
-import { useRouter } from "next/navigation";
-import { CoordinatorFormDialog } from "@/components/coordinator/coordinator-form-dialog";
-import UserProfileDisplay from "@/components/user-profile-display";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+} from '@/hooks/coordinators/use-coordinators';
+import { cn } from '@/lib/utils';
+import {
+  CircleUserRound,
+  Eye,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+} from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { PageSkeleton } from './page-skeleton';
 
 export default function CoordinatorsPage() {
   const router = useRouter();
@@ -46,36 +46,36 @@ export default function CoordinatorsPage() {
   const [editingCoordinator, setEditingCoordinator] = useState<any>(null);
 
   const handleToggleActive = (coordinator: any) => {
-    if (coordinator.user.status === "active") {
+    if (coordinator.user.status === 'active') {
       deactivate(coordinator.id);
     } else {
       activate(coordinator.id);
     }
   };
 
-  if (isLoading) return <GlobalLoader />;
+  if (isLoading) return <PageSkeleton />;
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-end items-center">
+    <div className='space-y-4'>
+      <div className='flex justify-end items-center'>
         <Button
           onClick={() => {
             setEditingCoordinator(null);
             setIsFormOpen(true);
           }}
         >
-          <Plus className="mr-2 h-4 w-4" /> Novo Coordenador
+          <Plus className='mr-2 h-4 w-4' /> Novo Coordenador
         </Button>
       </div>
 
-      <div className="border rounded-xl overflow-hidden bg-card">
+      <div className='border rounded-xl overflow-hidden bg-card'>
         <Table>
-          <TableHeader className="bg-muted/30">
+          <TableHeader className='bg-muted/30'>
             <TableRow>
-              <TableHead className="w-[300px]">Coordenador</TableHead>
+              <TableHead className='w-[300px]'>Coordenador</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
+              <TableHead className='text-right'>Ações</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -83,7 +83,7 @@ export default function CoordinatorsPage() {
               <TableRow>
                 <TableCell
                   colSpan={4}
-                  className="h-32 text-center text-muted-foreground"
+                  className='h-32 text-center text-muted-foreground'
                 >
                   Nenhum coordenador encontrado.
                 </TableCell>
@@ -92,70 +92,70 @@ export default function CoordinatorsPage() {
               coordinators.map((coordinator) => (
                 <TableRow
                   key={coordinator.id}
-                  className="hover:bg-muted/20 transition-colors"
+                  className='hover:bg-muted/20 transition-colors'
                 >
-                  <TableCell className="font-medium">
+                  <TableCell className='font-medium'>
                     <UserProfileDisplay
                       username={coordinator.user.name}
                       email={coordinator.user.email}
                     />
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className='text-muted-foreground'>
                     {coordinator.user.email}
                   </TableCell>
                   <TableCell>
                     <span
                       className={cn(
-                        "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border",
-                        coordinator.user.status === "active"
-                          ? "bg-green-50 text-green-700 border-green-200"
-                          : "bg-red-50 text-red-700 border-red-200",
+                        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border',
+                        coordinator.user.status === 'active'
+                          ? 'bg-green-50 text-green-700 border-green-200'
+                          : 'bg-red-50 text-red-700 border-red-200'
                       )}
                     >
                       <span
                         className={cn(
-                          "w-1.5 h-1.5 rounded-full mr-1.5",
-                          coordinator.user.status === "active"
-                            ? "bg-green-500"
-                            : "bg-red-500",
+                          'w-1.5 h-1.5 rounded-full mr-1.5',
+                          coordinator.user.status === 'active'
+                            ? 'bg-green-500'
+                            : 'bg-red-500'
                         )}
                       />
-                      {coordinator.user.status === "active"
-                        ? "Ativo"
-                        : "Inativo"}
+                      {coordinator.user.status === 'active'
+                        ? 'Ativo'
+                        : 'Inativo'}
                     </span>
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className='text-right'>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                          variant='ghost'
+                          size='sm'
+                          className='h-8 w-8 p-0 text-muted-foreground hover:text-foreground'
                         >
-                          <MoreHorizontal className="h-4 w-4" />
+                          <MoreHorizontal className='h-4 w-4' />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuContent align='end' className='w-48'>
                         <DropdownMenuItem asChild>
                           <Link
                             href={`/dashboard/configurations/coordinators/${coordinator.id}`}
-                            className="cursor-pointer"
+                            className='cursor-pointer'
                           >
-                            <Eye className="mr-2 h-4 w-4" /> Ver Detalhes
+                            <Eye className='mr-2 h-4 w-4' /> Ver Detalhes
                           </Link>
                         </DropdownMenuItem>
 
                         <DropdownMenuItem
                           onSelect={(e) => e.preventDefault()}
-                          className="flex items-center justify-between cursor-pointer"
+                          className='flex items-center justify-between cursor-pointer'
                         >
-                          <div className="flex gap-2 items-center">
-                            <CircleUserRound className="h-4 w-4" />
+                          <div className='flex gap-2 items-center'>
+                            <CircleUserRound className='h-4 w-4' />
                             <span>Estado</span>
                           </div>
                           <Switch
-                            checked={coordinator.user.status === "active"}
+                            checked={coordinator.user.status === 'active'}
                             onCheckedChange={() =>
                               handleToggleActive(coordinator)
                             }
@@ -167,9 +167,9 @@ export default function CoordinatorsPage() {
                             setEditingCoordinator(coordinator);
                             setIsFormOpen(true);
                           }}
-                          className="cursor-pointer"
+                          className='cursor-pointer'
                         >
-                          <Pencil className="mr-2 h-4 w-4" /> Editar
+                          <Pencil className='mr-2 h-4 w-4' /> Editar
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

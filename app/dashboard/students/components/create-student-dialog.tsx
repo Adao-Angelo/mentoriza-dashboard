@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -17,21 +17,21 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Plus } from "lucide-react";
+} from '@/components/ui/select';
+import { Plus } from 'lucide-react';
 
-import { usePTTeachers } from "@/hooks/pt-teachers/use-pt-teachers";
-import { useCreateStudentDialog } from "@/hooks/students/use-create-student-dialog";
-import { useAuthStore } from "@/store/use-auth.store";
-import { useEffect } from "react";
+import { usePTTeachers } from '@/hooks/pt-teachers/use-pt-teachers';
+import { useCreateStudentDialog } from '@/hooks/students/use-create-student-dialog';
+import { useAuthStore } from '@/store/use-auth.store';
+import { useEffect } from 'react';
 
 export default function CreateStudentDialog() {
   const { isOpen, setIsOpen, form, onSubmit, isCreating } =
@@ -40,27 +40,31 @@ export default function CreateStudentDialog() {
   const { data: ptTeachers = [] } = usePTTeachers();
 
   const isCoordinator = user?.roles.some((r) =>
-    ["ADMIN", "COORDINATOR"].includes(r),
+    ['admin', 'coordinator'].includes((r || '').toLowerCase())
   );
-  const ptProfile = ptTeachers.find((t) => t.user.name === user?.username);
+  const ptProfile = ptTeachers.find(
+    (t) =>
+      t.user.email?.toLowerCase() === user?.email?.toLowerCase() ||
+      t.user.name?.toLowerCase() === user?.username?.toLowerCase()
+  );
   const teacherCourse = ptProfile?.course;
 
   useEffect(() => {
     if (!isCoordinator && teacherCourse && isOpen) {
-      form.setValue("course", teacherCourse);
+      form.setValue('course', teacherCourse);
     }
   }, [isCoordinator, teacherCourse, isOpen, form]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="lg">
+        <Button variant='outline' size='lg'>
           <Plus />
           Novo Estudante
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[580px]">
+      <DialogContent className='sm:max-w-[580px]'>
         <DialogHeader>
           <DialogTitle>Novo Estudante</DialogTitle>
           <DialogDescription>
@@ -69,18 +73,26 @@ export default function CreateStudentDialog() {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <form
+            onSubmit={form.handleSubmit((values) => {
+              if (!isCoordinator && teacherCourse) {
+                values.course = teacherCourse;
+              }
+              return onSubmit(values);
+            })}
+            className='space-y-4'
+          >
+            <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
               <FormField
                 control={form.control}
-                name="email"
+                name='email'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Email do Estudante"
-                        type="email"
+                        placeholder='Email do Estudante'
+                        type='email'
                         {...field}
                       />
                     </FormControl>
@@ -91,14 +103,14 @@ export default function CreateStudentDialog() {
 
               <FormField
                 control={form.control}
-                name="name"
+                name='name'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Nome do Estudante"
-                        type="text"
+                        placeholder='Nome do Estudante'
+                        type='text'
                         {...field}
                       />
                     </FormControl>
@@ -109,14 +121,14 @@ export default function CreateStudentDialog() {
 
               <FormField
                 control={form.control}
-                name="ra"
+                name='ra'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Número de Estudante</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Número de Estudante"
-                        type="number"
+                        placeholder='Número de Estudante'
+                        type='number'
                         {...field}
                       />
                     </FormControl>
@@ -127,7 +139,7 @@ export default function CreateStudentDialog() {
 
               <FormField
                 control={form.control}
-                name="course"
+                name='course'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Curso</FormLabel>
@@ -137,17 +149,17 @@ export default function CreateStudentDialog() {
                         onValueChange={field.onChange}
                         disabled={!isCoordinator && !!teacherCourse}
                       >
-                        <SelectTrigger className="w-full h-12!">
-                          <SelectValue placeholder="Selecione curso" />
+                        <SelectTrigger className='w-full h-12!'>
+                          <SelectValue placeholder='Selecione curso' />
                         </SelectTrigger>
                         <SelectContent>
                           {isCoordinator && (
-                            <SelectItem value="none">Nenhum</SelectItem>
+                            <SelectItem value='none'>Nenhum</SelectItem>
                           )}
-                          <SelectItem value="informatica">
+                          <SelectItem value='informatica'>
                             Informática
                           </SelectItem>
-                          <SelectItem value="electronica">
+                          <SelectItem value='electronica'>
                             Eletrônica
                           </SelectItem>
                         </SelectContent>
@@ -160,7 +172,7 @@ export default function CreateStudentDialog() {
 
               <FormField
                 control={form.control}
-                name="class"
+                name='class'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Turma (opcional)</FormLabel>
@@ -169,13 +181,13 @@ export default function CreateStudentDialog() {
                         value={field.value}
                         onValueChange={field.onChange}
                       >
-                        <SelectTrigger className="w-full h-12!">
-                          <SelectValue placeholder="Selecione número" />
+                        <SelectTrigger className='w-full h-12!'>
+                          <SelectValue placeholder='Selecione número' />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="none">Nenhum</SelectItem>
-                          <SelectItem value="13 IB">13 IB</SelectItem>
-                          <SelectItem value="13 ID">13 ID</SelectItem>
+                          <SelectItem value='none'>Nenhum</SelectItem>
+                          <SelectItem value='13 IB'>13 IB</SelectItem>
+                          <SelectItem value='13 ID'>13 ID</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -186,14 +198,14 @@ export default function CreateStudentDialog() {
 
               <FormField
                 control={form.control}
-                name="phone"
+                name='phone'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Telefone (opcional)</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="(+244) 939-985-934 "
-                        type="text"
+                        placeholder='(+244) 939-985-934 '
+                        type='text'
                         {...field}
                       />
                     </FormControl>
@@ -204,12 +216,12 @@ export default function CreateStudentDialog() {
 
               <FormField
                 control={form.control}
-                name="birthDate"
+                name='birthDate'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Data de Nascimento (opcional)</FormLabel>
                     <FormControl>
-                      <Input type="date" {...field} />
+                      <Input type='date' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -217,17 +229,17 @@ export default function CreateStudentDialog() {
               />
             </div>
 
-            <DialogFooter className="flex justify-end gap-2">
+            <DialogFooter className='flex justify-end gap-2'>
               <Button
-                variant="outline"
-                type="button"
+                variant='outline'
+                type='button'
                 onClick={() => setIsOpen(false)}
               >
                 Cancelar
               </Button>
-              <Button type="submit" disabled={isCreating}>
-                <Plus className="h-4 w-4" />
-                {isCreating ? "Criando..." : "Criar Estudante"}
+              <Button type='submit' disabled={isCreating}>
+                <Plus className='h-4 w-4' />
+                {isCreating ? 'Criando...' : 'Criar Estudante'}
               </Button>
             </DialogFooter>
           </form>

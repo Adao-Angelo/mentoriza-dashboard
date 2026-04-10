@@ -1,9 +1,5 @@
-import GlobalLoader from "@/components/loader";
+import { PageSkeleton } from './page-skeleton';
 
 export default function Loading() {
-  return (
-    <div className="flex items-center justify-center h-screen bg-background">
-      <GlobalLoader />
-    </div>
-  );
+  return <PageSkeleton />;
 }
