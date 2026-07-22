@@ -1,4 +1,4 @@
-import { getInitials } from "initials-extractor";
+import { getInitials } from 'initials-extractor';
 
 interface UserProfileDisplayProps {
   username?: string | null;
@@ -11,26 +11,26 @@ interface UserProfileDisplayProps {
 export default function UserProfileDisplay({
   username,
   email,
-  className = "",
+  className = '',
   onClick,
 }: UserProfileDisplayProps) {
   let initials: string;
 
-  if (!username || typeof username !== "string" || username.trim() === "") {
-    initials = "??";
+  if (!username || typeof username !== 'string' || username.trim() === '') {
+    initials = '??';
   } else {
     try {
       initials = getInitials(username.trim());
     } catch (err) {
-      console.warn("getInitials falhou:", err);
+      console.warn('getInitials falhou:', err);
       initials =
         username
           .trim()
           .split(/\s+/)
           .map((w) => w[0])
-          .join("")
+          .join('')
           .slice(0, 2)
-          .toUpperCase() || "??";
+          .toUpperCase() || '??';
     }
   }
 
@@ -38,21 +38,21 @@ export default function UserProfileDisplay({
     <div
       className={`flex items-center gap-2 cursor-pointer min-w-0 flex-1 ${className}`}
       onClick={onClick}
-      role={onClick ? "button" : undefined}
+      role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
     >
-      <div className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-gray-300 bg-white">
-        <span className="text-base font-semibold text-Gray">{initials}</span>
+      <div className='relative flex h-10 w-10 items-center justify-center  border border-gray-300 bg-white'>
+        <span className='text-base font-semibold text-Gray'>{initials}</span>
       </div>
 
-      <div className="min-w-0 truncate hidden md:flex md:flex-col md:items-start">
+      <div className='min-w-0 truncate hidden md:flex md:flex-col md:items-start'>
         {username && (
-          <p className="text-base font-semibold leading-tight text-gray-600 truncate">
+          <p className='text-base font-semibold leading-tight text-gray-600 truncate'>
             {username}
           </p>
         )}
         {email && (
-          <p className="text-xs text-gray-500 truncate w-30">{email}</p>
+          <p className='text-xs text-gray-500 truncate w-30'>{email}</p>
         )}
       </div>
     </div>

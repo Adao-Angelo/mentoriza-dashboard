@@ -1,32 +1,40 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 const publicPaths = [
-  "/login",
-  "/forgot-password",
-  "/reset-password",
-  "/api/auth",
+  '/login',
+  '/forgot-password',
+  '/reset-password',
+  '/api/auth',
 ];
 const isPublicPath = (pathname: string) =>
-  publicPaths.some((path) => pathname.startsWith(path) || pathname === "/");
+  pathname === '/' || publicPaths.some((path) => pathname.startsWith(path));
 
 export function proxy(request: NextRequest) {
-  const token = request.cookies.get("token")?.value;
-
   const pathname = request.nextUrl.pathname;
+
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api/public') ||
+    pathname === '/favicon.ico' ||
+    pathname.match(/\.(svg|png|jpg|jpeg|gif|webp|ico)$/)
+  ) {
+    return NextResponse.next();
+  }
+  const token = request.cookies.get('token')?.value;
 
   if (isPublicPath(pathname)) {
     if (
       token &&
-      (pathname === "/login" || pathname.startsWith("/forgot-password"))
+      (pathname === '/login' || pathname.startsWith('/forgot-password'))
     ) {
-      return NextResponse.redirect(new URL("/dashboard/groups", request.url));
+      return NextResponse.redirect(new URL('/dashboard/groups', request.url));
     }
     return NextResponse.next();
   }
 
   if (!token) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("redirect", pathname + request.nextUrl.search);
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('redirect', pathname + request.nextUrl.search);
     return NextResponse.redirect(loginUrl);
   }
 
@@ -34,5 +42,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/public).*)"],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|api/public).*)'],
 };
