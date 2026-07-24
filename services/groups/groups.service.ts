@@ -1,19 +1,19 @@
-import { API } from '@/services/api';
+import { API } from "@/services/api";
 import type {
   CreateGroupDto,
   GenerateGroupsDto,
   LinkAdvisorDto,
   LinkStudentDto,
   UpdateGroupDto,
-} from './Interfaces';
+} from "./Interfaces";
 
 async function createGroup(data: CreateGroupDto) {
-  const response = await API.post('/groups', data);
+  const response = await API.post("/groups", data);
   return response.data;
 }
 
 async function getAllGroups(course: string) {
-  const response = await API.get('/groups', {
+  const response = await API.get("/groups", {
     params: { course },
   });
   return response.data;
@@ -39,7 +39,7 @@ async function linkAdvisor(id: number, data: LinkAdvisorDto) {
     const response = await API.post(`/groups/${id}/link-advisor`, data);
     return response.data;
   } catch (err) {
-    console.error('[FRONT] Erro linkAdvisor → ', err);
+    console.error("[FRONT] Erro linkAdvisor → ", err);
     throw err;
   }
 }
@@ -71,13 +71,13 @@ async function linkStudent(id: number, data: LinkStudentDto) {
 
 async function unlinkStudent(id: number, studentId: number) {
   const response = await API.delete(
-    `/groups/${id}/unlink-student/${studentId}`
+    `/groups/${id}/unlink-student/${studentId}`,
   );
   return response.data;
 }
 
 async function generateGroups(data: GenerateGroupsDto) {
-  const response = await API.post('/groups/generate', data);
+  const response = await API.post("/groups/generate", data);
   return response.data;
 }
 async function linkStudents(groupId: number, studentIds: number[]) {
@@ -88,9 +88,9 @@ async function linkStudents(groupId: number, studentIds: number[]) {
 }
 
 async function exportGroupsPdf(course?: string) {
-  const response = await API.get('/groups/export-pdf', {
+  const response = await API.get("/groups/export-pdf", {
     params: { course },
-    responseType: 'blob',
+    responseType: "blob",
   });
   return response.data;
 }
